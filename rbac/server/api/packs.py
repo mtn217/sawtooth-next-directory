@@ -81,6 +81,19 @@ async def get_pack(request, pack_id):
     )
 
 
+@PACKS_BP.patch("api/packs/<pack_id>")
+@authorized()
+async def update_pack(request, pack_id):
+    """Update a pack's description"""
+    required_fields = ["description"]
+    utils.validate_fields(required_fields, request.json)
+    pack_description = request.json.get("description")
+    packs_query.update_pack_resource(
+        request.app.config.DB_CONN, pack_id, pack_description
+    )
+    return json({"id": pack_id, "description": pack_description})
+
+
 @PACKS_BP.post("api/packs/<pack_id>/members")
 @authorized()
 async def add_pack_member(request, pack_id):

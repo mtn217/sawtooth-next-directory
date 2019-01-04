@@ -92,3 +92,10 @@ async def fetch_pack_resource(conn, pack_id, head_block_num):
         return resource[0]
     except IndexError:
         raise ApiNotFound("Not Found: No pack with the id {} exists".format(pack_id))
+
+
+async def update_pack_resource(conn, pack_id, pack_description):
+    """Update a pack's description"""
+    await r.table("packs").filter({"pack_id": pack_id}).update(
+        {"description": pack_description}
+    ).run(conn)

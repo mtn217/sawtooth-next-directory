@@ -55,9 +55,19 @@ def assert_api_get_requires_auth(url):
 
 
 def assert_api_post_requires_auth(url, json):  # pylint: disable=redefined-outer-name
-    """ Asserts a given GET endpoint requires authorization
+    """ Asserts a given POST endpoint requires authorization
     """
     response = requests.post(url=url, headers=None, json=json)
+    assert assert_api_error(
+        response, "Unauthorized: No authentication token provided", 401
+    )
+    return True
+
+
+def assert_api_patch_requires_auth(url, json):  # pylint: disable=redefined-outer-name
+    """ Asserts a given PATCH endpoint requires authorization
+    """
+    response = requests.patch(url=url, headers=None, json=json)
     assert assert_api_error(
         response, "Unauthorized: No authentication token provided", 401
     )

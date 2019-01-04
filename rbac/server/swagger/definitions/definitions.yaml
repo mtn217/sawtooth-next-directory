@@ -217,6 +217,31 @@
         type: string
         description: New description for the role
         example: This role is for IT Admins
+  packDescription:
+    type: object
+    description: New description for pack
+    required:
+      - description
+    properties:
+      description:
+        type: string
+        description: New description for pack
+        example: This pack is for IT Admins
+  updatedPackResponse:
+    description: Response with the pack and updated description
+    type: object
+    required:
+      - id
+      - description
+    properties:
+      id:
+        type: string
+        description: Id of the pack
+        example: a12ff335-ec0a-4561-950f-a3bb34795f91
+      description:
+        type: string
+        description: New description for the pack
+        example: This pack is for IT Admins
   task:
     description: A specific permission in the system
     type: object

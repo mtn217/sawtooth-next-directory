@@ -47,6 +47,10 @@ paths:
     parameters:  
      - $ref: '../parameters/parameters.yaml#/roleId'
     $ref: './roles/roles-id-tasks.yaml'
+  '/packs/{id}':
+    parameters:
+     - $ref: '../parameters/parameters.yaml#/packId'
+    $ref: './packs/packs-id.yaml'
   /tasks:
     $ref: './tasks/tasks.yaml' 
   '/tasks/{id}':

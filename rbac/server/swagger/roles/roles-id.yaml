@@ -56,9 +56,7 @@
         '200':
           description: Response with the role and updated description
           schema:
-            properties:
-              data:
-                $ref: '../definitions/definitions.yaml#/updatedRoleResponse'
+              $ref: '../definitions/definitions.yaml#/updatedRoleResponse'
         '400':
           description: Response for a bad request
           schema:

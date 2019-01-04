@@ -12,48 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------------
-""" Role Test Helper """
-# pylint: disable=too-few-public-methods
-
+""" A test helper class that provides API users
+"""
 from tests.rbac.api.base.base_helper import BaseApiHelper
-from tests.rbac.api.user.user_helper import UserTestHelper
-from tests.rbac.api.role.create_role_helper import CreateRoleTestHelper
-from tests.rbac.api.role.update_role_helper import UpdateRoleTestHelper
-from tests.rbac.api.role.propose_member_helper import ProposeRoleMemberTestHelper
-from tests.rbac.testdata.role import RoleTestData
 
 
-class RoleMemberTestHelper:
-    """Role Propose Member Test Helper"""
-
-    def __init__(self):
-        """Role Propose Member Test Helper"""
-        self.propose = ProposeRoleMemberTestHelper()
-
-
+# pylint: disable=too-few-public-methods
 class StubTestHelper(BaseApiHelper):
     """ A minimal test helper required by this test helper
     """
 
     def __init__(self):
         super().__init__()
-        self.user = UserTestHelper()
 
 
 # pylint: disable=invalid-name
 helper = StubTestHelper()
 
 
-class RoleTestHelper(RoleTestData, BaseApiHelper):
-    """ Role Test Helper """
+class UpdateRoleTestHelper(BaseApiHelper):
+    """ A test helper class that provides update role API endpoint
+    """
 
     def __init__(self):
         super().__init__()
-        self.create = CreateRoleTestHelper()
-        self.update = UpdateRoleTestHelper()
-        self.member = RoleMemberTestHelper()
 
-    @property
-    def current(self):
-        """ A currently authenticated user """
-        return self.create.current
+    def url(self, role_id):
+        """ Create Role endpoint """
+        return self.url_base + "/api/roles/{}".format(role_id)

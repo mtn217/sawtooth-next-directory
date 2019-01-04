@@ -31,6 +31,13 @@
     required: true
     type: string
     x-example: 1f68397b-5b38-4aec-9913-4541c7e1d4c4
+  packId:
+    name: id
+    in: path
+    description: Id of a particular pack in state
+    required: true
+    type: string
+    x-example: a12ff335-ec0a-4561-950f-a3bb34795f91
   taskId:
     name: id
     in: path

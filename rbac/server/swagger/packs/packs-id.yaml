@@ -1,0 +1,41 @@
+    patch:
+      security: 
+        - Bearer: []
+      description: Updates a pack's description
+      parameters:
+        - $ref: '../parameters/parameters.yaml#/packId'
+        - name: description
+          in: body
+          description: New description for the specified pack
+          required: true
+          schema:
+            $ref: '../definitions/definitions.yaml#/packDescription'
+      responses:
+        '200':
+          description: Response with the pack and updated description
+          schema:
+            $ref: '../definitions/definitions.yaml#/updatedPackResponse'
+        '400':
+          description: Response for a bad request
+          schema:
+            $ref: '../definitions/definitions.yaml#/400Error'
+        '401':
+          description: Response for an unauthorized request
+          schema:
+            $ref: '../definitions/definitions.yaml#/401Error'
+        '403':
+          description: Response for a forbidden request
+          schema:
+            $ref: '../definitions/definitions.yaml#/403Error'
+        '404':
+          description: Response for object not found
+          schema:
+            $ref: '../definitions/definitions.yaml#/404Error'
+        '503':
+          description: Response for an internal unknown error
+          schema:
+            $ref: '../definitions/definitions.yaml#/503Error'
+        default:
+          description: Response for an unexpected error
+          schema:
+            $ref: '../definitions/definitions.yaml#/error'
