@@ -40,7 +40,13 @@ PACKS_BP = Blueprint("packs")
 LOGGER = get_default_logger(__name__)
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.get("api/packs")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.get("api/packs", name="get_all_packs")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to get all packs")
 @doc.description("API Endpoint to get all packs.")
 @doc.consumes({"head": str}, location="query")
@@ -77,6 +83,10 @@ LOGGER = get_default_logger(__name__)
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_all_packs(request):
     """Get all packs"""
@@ -92,7 +102,13 @@ async def get_all_packs(request):
     )
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.post("api/packs")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.post("api/packs", name="create_pack")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to create a new pack")
 @doc.description("API Endpoint to create a new pack.")
 @doc.consumes(
@@ -117,6 +133,10 @@ async def get_all_packs(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def create_new_pack(request):
     """Create a new pack"""
@@ -144,7 +164,13 @@ async def create_new_pack(request):
     )
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.get("api/packs/<pack_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.get("api/packs/<pack_id>", name="get_a_pack")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to get a specific pack")
 @doc.description("API Endpoint to get a specific pack.")
 @doc.consumes({"head": str}, location="query")
@@ -168,6 +194,10 @@ async def create_new_pack(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_pack(request, pack_id):
     """Get a single pack"""
@@ -180,7 +210,13 @@ async def get_pack(request, pack_id):
     return await create_response(conn, request.url, pack_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.get("api/packs/check")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.get("api/packs/check", name="pack_check")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to check if a pack name already exists")
 @doc.description("API Endpoint to check if a pack name already exists.")
 @doc.consumes({"name": str}, location="query")
@@ -194,6 +230,10 @@ async def get_pack(request, pack_id):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def check_pack_name(request):
     """Check if a pack exists with provided name"""
@@ -205,7 +245,13 @@ async def check_pack_name(request):
     return json({"exists": bool(response)})
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.post("api/packs/<pack_id>/members")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.post("api/packs/<pack_id>/members", name="add_pack_member")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to add a member to specified pack")
 @doc.description("API Endpoint to add a member to specified pack.")
 @doc.consumes(
@@ -227,6 +273,10 @@ async def check_pack_name(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def add_pack_member(request, pack_id):
     """Add a member to the roles of a pack"""
@@ -244,7 +294,13 @@ async def add_pack_member(request, pack_id):
     return json({"pack_id": pack_id})
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.post("api/packs/<pack_id>/roles")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.post("api/packs/<pack_id>/roles", name="add_pack_role")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to add roles to specified pack")
 @doc.description("API Endpoint to add roles to specified pack.")
 @doc.consumes(
@@ -266,6 +322,10 @@ async def add_pack_member(request, pack_id):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def add_pack_role(request, pack_id):
     """Add roles to a pack"""
@@ -278,7 +338,13 @@ async def add_pack_role(request, pack_id):
     return json({"roles": request.json.get("roles")})
 
 
+<<<<<<< Updated upstream
 @PACKS_BP.delete("api/packs/<pack_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@PACKS_BP.delete("api/packs/<pack_id>", name="delete_pack")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to delete specified pack")
 @doc.description(
     "API Endpoint to delete specified pack. Only pack owners and Next Admins are allowed to "
@@ -306,6 +372,10 @@ async def add_pack_role(request, pack_id):
     description="Forbidden: The provided credentials are not authorized to perform "
     "the requested action.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def delete_pack(request, pack_id):
     """Delete pack from NEXT

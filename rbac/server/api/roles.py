@@ -66,7 +66,13 @@ LOGGER = get_default_logger(__name__)
 ROLES_BP = Blueprint("roles")
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.get("api/roles")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.get("api/roles", name="get_all_roles")
+>>>>>>> Stashed changes
 @doc.summary("Return a list containing all roles.")
 @doc.description("Return a list containing all roles.")
 @doc.consumes({"head": str}, location="query")
@@ -111,6 +117,10 @@ ROLES_BP = Blueprint("roles")
     {"message": str, "code": int},
     description="Unauthorized: When user unsuccessfully authenticates into NEXT",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_all_roles(request):
     """Get all roles."""
@@ -125,7 +135,13 @@ async def get_all_roles(request):
     )
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.post("api/roles")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.post("api/roles", name="create_role")
+>>>>>>> Stashed changes
 @doc.summary("Create a new role.")
 @doc.description("Create a new role.")
 @doc.consumes(
@@ -182,6 +198,10 @@ async def get_all_roles(request):
     {"message": str, "code": int},
     description="There was an error submitting the sawtooth transaction.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def create_new_role(request):
     """Create a new role."""
@@ -236,7 +256,13 @@ async def create_new_role(request):
     )
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.get("api/roles/<role_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.get("api/roles/<role_id>", name="get_a_role")
+>>>>>>> Stashed changes
 @doc.summary("Get a role by its role id.")
 @doc.description("Get a role by its role id.")
 @doc.consumes({"head": str}, location="query", content_type="application/json")
@@ -272,6 +298,10 @@ async def create_new_role(request):
 @doc.response(
     404, {"message": str, "code": int}, description="Role <role_id> doesn't exist."
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_role(request, role_id):
     """Get a specific role by role_id."""
@@ -283,7 +313,13 @@ async def get_role(request, role_id):
     return await create_response(conn, request.url, role_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.get("api/roles/check")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.get("api/roles/check", name="role_check")
+>>>>>>> Stashed changes
 @doc.summary("Check if a role exists with the provided name.")
 @doc.description("Check if a role exists with the provided name.")
 @doc.consumes({"name": str}, location="query")
@@ -297,6 +333,10 @@ async def get_role(request, role_id):
     {"message": str, "code": int},
     description="Unauthorized: When user unsuccessfully authenticates into NEXT",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def check_role_name(request):
     """Check if a role exists with provided name."""
@@ -307,7 +347,13 @@ async def check_role_name(request):
     return json({"exists": bool(response)})
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.patch("api/roles/<role_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.patch("api/roles/<role_id>", name="update_role")
+>>>>>>> Stashed changes
 @doc.summary("Update a role.")
 @doc.description("Update a role.")
 @doc.consumes(
@@ -331,6 +377,10 @@ async def check_role_name(request):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def update_role(request, role_id):
     """Update a role."""
@@ -352,7 +402,13 @@ async def update_role(request, role_id):
     return json({"id": role_id, "description": role_description})
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.delete("api/roles/<role_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.delete("api/roles/<role_id>", name="delete_role")
+>>>>>>> Stashed changes
 @doc.summary("Delete a role by its next_id.")
 @doc.description(
     "Delete a role by its next_id. Restricted to administrator and role owner use."
@@ -385,6 +441,10 @@ async def update_role(request, role_id):
     {"message": str, "code": int},
     description="An error occurred while creating the blockchain transactions to delete the role.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def delete_role(request, role_id):
     """Delete a role by it's next_id.
@@ -469,7 +529,13 @@ async def delete_role(request, role_id):
     )
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.post("api/roles/<role_id>/admins")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.post("api/roles/<role_id>/admins", name="add_role_admin")
+>>>>>>> Stashed changes
 @doc.summary("Creates a proposal to add an admin to the role.")
 @doc.description("Creates a proposal to add an admin to the role.")
 @doc.consumes(
@@ -505,6 +571,10 @@ async def delete_role(request, role_id):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def add_role_admin(request, role_id):
     """Add an admin to role."""
@@ -534,7 +604,13 @@ async def add_role_admin(request, role_id):
     return json({"proposal_id": proposal_id})
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.post("api/roles/<role_id>/members")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.post("api/roles/<role_id>/members", name="add_role_member")
+>>>>>>> Stashed changes
 @doc.summary("Creates a proposal to add a member to a role.")
 @doc.description("Creates a proposal to add a member to a role.")
 @doc.consumes(
@@ -570,6 +646,10 @@ async def add_role_admin(request, role_id):
     {"message": str, "code": int},
     description="Max attempts exceeded. Proposal <proposal_id> not found in RethinkDB.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def add_role_member(request, role_id):
     """Add a member to a role."""
@@ -648,7 +728,13 @@ async def add_role_member(request, role_id):
     return json({"proposal_id": proposal_id})
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.post("api/roles/<role_id>/owners")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.post("api/roles/<role_id>/owners", name="add_role_owner")
+>>>>>>> Stashed changes
 @doc.summary("Creates a proposal to add an owner to a role.")
 @doc.description("Creates a proposal to add an owner to a role.")
 @doc.consumes(
@@ -684,6 +770,10 @@ async def add_role_member(request, role_id):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def add_role_owner(request, role_id):
     """Add an owner to a role."""
@@ -718,7 +808,13 @@ async def add_role_owner(request, role_id):
     return json({"proposal_id": proposal_id})
 
 
+<<<<<<< Updated upstream
 @ROLES_BP.post("api/roles/<role_id>/tasks")
+<<<<<<< Updated upstream
+=======
+=======
+@ROLES_BP.post("api/roles/<role_id>/tasks", name="add_role_task")
+>>>>>>> Stashed changes
 @doc.summary("Creates a proposal to add a task to a role.")
 @doc.description("Creates a proposal to add a task to a role.")
 @doc.consumes(
@@ -749,6 +845,10 @@ async def add_role_owner(request, role_id):
     {"message": str, "code": int},
     description="Unauthorized: When user unsuccessfully authenticates into NEXT",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def add_role_task(request, role_id):
     """Add a task to a role."""

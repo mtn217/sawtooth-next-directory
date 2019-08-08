@@ -31,6 +31,7 @@ LOGGER = get_default_logger(__name__)
 SEARCH_BP = Blueprint("search")
 
 
+<<<<<<< Updated upstream
 @SEARCH_BP.post("api/search")
 @doc.summary("API Endpoint to get all roles, packs, or users containing a string.")
 @doc.description("API Endpoint to get all roles, packs, or users containing a string.")
@@ -59,6 +60,9 @@ SEARCH_BP = Blueprint("search")
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+=======
+@SEARCH_BP.post("api/search", name="search")
+>>>>>>> Stashed changes
 @authorized()
 async def search_all(request):
     """API Endpoint to get all roles, packs, or users containing a string."""

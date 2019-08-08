@@ -69,7 +69,13 @@ AES_KEY = os.getenv("AES_KEY")
 USERS_BP = Blueprint("users")
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.get("api/users", name="get_all_users")
+>>>>>>> Stashed changes
 @doc.summary("Returns all users.")
 @doc.description("Returns all users.")
 @doc.consumes({"head": str}, location="query")
@@ -118,6 +124,10 @@ USERS_BP = Blueprint("users")
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def fetch_all_users(request):
     """Returns all users."""
@@ -133,7 +143,13 @@ async def fetch_all_users(request):
     )
 
 
+<<<<<<< Updated upstream
 @USERS_BP.post("api/users")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.post("api/users", name="create_user")
+>>>>>>> Stashed changes
 @doc.summary("Create a new user.")
 @doc.description(
     "Create a new user. Restricted to administrator use. Restricted to NEXT standalone mode."
@@ -175,6 +191,10 @@ async def fetch_all_users(request):
     {"message": str, "code": int},
     description="There was an error submitting the sawtooth transaction.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 async def create_new_user(request):
     """Create a new user. Must be an adminsitrator.
 
@@ -316,7 +336,13 @@ async def non_admin_creation(request):
 
 
 # TODO: Change → api/users/<next_id>
+<<<<<<< Updated upstream
 @USERS_BP.put("api/users/update")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.put("api/users/update", name="update_user")
+>>>>>>> Stashed changes
 @doc.summary("Update the details associated with a user.")
 @doc.description(
     "Update the details associated with a user. Restricted to NEXT standalone mode. Restricted to administrator use."
@@ -362,6 +388,10 @@ async def non_admin_creation(request):
     description="There was an error submitting the sawtooth transaction.",
 )
 @authorized()
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 async def update_user_details(request):
     """Update the details associated with a user.  This is NEXT admin only capability.
 
@@ -425,7 +455,13 @@ async def update_user_details(request):
     return json({"message": "User information was successfully updated."})
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users/<next_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.get("api/users/<next_id>", name="get_user")
+>>>>>>> Stashed changes
 @doc.summary("Get a specific user by next_id.")
 @doc.description("Get a specific user by next_id.")
 @doc.consumes({"head": str}, location="query")
@@ -449,6 +485,10 @@ async def update_user_details(request):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_user(request, next_id):
     """Get a specific user by next_id."""
@@ -461,7 +501,13 @@ async def get_user(request, next_id):
     return await create_response(conn, request.url, user_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @USERS_BP.delete("api/users/<next_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.delete("api/users/<next_id>", name="delete_user")
+>>>>>>> Stashed changes
 @doc.summary("Delete a specific user by next_id.")
 @doc.description("Delete a specific user by next_id.")
 @doc.produces(
@@ -479,6 +525,10 @@ async def get_user(request, next_id):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def delete_user(request, next_id):
     """Delete a specific user by next_id."""
@@ -507,8 +557,16 @@ async def delete_user(request, next_id):
     )
 
 
+<<<<<<< Updated upstream
 # TODO: remap to `api/users/<next_id>/summary` and refactor client accordingly.
 @USERS_BP.get("api/user/<next_id>/summary")
+=======
+<<<<<<< Updated upstream
+@USERS_BP.get("api/user/<next_id>/summary")
+=======
+# TODO: remap to `api/users/<next_id>/summary` and refactor client accordingly.
+@USERS_BP.get("api/user/<next_id>/summary", name="user_summary")
+>>>>>>> Stashed changes
 @doc.summary("Returns summary data for a user.")
 @doc.description("Returns a user's next_id, name, and email fields.")
 @doc.consumes({"head": str}, location="query")
@@ -540,6 +598,10 @@ async def delete_user(request, next_id):
     {"message": str, "code": int},
     description="Not Found: No user with the id <next_id> exists.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_user_summary(request, next_id):
     """This endpoint is for returning summary data for a user, just it's next_id,name, email."""
@@ -552,7 +614,27 @@ async def get_user_summary(request, next_id):
     return await create_response(conn, request.url, user_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users/<next_id>/relationships")
+=======
+<<<<<<< Updated upstream
+@USERS_BP.get("api/users/<next_id>/summary")
+@authorized()
+async def get_users_summary(request, next_id):
+    """This endpoint is for returning summary data for a user, just their next_id, name, email."""
+    log_request(request)
+    head_block = await get_request_block(request)
+    conn = await create_connection()
+    user_resource = await users_query.fetch_user_resource_summary(conn, next_id)
+    conn.close()
+
+    return await create_response(conn, request.url, user_resource, head_block)
+
+
+@USERS_BP.get("api/users/<next_id>/relationships")
+=======
+@USERS_BP.get("api/users/<next_id>/relationships", name="user_relationships")
+>>>>>>> Stashed changes
 @doc.summary("Get relationships for a specific user, by next_id.")
 @doc.description("Get relationships for a specific user, by next_id.")
 @doc.consumes({"head": str}, location="query")
@@ -582,6 +664,10 @@ async def get_user_summary(request, next_id):
     {"message": str, "code": int},
     description="Not Found: No user with the id <next_id> exists.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_user_relationships(request, next_id):
     """Get relationships for a specific user, by next_id."""
@@ -594,7 +680,13 @@ async def get_user_relationships(request, next_id):
     return await create_response(conn, request.url, user_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @USERS_BP.put("api/users/<next_id>/manager")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.put("api/users/<next_id>/manager", name="update_user_manager")
+>>>>>>> Stashed changes
 @doc.summary("Update a user's manager.")
 @doc.description("Update a user's manager.")
 @doc.consumes(
@@ -626,6 +718,10 @@ async def get_user_relationships(request, next_id):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def update_manager(request, next_id):
     """Update a user's manager."""
@@ -658,7 +754,13 @@ async def update_manager(request, next_id):
     return json({"proposal_id": proposal_id})
 
 
+<<<<<<< Updated upstream
 @USERS_BP.put("api/users/password")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.put("api/users/password", name="update_user_password")
+>>>>>>> Stashed changes
 @doc.summary("Update a user's password.")
 @doc.description(
     "Update a user's password. Restricted to administrator use. Restricted to NEXT standalone mode."
@@ -695,6 +797,10 @@ async def update_manager(request, next_id):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def update_password(request):
     """Update a user's password.  The request must come from an admin.
@@ -723,7 +829,13 @@ async def update_password(request):
     return json({"message": "Password successfully updated"})
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users/<next_id>/proposals/open")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.get("api/users/<next_id>/proposals/open", name="user_open_proposals")
+>>>>>>> Stashed changes
 @doc.summary("Get open proposals for a user, by their next_id.")
 @doc.description("Get open proposals for a user, by their next_id.")
 @doc.consumes({"head": str}, location="query")
@@ -769,6 +881,10 @@ async def update_password(request):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def fetch_open_proposals(request, next_id):
     """Get open proposals for a user, by their next_id.
@@ -801,7 +917,13 @@ async def fetch_open_proposals(request, next_id):
     )
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users/<next_id>/proposals/confirmed")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.get("api/users/<next_id>/proposals/confirmed", name="user_confirmed_proposals")
+>>>>>>> Stashed changes
 @doc.summary("Get confirmed proposals for a user, by their next_id.")
 @doc.description("Get confirmed proposals for a user, by their next_id.")
 @doc.consumes({"head": str}, location="query")
@@ -848,6 +970,10 @@ async def fetch_open_proposals(request, next_id):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def fetch_confirmed_proposals(request, next_id):
     """Get confirmed proposals for a user, by their next_id."""
@@ -875,7 +1001,13 @@ async def fetch_confirmed_proposals(request, next_id):
     )
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users/<next_id>/proposals/rejected")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.get("api/users/<next_id>/proposals/rejected", name="user_rejected_proposals")
+>>>>>>> Stashed changes
 @doc.summary("Get rejected proposals for a user, by their next_id.")
 @doc.description("Get rejected proposals for a user, by their next_id.")
 @doc.consumes({"head": str}, location="query")
@@ -922,6 +1054,10 @@ async def fetch_confirmed_proposals(request, next_id):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def fetch_rejected_proposals(request, next_id):
     """Get confirmed proposals for a user, by their next_id."""
@@ -949,7 +1085,13 @@ async def fetch_rejected_proposals(request, next_id):
     )
 
 
+<<<<<<< Updated upstream
 @USERS_BP.patch("api/users/<next_id>/roles/expired")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.patch("api/users/<next_id>/roles/expired", name="expire_user")
+>>>>>>> Stashed changes
 @doc.summary("Manually expire a user's role membership.")
 @doc.description("Manually expire a user's role membership.")
 @doc.consumes(
@@ -971,6 +1113,10 @@ async def fetch_rejected_proposals(request, next_id):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def update_expired_roles(request, next_id):
     """Manually expire user role membership"""
@@ -1040,7 +1186,13 @@ def create_user_response(request, next_id):
     )
 
 
+<<<<<<< Updated upstream
 @USERS_BP.get("api/users/check")
+<<<<<<< Updated upstream
+=======
+=======
+@USERS_BP.get("api/users/check", name="user_check")
+>>>>>>> Stashed changes
 @doc.summary("Check if a user exists with provided username.")
 @doc.description("Check if a user exists with provided username.")
 @doc.consumes({"username": str}, location="query", required=False)
@@ -1049,6 +1201,10 @@ def create_user_response(request, next_id):
     content_type="application/json",
     description="User existence status.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 async def check_user_name(request):
     """Check if a user exists with provided username."""
     log_request(request)

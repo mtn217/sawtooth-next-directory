@@ -13,7 +13,7 @@
 # limitations under the License.
 # ------------------------------------------------------------------------------
 """RBAC API Server"""
-
+from itertools import repeat
 import aiohttp
 from sanic import Blueprint
 from sanic import Sanic
@@ -37,6 +37,10 @@ from rbac.server.api.tasks import TASKS_BP
 from rbac.server.api.users import USERS_BP
 from rbac.server.api.webhooks import WEBHOOKS_BP
 from rbac.server.db.db_utils import create_connection
+
+from sanic.views import CompositionView
+
+from sanic_openapi.doc import route_specs, RouteSpec
 
 APP_BP = Blueprint("utils")
 
@@ -124,6 +128,29 @@ def main():
     app.blueprint(WEBHOOKS_BP)
 
     load_config(app)
+
+    for uri, route in app.router.routes_all.items():
+        if uri.startswith("/swagger") or '<file_uri' in uri:
+            # TODO: add static flag in sanic routes
+            continue
+
+        # --------------------------------------------------------------- #
+        # Methods
+        # --------------------------------------------------------------- #
+
+        # Build list of methods and their handler functions
+        # handler_type = type(route.handler)
+        # if handler_type is CompositionView:
+        #     view = route.handler
+        #     method_handlers = view.handlers.items()
+        # else:
+        #     method_handlers = zip(route.methods, repeat(route.handler))
+
+        # methods = {}
+        # for _method, _handler in method_handlers:
+        LOGGER.info(uri)
+        LOGGER.info("route name")
+        LOGGER.info(route.name)
 
     CORS(
         app,

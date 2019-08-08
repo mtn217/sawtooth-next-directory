@@ -37,6 +37,7 @@ from rbac.server.db.relationships_query import fetch_relationships
 TASKS_BP = Blueprint("tasks")
 
 
+<<<<<<< Updated upstream
 @TASKS_BP.get("api/tasks")
 @doc.summary("Get all tasks.")
 @doc.description("Get a list of all tasks.")
@@ -74,6 +75,9 @@ TASKS_BP = Blueprint("tasks")
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+=======
+@TASKS_BP.get("api/tasks", name="get_all_tasks")
+>>>>>>> Stashed changes
 @authorized()
 async def get_all_tasks(request):
     """Get all tasks."""
@@ -89,6 +93,7 @@ async def get_all_tasks(request):
     )
 
 
+<<<<<<< Updated upstream
 @TASKS_BP.post("api/tasks")
 @doc.summary("Create a new task.")
 @doc.description("Create a new task.")
@@ -124,6 +129,9 @@ async def get_all_tasks(request):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+=======
+@TASKS_BP.post("api/tasks", name="create_task")
+>>>>>>> Stashed changes
 @authorized()
 async def create_new_task(request):
     """Create a new task."""
@@ -146,6 +154,7 @@ async def create_new_task(request):
     return create_task_response(request, task_id)
 
 
+<<<<<<< Updated upstream
 @TASKS_BP.get("api/tasks/<task_id>")
 @doc.summary("Retrieve a task.")
 @doc.description("Retrieve a task by its ID.")
@@ -180,6 +189,9 @@ async def create_new_task(request):
     {"message": str, "code": int},
     description="Not Found: No task with the id <task_id> exists.",
 )
+=======
+@TASKS_BP.get("api/tasks/<task_id>", name="get_task")
+>>>>>>> Stashed changes
 @authorized()
 async def get_task(request, task_id):
     """Get a specific task by task_id."""
@@ -191,6 +203,7 @@ async def get_task(request, task_id):
     return await create_response(conn, request.url, task_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @TASKS_BP.post("api/tasks/<task_id>/admins")
 @doc.summary("Propose new task admin.")
 @doc.description("Create a proposal to add a user as a new task administrator.")
@@ -221,6 +234,9 @@ async def get_task(request, task_id):
     {"message": str, "code": int},
     description="Not Found: No task with the id <task_id> exists.",
 )
+=======
+@TASKS_BP.post("api/tasks/<task_id>/admins", name="add_task_admin")
+>>>>>>> Stashed changes
 @authorized()
 async def add_task_admin(request, task_id):
     """Propose add a task admin."""
@@ -247,6 +263,7 @@ async def add_task_admin(request, task_id):
     return json({"proposal_id": proposal_id})
 
 
+<<<<<<< Updated upstream
 @TASKS_BP.post("api/tasks/<task_id>/owners")
 @doc.summary("Propose new task owner.")
 @doc.description("Create a proposal to add a user as a new task owner.")
@@ -277,6 +294,9 @@ async def add_task_admin(request, task_id):
     {"message": str, "code": int},
     description="Not Found: No task with the id <task_id> exists.",
 )
+=======
+@TASKS_BP.post("api/tasks/<task_id>/owners", name="add_task_owner")
+>>>>>>> Stashed changes
 @authorized()
 async def add_task_owner(request, task_id):
     """Propose add a task owner."""

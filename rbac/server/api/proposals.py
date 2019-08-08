@@ -89,7 +89,13 @@ PROPOSAL_TRANSACTION = {
 }
 
 
+<<<<<<< Updated upstream
 @PROPOSALS_BP.get("api/proposals")
+<<<<<<< Updated upstream
+=======
+=======
+@PROPOSALS_BP.get("api/proposals", name="get_all_proposals")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to get all proposals")
 @doc.description("API Endpoint to get all proposals.")
 @doc.consumes({"head": str}, location="query")
@@ -136,6 +142,10 @@ PROPOSAL_TRANSACTION = {
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_all_proposals(request):
     """Get all proposals"""
@@ -154,7 +164,13 @@ async def get_all_proposals(request):
     )
 
 
+<<<<<<< Updated upstream
 @PROPOSALS_BP.get("api/proposals/<proposal_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@PROPOSALS_BP.get("api/proposals/<proposal_id>", name="get_a_proposal")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to get a specific proposal, by proposal_id")
 @doc.description("API Endpoint to get a specific proposal, by proposal_id")
 @doc.consumes({"head": str}, location="query")
@@ -188,6 +204,10 @@ async def get_all_proposals(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def get_proposal(request, proposal_id):
     """Get specific proposal by proposal_id."""
@@ -200,7 +220,13 @@ async def get_proposal(request, proposal_id):
     return await create_response(conn, request.url, proposal_resource, head_block)
 
 
+<<<<<<< Updated upstream
 @PROPOSALS_BP.patch("api/proposals")
+<<<<<<< Updated upstream
+=======
+=======
+@PROPOSALS_BP.patch("api/proposals", name="update_proposals")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to get update multiple proposals")
 @doc.description("API Endpoint to update multiple proposals.")
 @doc.consumes(
@@ -228,6 +254,10 @@ async def get_proposal(request, proposal_id):
     description="Unauthorized: The request lacks valid authentication credentials "
     "or user does not have the authorization to APPROVE/REJECT proposal.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def batch_update_proposals(request):
     """Update multiple proposals"""
@@ -239,7 +269,13 @@ async def batch_update_proposals(request):
     return json({"proposal_ids": request.json["ids"]})
 
 
+<<<<<<< Updated upstream
 @PROPOSALS_BP.patch("api/proposals/<proposal_id>")
+<<<<<<< Updated upstream
+=======
+=======
+@PROPOSALS_BP.patch("api/proposals/<proposal_id>", name="update_proposal")
+>>>>>>> Stashed changes
 @doc.summary("API Endpoint to get update a specific proposal, by proposal_id")
 @doc.description("API Endpoint to update a specific proposal, by proposal_id.")
 @doc.consumes(
@@ -264,6 +300,10 @@ async def batch_update_proposals(request):
     description="Unauthorized: The request lacks valid authentication credentials "
     "or user does not have the authorization to APPROVE/REJECT proposal.",
 )
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 @authorized()
 async def update_proposal(request, proposal_id):
     """Update proposal."""
