@@ -17,6 +17,7 @@
 # pylint: disable=too-few-public-methods
 
 from rbac.common.logs import get_default_logger
+from rbac.common.role.auto_confirm_member import AutoConfirmAddRoleMember
 from rbac.common.role.create_role import CreateRole
 from rbac.common.role.delete_role import DeleteRole
 from rbac.common.role.delete_role_admin import DeleteRoleAdmin
@@ -51,6 +52,7 @@ class Role(CreateRole):
         self.delete_owner = DeleteRoleOwner()
         self.delete_admin = DeleteRoleAdmin()
         self.delete_member = DeleteRoleMember()
+        self.auto_member = AutoConfirmAddRoleMember()
 
 
 ROLE = Role()

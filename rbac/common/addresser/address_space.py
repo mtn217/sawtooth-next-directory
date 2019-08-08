@@ -66,6 +66,8 @@ class MessageActionType(enum.Enum):
     CONFIRM = 11
     REJECT = 12
 
+    AUTO = 13
+
 
 @enum.unique
 class AddressSpace(enum.Enum):
