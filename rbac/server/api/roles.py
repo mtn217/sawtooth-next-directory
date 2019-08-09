@@ -43,7 +43,7 @@ from rbac.server.blockchain_transactions.role_transaction import (
     create_del_mmbr_by_role_txns,
     create_rjct_ppsls_role_txns,
 )
-from rbac.server.api.proposals import PROPOSAL_TRANSACTION, update_proposal
+from rbac.server.api.proposals import PROPOSAL_TRANSACTION
 from rbac.server.api.utils import (
     check_admin_status,
     check_role_owner_status,
@@ -59,7 +59,7 @@ from rbac.server.api.utils import (
 )
 from rbac.server.db import proposals_query
 from rbac.server.db import roles_query
-from rbac.server.db.db_utils import create_connection, wait_for_resource_in_db
+from rbac.server.db.db_utils import create_connection
 from rbac.server.db.relationships_query import fetch_relationships
 
 GROUP_BASE_DN = os.getenv("GROUP_BASE_DN")
@@ -601,6 +601,42 @@ async def add_role_member(request, role_id):
 
     conn = await create_connection()
     approver = await fetch_relationships("role_owners", "role_id", role_id).run(conn)
+    role_resource = await roles_query.fetch_role_resource(conn, role_id)
+    conn.close()
+
+    owners = role_resource.get("owners")
+    requester_id = request.json.get("id")
+
+    if requester_id in owners:
+        batch_list = Role().auto_member.batch_list(
+            signer_keypair=txn_key,
+            signer_user_id=txn_user_id,
+            proposal_id=proposal_id,
+            object_id=role_id,
+            pack_id=request.json.get("pack_id"),
+            related_id=request.json.get("id"),
+            open_reason=request.json.get("reason"),
+            metadata=request.json.get("metadata"),
+            assigned_approver=approver,
+            close_reason="I am the owner of the role.",
+        )
+        batch_status = await send(
+            request.app.config.VAL_CONN,
+            batch_list,
+            request.app.config.TIMEOUT,
+            request.json.get("tracker") and True,
+        )
+
+        if request.json.get("tracker"):
+            events = {"batch_status": batch_status, "member_status": "MEMBER"}
+            return create_tracker_response(events)
+        return json(
+            {
+                "message": "Owner is the requester. Proposal is autoapproved.",
+                "proposal_id": proposal_id,
+            }
+        )
+
     batch_list = Role().member.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
@@ -618,34 +654,6 @@ async def add_role_member(request, role_id):
         request.app.config.TIMEOUT,
         request.json.get("tracker") and True,
     )
-    role_resource = await roles_query.fetch_role_resource(conn, role_id)
-    conn.close()
-    owners = role_resource.get("owners")
-    if next_id in owners:
-        is_proposal_ready = await wait_for_resource_in_db(
-            "proposals", "proposal_id", proposal_id, max_attempts=30
-        )
-        if not is_proposal_ready:
-            LOGGER.warning(
-                "Max attempts exceeded. Proposal %s not found in RethinkDB.",
-                proposal_id,
-            )
-            return await handle_errors(
-                request,
-                ApiInternalError("Internal Error: Oops! Something broke on our end."),
-            )
-        request.json["status"] = "APPROVED"
-        request.json["reason"] = "I am the owner of this role"
-        await update_proposal(request, proposal_id)
-        if request.json.get("tracker"):
-            events = {"batch_status": batch_status, "member_status": "MEMBER"}
-            return create_tracker_response(events)
-        return json(
-            {
-                "message": "Owner is the requester. Proposal is autoapproved.",
-                "proposal_id": proposal_id,
-            }
-        )
 
     LOGGER.info(
         "Sending notification to queue for user %s for proposal %s",
