@@ -893,7 +893,7 @@ def test_delete_user(ldap_connection):
         assert get_auth_entry(next_id)
 
         # Create a NEXT pack with LDAP user as an owner
-        next_pack_id = create_pack_ldap(user=user[0], pack_name="technology department")
+        next_pack_id = create_pack_ldap(user=user[0], pack_name="tech department")
         assert check_user_is_pack_owner(next_pack_id, next_id)
 
         # Delete user and verify LDAP user and related off chain
@@ -910,7 +910,7 @@ def test_delete_user(ldap_connection):
         assert get_role_members(role[0]["role_id"]) == []
 
         delete_role_by_name("managers")
-        delete_pack_by_name("technology department")
+        delete_pack_by_name("tech department")
 
 
 def test_delete_role(ldap_connection):

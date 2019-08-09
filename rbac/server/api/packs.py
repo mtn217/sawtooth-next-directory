@@ -113,17 +113,35 @@ async def get_all_packs(request):
     400, {"message": str, "code": int}, description="Bad Request: Improper JSON format."
 )
 @doc.response(
+    400,
+    {"code": int, "message": str},
+    description="Input exceeded max character length.",
+)
+@doc.response(
     401,
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
 @authorized()
 async def create_new_pack(request):
-    """Create a new pack"""
+    """Create a new pack
+
+    Raises:
+        ApiBadRequest: User inputs exceeded max character length.
+    """
     log_request(request)
     required_fields = ["owners", "name", "roles"]
     validate_fields(required_fields, request.json)
     pack_title = " ".join(request.json.get("name").split())
+
+    if len(request.json.get("name")) > 30:
+        raise ApiBadRequest("Input pack name exceeded max character length: 30")
+    if request.json.get("description"):
+        if len(request.json.get("description")) > 255:
+            raise ApiBadRequest(
+                "Input pack description exceeded max character length: 255"
+            )
+
     conn = await create_connection()
     response = await packs_query.packs_search_duplicate(conn, pack_title)
     if not response:

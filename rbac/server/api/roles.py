@@ -25,6 +25,7 @@ from rbac.common.logs import get_default_logger
 from rbac.common.role import Role
 from rbac.common.sawtooth import batcher
 from rbac.server.api.errors import (
+    ApiBadRequest,
     ApiDisabled,
     ApiForbidden,
     ApiInternalError,
@@ -561,6 +562,11 @@ async def add_role_admin(request, role_id):
     400, {"message": str, "code": int}, description="Bad Request: Improper JSON format."
 )
 @doc.response(
+    400,
+    {"code": int, "message": str},
+    description="Input exceeded max character length.",
+)
+@doc.response(
     401,
     {"message": str, "code": int},
     description="Unauthorized: When user unsuccessfully authenticates into NEXT",
@@ -572,10 +578,19 @@ async def add_role_admin(request, role_id):
 )
 @authorized()
 async def add_role_member(request, role_id):
-    """Add a member to a role."""
+    """Add a member to a role.
+
+    Raises:
+        ApiBadRequest: User inputs exceeded max character length.
+    """
     log_request(request)
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
+    if request.json.get("reason"):
+        if len(request.json.get("reason")) > 255:
+            raise ApiBadRequest(
+                "Input proposal reasoning exceeded max character length: 255"
+            )
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
     conn = await create_connection()
