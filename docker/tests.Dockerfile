@@ -45,5 +45,5 @@ RUN pip install \
         pytest-cov==2.6.0 \
         pytest-env==0.6.2 \
         environs==4.1.0 \
-        sanic-openapi==0.5.3
+        sanic-openapi==0.6.0
 WORKDIR /project/hyperledger-rbac

@@ -137,6 +137,7 @@ PROPOSAL_TRANSACTION = {
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_proposals")
 @authorized()
 async def get_all_proposals(request):
     """Get all proposals"""
@@ -189,6 +190,7 @@ async def get_all_proposals(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_proposal")
 @authorized()
 async def get_proposal(request, proposal_id):
     """Get specific proposal by proposal_id."""
@@ -230,6 +232,7 @@ async def get_proposal(request, proposal_id):
     description="Unauthorized: The request lacks valid authentication credentials "
     "or user does not have the authorization to APPROVE/REJECT proposal.",
 )
+@doc.operation("update_proposals")
 @authorized()
 async def batch_update_proposals(request):
     """Update multiple proposals"""
@@ -267,6 +270,7 @@ async def batch_update_proposals(request):
     description="Unauthorized: The request lacks valid authentication credentials "
     "or user does not have the authorization to APPROVE/REJECT proposal.",
 )
+@doc.operation("update_proposal")
 @authorized()
 async def update_proposal(request, proposal_id):
     """Update proposal."""

@@ -78,6 +78,7 @@ LOGGER = get_default_logger(__name__)
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_packs")
 @authorized()
 async def get_all_packs(request):
     """Get all packs"""
@@ -123,6 +124,7 @@ async def get_all_packs(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("create_pack")
 @authorized()
 async def create_new_pack(request):
     """Create a new pack
@@ -189,6 +191,7 @@ async def create_new_pack(request):
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_pack")
 @authorized()
 async def get_pack(request, pack_id):
     """Get a single pack"""
@@ -334,6 +337,7 @@ async def add_pack_role(request, pack_id):
     description="Forbidden: The provided credentials are not authorized to perform "
     "the requested action.",
 )
+@doc.operation("delete_pack")
 @authorized()
 async def delete_pack(request, pack_id):
     """Delete pack from NEXT

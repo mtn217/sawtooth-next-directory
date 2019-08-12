@@ -32,7 +32,7 @@ RUN pip install \
         aiohttp==3.5.4 \
         ldap3==2.5.2 \
         environs==4.1.0 \
-        sanic-openapi==0.5.3
+        sanic-openapi==0.6.0
 EXPOSE 8000/tcp
 WORKDIR /project/hyperledger-rbac
 CMD ["./bin/rbac-server"]

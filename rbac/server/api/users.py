@@ -118,6 +118,7 @@ USERS_BP = Blueprint("users")
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_all_users")
 @authorized()
 async def fetch_all_users(request):
     """Returns all users."""
@@ -175,6 +176,7 @@ async def fetch_all_users(request):
     {"message": str, "code": int},
     description="There was an error submitting the sawtooth transaction.",
 )
+@doc.operation("create_user")
 async def create_new_user(request):
     """Create a new user. Must be an adminsitrator.
 
@@ -456,6 +458,7 @@ async def update_user_details(request):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_user")
 @authorized()
 async def get_user(request, next_id):
     """Get a specific user by next_id."""
@@ -488,6 +491,7 @@ async def get_user(request, next_id):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+@doc.operation("delete_user")
 @authorized()
 async def delete_user(request, next_id):
     """Delete a specific user by next_id."""
