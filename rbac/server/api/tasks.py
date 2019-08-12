@@ -75,6 +75,7 @@ TASKS_BP = Blueprint("tasks")
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("get_tasks")
 @authorized()
 async def get_all_tasks(request):
     """Get all tasks."""
@@ -125,6 +126,7 @@ async def get_all_tasks(request):
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
 )
+@doc.operation("create_task")
 @authorized()
 async def create_new_task(request):
     """Create a new task."""

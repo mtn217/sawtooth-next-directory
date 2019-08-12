@@ -113,6 +113,7 @@ ROLES_BP = Blueprint("roles")
     {"message": str, "code": int},
     description="Unauthorized: When user unsuccessfully authenticates into NEXT",
 )
+@doc.operation("get_roles")
 @authorized()
 async def get_all_roles(request):
     """Get all roles."""
@@ -184,6 +185,7 @@ async def get_all_roles(request):
     {"message": str, "code": int},
     description="There was an error submitting the sawtooth transaction.",
 )
+@doc.operation("create_role")
 @authorized()
 async def create_new_role(request):
     """Create a new role."""
@@ -273,6 +275,7 @@ async def create_new_role(request):
 @doc.response(
     404, {"message": str, "code": int}, description="Role <role_id> doesn't exist."
 )
+@doc.operation("get_role")
 @authorized()
 async def get_role(request, role_id):
     """Get a specific role by role_id."""
@@ -336,6 +339,7 @@ async def check_role_name(request):
     {"message": str, "code": int},
     description="Not a valid action. Source not enabled.",
 )
+@doc.operation("update_role")
 @authorized()
 async def update_role(request, role_id):
     """Update a role."""
@@ -393,6 +397,7 @@ async def update_role(request, role_id):
     {"message": str, "code": int},
     description="An error occurred while creating the blockchain transactions to delete the role.",
 )
+@doc.operation("delete_role")
 @authorized()
 async def delete_role(request, role_id):
     """Delete a role by it's next_id.
