@@ -40,5 +40,5 @@ def test_search_api():
             }
         }
         response = session.post("http://rbac-server:8000/api/search", json=search_query)
-        assert response.json()["data"] == {"roles": [], "packs": [], "users": []}
+        assert response.json().get("data") == {"roles": [], "packs": [], "users": []}
         delete_user_by_username("susan23")

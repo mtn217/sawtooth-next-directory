@@ -14,6 +14,7 @@
 # ------------------------------------------------------------------------------
 """APIs and functions utilized to search."""
 import math
+from re import escape
 
 from sanic import Blueprint
 from sanic.response import json
@@ -21,7 +22,8 @@ from sanic_openapi import doc
 
 from rbac.common.logs import get_default_logger
 from rbac.server.api.auth import authorized
-from rbac.server.api.utils import log_request
+from rbac.server.api.errors import ApiBadRequest
+from rbac.server.api.utils import log_request, validate_fields
 from rbac.server.db.db_utils import create_connection
 from rbac.server.db.packs_query import search_packs, search_packs_count
 from rbac.server.db.roles_query import search_roles, search_roles_count
@@ -55,6 +57,9 @@ SEARCH_BP = Blueprint("search")
     content_type="application/json",
 )
 @doc.response(
+    400, {"message": str, "code": int}, description="Bad Request: Improper JSON format."
+)
+@doc.response(
     401,
     {"code": int, "message": str},
     description="Unauthorized: The request lacks valid authentication credentials.",
@@ -66,9 +71,15 @@ async def search_all(request):
     search_query = request.json.get("query")
 
     # Check for valid payload containing query and search object types
-    errors = validate_search_payload(search_query)
-    if errors:
-        return json(errors)
+    required_fields = ["search_object_types", "search_input"]
+    validate_fields(required_fields, search_query)
+
+    # check search query length.
+    if len(search_query["search_input"]) > 255:
+        raise ApiBadRequest("Bad Request: search_input may not exceed 255 characters")
+
+    # Escape regex in user supplied string.
+    search_query["search_input"] = escape(search_query["search_input"])
 
     # Create response data object
     data = {"packs": [], "roles": [], "users": []}
@@ -108,17 +119,6 @@ async def search_all(request):
     return json(
         {"data": data, "page": search_query["page"], "total_pages": total_pages}
     )
-
-
-def validate_search_payload(search_query):
-    """Validate the search payload for necessary fields and return errors on non-existence."""
-    if search_query is None:
-        return {"errors": "No query parameter received."}
-    if "search_object_types" not in search_query:
-        return {"errors": "No search_object_types for search received."}
-    if "search_input" not in search_query:
-        return {"errors": "No search_input string for search received."}
-    return {}
 
 
 def search_paginate(page_size=50, page_num=1):

@@ -15,11 +15,7 @@
 """Test Suite for Search API."""
 import pytest
 
-from rbac.server.api.search import (
-    get_total_pages,
-    search_paginate,
-    validate_search_payload,
-)
+from rbac.server.api.search import get_total_pages, search_paginate
 
 PAGINATION_TEST_CASES = [
     (20, 1, (0, 20)),
@@ -60,30 +56,3 @@ def test_get_total_no_inputs():
     """Test get_total_pages with no parameters submitted. (Default 0)."""
     result = search_paginate()
     assert result == (0, 50)
-
-
-def test_validate_search():
-    """Test validate_search_payload works with a good payload."""
-    payload = {"search_input": "The input", "search_object_types": []}
-    result = validate_search_payload(payload)
-    assert result == {}
-
-
-def test_validate_search_no_query():
-    """Test validation of an empty value for search query."""
-    result = validate_search_payload(None)
-    assert result["errors"] == "No query parameter received."
-
-
-def test_validate_search_no_input():
-    """Test validation of an empty value for search_input."""
-    payload = {"search_object_types": []}
-    result = validate_search_payload(payload)
-    assert result["errors"] == "No search_input string for search received."
-
-
-def tests_validate_search_no_types():
-    """Test validation of an empty value for search_object types."""
-    payload = {"search_input": "The input"}
-    result = validate_search_payload(payload)
-    assert result["errors"] == "No search_object_types for search received."
