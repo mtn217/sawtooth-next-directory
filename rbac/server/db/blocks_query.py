@@ -51,7 +51,8 @@ async def fetch_latest_block(conn):
             .run(conn)
         )
     except ReqlNonExistenceError:
-        raise ApiInternalError("Internal Error: No block data found in state")
+        # no block data found
+        raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
 
 
 async def fetch_latest_block_with_retry(conn, tries=5):
@@ -69,7 +70,8 @@ async def fetch_latest_block_with_retry(conn, tries=5):
 
         attempts -= 1
 
-    raise ApiInternalError("Internal Error: No block data found in state")
+    # no block data found in state
+    raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
 
 
 async def fetch_block_by_id(conn, block_id):

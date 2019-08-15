@@ -234,9 +234,10 @@ async def create_new_user(request):
         request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT
     )
     if not sawtooth_response:
+        # error submitting the sawtooth transaction
         return await handle_errors(
             request,
-            ApiInternalError("There was an error submitting the sawtooth transaction."),
+            ApiInternalError("Internal Error: Oops! Something broke on our end."),
         )
 
     # Save new user in auth table

@@ -200,11 +200,12 @@ async def send(conn, batch_list, timeout, webhook=False):
 
     if not webhook:
         if status == client_batch_submit_pb2.ClientBatchSubmitResponse.INTERNAL_ERROR:
-            raise ApiInternalError("Internal Error")
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
         elif status == client_batch_submit_pb2.ClientBatchSubmitResponse.INVALID_BATCH:
             raise ApiBadRequest("Invalid Batch")
         elif status == client_batch_submit_pb2.ClientBatchSubmitResponse.QUEUE_FULL:
-            raise ApiInternalError("Queue Full")
+            # Queue is full
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
     elif status != client_batch_submit_pb2.ClientBatchSubmitResponse.OK:
         return None
 
@@ -225,7 +226,7 @@ async def send(conn, batch_list, timeout, webhook=False):
 
     if not webhook:
         if status != client_batch_submit_pb2.ClientBatchStatusResponse.OK:
-            raise ApiInternalError("Internal Error")
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
     elif status != client_batch_submit_pb2.ClientBatchStatusResponse.OK:
         return None
 
@@ -238,9 +239,11 @@ async def send(conn, batch_list, timeout, webhook=False):
                 "Bad Request: {}".format(response.invalid_transactions[0].message)
             )
         elif status == client_batch_submit_pb2.ClientBatchStatus.PENDING:
-            raise ApiInternalError("Internal Error: Transaction timed out.")
+            # transaction timed out
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
         elif status == client_batch_submit_pb2.ClientBatchStatus.UNKNOWN:
-            raise ApiInternalError("Internal Error: Unspecified error.")
+            # unspecified error
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
     return status
 
 
@@ -253,7 +256,8 @@ async def check_admin_status(next_id):
     conn = await create_connection()
     admin_role = await get_role_by_name(conn, "NextAdmins")
     if not admin_role:
-        raise ApiInternalError("NEXT administrator group has not been created.")
+        # NEXT administrator group has not been created
+        raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
     admin_membership = await get_role_membership(
         conn, next_id, admin_role[0]["role_id"]
     )

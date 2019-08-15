@@ -223,9 +223,7 @@ async def create_new_role(request):
             LOGGER.warning("There was an error submitting the sawtooth transaction.")
             return await handle_errors(
                 request,
-                ApiInternalError(
-                    "There was an error submitting the sawtooth transaction."
-                ),
+                ApiInternalError("Internal Error: Oops! Something broke on our end."),
             )
 
         return create_role_response(request, role_id)
@@ -457,9 +455,7 @@ async def delete_role(request, role_id):
         )
         return await handle_errors(
             request,
-            ApiInternalError(
-                "An error occurred while creating the blockchain transactions to delete the role."
-            ),
+            ApiInternalError("Internal Error: Oops! Something broke on our end."),
         )
 
     batch = batcher.make_batch_from_txns(transactions=txn_list, signer_keypair=txn_key)
@@ -627,10 +623,7 @@ async def add_role_member(request, role_id):
             )
             return await handle_errors(
                 request,
-                ApiInternalError(
-                    "Max attempts exceeded. Proposal %s not found in RethinkDB."
-                    % proposal_id
-                ),
+                ApiInternalError("Internal Error: Oops! Something broke on our end."),
             )
         request.json["status"] = "APPROVED"
         request.json["reason"] = "I am the owner of this role"
