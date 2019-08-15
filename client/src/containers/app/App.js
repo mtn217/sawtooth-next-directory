@@ -128,7 +128,8 @@ class App extends Component {
 
     getMe();
     getBase();
-    getOpenProposals();
+    if (!window.location.href.includes('/pending'))
+      getOpenProposals();
   }
 
 

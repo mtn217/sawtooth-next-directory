@@ -54,6 +54,7 @@ class PeopleApproval extends Component {
     selectedUsers:      [],
     selectedProposals:  [],
     activeIndex:        0,
+    allSelected:        false,
   };
 
 
@@ -94,10 +95,42 @@ class PeopleApproval extends Component {
 
   reset = () => {
     this.setState({
+      allSelected:        false,
       selectedRoles:      [],
       selectedUsers:      [],
       selectedProposals:  [],
     });
+  }
+
+
+  /**
+   * Handle select all / deselect all change event
+   * @param {object} event Event passed on change
+   * @param {object} data  Attributes passed on change
+   */
+  handleSelect = (event, data) => {
+    const {
+      openProposals,
+      openProposalsByRole,
+      openProposalsByUser } = this.props;
+
+    if (data.checked) {
+      openProposals &&
+      openProposalsByRole &&
+      openProposalsByUser && this.setState({
+        allSelected:        true,
+        selectedRoles:      Object.keys(openProposalsByRole),
+        selectedProposals:  openProposals.map(proposal => proposal.id),
+        selectedUsers:      Object.keys(openProposalsByUser),
+      });
+    } else {
+      this.setState({
+        allSelected:        false,
+        selectedRoles:      [],
+        selectedProposals:  [],
+        selectedUsers:      [],
+      });
+    }
   }
 
 
@@ -121,11 +154,12 @@ class PeopleApproval extends Component {
     const { roles, proposals } = sync.next().value;
     const { users } = sync.next().value;
 
-    this.setState({
+    this.setState(prevState => ({
+      allSelected:        data.checked ? prevState.allSelected : false,
       selectedRoles:      roles,
       selectedProposals:  proposals,
       selectedUsers:      users,
-    });
+    }));
   };
 
 
@@ -143,6 +177,7 @@ class PeopleApproval extends Component {
       userFromId } = this.props;
     const {
       activeIndex,
+      allSelected,
       selectedProposals,
       selectedRoles,
       selectedUsers } = this.state;
@@ -192,6 +227,8 @@ class PeopleApproval extends Component {
             {...this.props}/>
           <div id='next-approver-people-approval-content'>
             <PeopleApprovalNav
+              allSelected={allSelected}
+              handleSelect={this.handleSelect}
               activeIndex={activeIndex}
               setFlow={this.setFlow}/>
             <h3 id='next-approver-people-pending'>
