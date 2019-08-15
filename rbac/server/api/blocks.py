@@ -18,6 +18,7 @@ from sanic import Blueprint
 from sanic.response import json
 from sanic_openapi import doc
 
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.errors import ApiBadRequest
 from rbac.server.api.auth import authorized
 from rbac.server.api.utils import (
@@ -146,6 +147,7 @@ async def get_block(request, block_id):
     if "?head=" in request.url:
         raise ApiBadRequest("Bad Request: 'head' parameter should not be specified")
 
+    block_id = escape_user_input(block_id)
     conn = await create_connection()
     block_resource = await blocks_query.fetch_block_by_id(conn, block_id)
     conn.close()

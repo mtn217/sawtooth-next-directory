@@ -18,6 +18,7 @@ import json
 from sanic import Blueprint
 
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.proposals import compile_proposal_resource
 from rbac.server.api import utils
 from rbac.server.db import proposals_query
@@ -57,10 +58,11 @@ async def proposal_feed(web_socket, recv):
 
         conn.close()
 
+        next_id = escape_user_input(recv.get("next_id"))
         if (
             proposal_resource["status"] == "OPEN"
-            and recv.get("next_id") in proposal_resource["approvers"]
+            and next_id in proposal_resource["approvers"]
         ):
             await web_socket.send(json.dumps({"open_proposal": proposal_resource}))
-        elif recv.get("next_id") == proposal_resource["opener"]:
+        elif next_id == proposal_resource["opener"]:
             await web_socket.send(json.dumps({"user_proposal": proposal_resource}))

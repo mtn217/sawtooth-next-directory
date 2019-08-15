@@ -24,6 +24,7 @@ from sanic_openapi import doc
 from rbac.common.logs import get_default_logger
 from rbac.common.role import Role
 from rbac.common.sawtooth import batcher
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.errors import (
     ApiBadRequest,
     ApiDisabled,
@@ -192,7 +193,8 @@ async def create_new_role(request):
         raise ApiDisabled("Not a valid action. Source not enabled.")
     required_fields = ["name", "administrators", "owners"]
     validate_fields(required_fields, request.json)
-    role_title = " ".join(request.json.get("name").split())
+
+    role_title = " ".join(escape_user_input(request.json.get("name")).split())
     conn = await create_connection()
     response = await roles_query.roles_search_duplicate(conn, role_title)
     conn.close()
@@ -203,7 +205,7 @@ async def create_new_role(request):
         if request.json.get("metadata") is None:
             set_metadata = {}
         else:
-            set_metadata = request.json.get("metadata")
+            set_metadata = escape_user_input(request.json.get("metadata"))
         set_metadata["sync_direction"] = "OUTBOUND"
         batch_list = Role().batch_list(
             signer_keypair=txn_key,
@@ -211,9 +213,9 @@ async def create_new_role(request):
             name=role_title,
             role_id=role_id,
             metadata=set_metadata,
-            admins=request.json.get("administrators"),
-            owners=request.json.get("owners"),
-            description=request.json.get("description"),
+            admins=escape_user_input(request.json.get("administrators")),
+            owners=escape_user_input(request.json.get("owners")),
+            description=escape_user_input(request.json.get("description")),
         )
         sawtooth_response = await send(
             request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT
@@ -277,7 +279,9 @@ async def get_role(request, role_id):
     log_request(request)
     head_block = await get_request_block(request)
     conn = await create_connection()
-    role_resource = await roles_query.fetch_role_resource(conn, role_id)
+    role_resource = await roles_query.fetch_role_resource(
+        conn, escape_user_input(role_id)
+    )
     conn.close()
     return await create_response(conn, request.url, role_resource, head_block)
 
@@ -301,7 +305,9 @@ async def check_role_name(request):
     """Check if a role exists with provided name."""
     log_request(request)
     conn = await create_connection()
-    response = await roles_query.roles_search_duplicate(conn, request.args.get("name"))
+    response = await roles_query.roles_search_duplicate(
+        conn, escape_user_input(request.args.get("name"))
+    )
     conn.close()
     return json({"exists": bool(response)})
 
@@ -340,7 +346,10 @@ async def update_role(request, role_id):
     required_fields = ["description"]
     validate_fields(required_fields, request.json)
     txn_key, txn_user_id = await get_transactor_key(request)
-    role_description = request.json.get("description")
+
+    role_id = escape_user_input(role_id)
+    role_description = escape_user_input(request.json.get("description"))
+
     batch_list = Role().update.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
@@ -411,6 +420,8 @@ async def delete_role(request, role_id):
     env = Env()
     if not env.int("ENABLE_NEXT_BASE_USE"):
         raise ApiDisabled("Not a valid action. Source not enabled")
+
+    role_id = escape_user_input(role_id)
     txn_key, txn_user_id = await get_transactor_key(request)
 
     # does the role exist?
@@ -512,6 +523,7 @@ async def add_role_admin(request, role_id):
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
 
+    role_id = escape_user_input(role_id)
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
     conn = await create_connection()
@@ -522,9 +534,9 @@ async def add_role_admin(request, role_id):
         signer_user_id=txn_user_id,
         proposal_id=proposal_id,
         role_id=role_id,
-        next_id=request.json.get("id"),
-        reason=request.json.get("reason"),
-        metadata=request.json.get("metadata"),
+        next_id=escape_user_input(request.json.get("id")),
+        reason=escape_user_input(request.json.get("reason")),
+        metadata=escape_user_input(request.json.get("metadata")),
         assigned_approver=approver,
     )
     await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
@@ -536,17 +548,11 @@ async def add_role_admin(request, role_id):
 @doc.description("Creates a proposal to add a member to a role.")
 @doc.consumes(
     doc.JsonBody(
-        {"id": str, "reason": str, "metadata": {}},
+        {"id": str, "reason": str, "metadata": {}, "pack_id": str},
         description="The id field is required, the rest are optional.",
     ),
     location="body",
     required=True,
-    content_type="application/json",
-)
-@doc.consumes(
-    doc.JsonBody({"pack_id": str, "reason": str, "metadata": {}}),
-    location="body",
-    required=False,
     content_type="application/json",
 )
 @doc.produces(
@@ -587,8 +593,12 @@ async def add_role_member(request, role_id):
             raise ApiBadRequest(
                 "Input proposal reasoning exceeded max character length: 255"
             )
+
+    role_id = escape_user_input(role_id)
+    next_id = escape_user_input(request.json.get("id"))
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
+
     conn = await create_connection()
     approver = await fetch_relationships("role_owners", "role_id", role_id).run(conn)
     batch_list = Role().member.propose.batch_list(
@@ -596,10 +606,10 @@ async def add_role_member(request, role_id):
         signer_user_id=txn_user_id,
         proposal_id=proposal_id,
         role_id=role_id,
-        pack_id=request.json.get("pack_id"),
-        next_id=request.json.get("id"),
-        reason=request.json.get("reason"),
-        metadata=request.json.get("metadata"),
+        pack_id=escape_user_input(request.json.get("pack_id")),
+        next_id=next_id,
+        reason=escape_user_input(request.json.get("reason")),
+        metadata=escape_user_input(request.json.get("metadata")),
         assigned_approver=approver,
     )
     batch_status = await send(
@@ -611,8 +621,7 @@ async def add_role_member(request, role_id):
     role_resource = await roles_query.fetch_role_resource(conn, role_id)
     conn.close()
     owners = role_resource.get("owners")
-    requester_id = request.json.get("id")
-    if requester_id in owners:
+    if next_id in owners:
         is_proposal_ready = await wait_for_resource_in_db(
             "proposals", "proposal_id", proposal_id, max_attempts=30
         )
@@ -640,7 +649,7 @@ async def add_role_member(request, role_id):
 
     LOGGER.info(
         "Sending notification to queue for user %s for proposal %s",
-        request.json.get("id"),
+        next_id,
         proposal_id,
     )
     if isinstance(approver, list):
@@ -666,12 +675,6 @@ async def add_role_member(request, role_id):
     ),
     location="body",
     required=True,
-    content_type="application/json",
-)
-@doc.consumes(
-    doc.JsonBody({"reason": str, "metadata": {}}),
-    location="body",
-    required=False,
     content_type="application/json",
 )
 @doc.produces(
@@ -702,6 +705,7 @@ async def add_role_owner(request, role_id):
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
 
+    role_id = escape_user_input(role_id)
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
     conn = await create_connection()
@@ -712,9 +716,9 @@ async def add_role_owner(request, role_id):
         signer_user_id=txn_user_id,
         proposal_id=proposal_id,
         role_id=role_id,
-        next_id=request.json.get("id"),
-        reason=request.json.get("reason"),
-        metadata=request.json.get("metadata"),
+        next_id=escape_user_input(request.json.get("id")),
+        reason=escape_user_input(request.json.get("reason")),
+        metadata=escape_user_input(request.json.get("metadata")),
         assigned_approver=approver,
     )
     await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
@@ -738,12 +742,6 @@ async def add_role_owner(request, role_id):
     required=True,
     content_type="application/json",
 )
-@doc.consumes(
-    doc.JsonBody({"reason": str, "metadata": {}}),
-    location="body",
-    required=False,
-    content_type="application/json",
-)
 @doc.produces(
     {"proposal_id": str},
     description="ID for the newly created role task proposal",
@@ -763,21 +761,21 @@ async def add_role_task(request, role_id):
     log_request(request)
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
+
+    task_id = escape_user_input(request.json.get("id"))
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
     conn = await create_connection()
-    approver = await fetch_relationships(
-        "task_owners", "task_id", request.json.get("id")
-    ).run(conn)
+    approver = await fetch_relationships("task_owners", "task_id", task_id).run(conn)
     conn.close()
     batch_list = Role().task.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
         proposal_id=proposal_id,
-        role_id=role_id,
-        task_id=request.json.get("id"),
-        reason=request.json.get("reason"),
-        metadata=request.json.get("metadata"),
+        role_id=escape_user_input(role_id),
+        task_id=task_id,
+        reason=escape_user_input(request.json.get("reason")),
+        metadata=escape_user_input(request.json.get("metadata")),
         assigned_approver=approver,
     )
     await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
@@ -821,15 +819,15 @@ def create_role_response(request, role_id):
     """Compose the create new role response and return it as json."""
     role_resource = {
         "id": role_id,
-        "name": request.json.get("name"),
-        "owners": request.json.get("owners"),
-        "administrators": request.json.get("administrators"),
+        "name": escape_user_input(request.json.get("name")),
+        "owners": escape_user_input(request.json.get("owners")),
+        "administrators": escape_user_input(request.json.get("administrators")),
         "members": [],
         "tasks": [],
         "proposals": [],
-        "description": request.json.get("description"),
+        "description": escape_user_input(request.json.get("description")),
     }
 
     if request.json.get("metadata"):
-        role_resource["metadata"] = request.json.get("metadata")
+        role_resource["metadata"] = escape_user_input(request.json.get("metadata"))
     return json({"data": role_resource})

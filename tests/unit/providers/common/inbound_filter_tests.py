@@ -15,10 +15,29 @@
 """Test Suite for inbound filters for providers."""
 import pytest
 
+from rbac.providers.common.common import escape_user_input
 from rbac.providers.common.inbound_filters import (
     inbound_group_filter,
     inbound_user_filter,
 )
+
+HTML_ESCAPE_CASES = [
+    ("<html>hello</html>", "&lt;html&gt;hello&lt;/html&gt;"),
+    (
+        ["<script>Malicious Script Here</script>", "<div>More malicious content</div>"],
+        [
+            "&lt;script&gt;Malicious Script Here&lt;/script&gt;",
+            "&lt;div&gt;More malicious content&lt;/div&gt;",
+        ],
+    ),
+    (
+        {"user_input<>": '<img src=1 href=1 onerror="javascript:alert(1)"></img>'},
+        {
+            "user_input&lt;&gt;": "&lt;img src=1 href=1 onerror=&quot;javascript:alert(1)&quot;&gt;&lt;/img&gt;"
+        },
+    ),
+    (None, None),
+]
 
 
 def test_inbound_user_filter():
@@ -87,3 +106,17 @@ def test_role_data_when_null():
     """Test that a group list stays null when it is None."""
     result = inbound_group_filter({"id": "123-456-abs3", "members": None}, "azure")
     assert result["members"] is None
+
+
+@pytest.mark.parametrize("user_input, expected_result", HTML_ESCAPE_CASES)
+def test_html_escape(user_input, expected_result):
+    """ Test that escape_user_input() function properly escapes various
+    user inputs.
+
+    Args:
+        user_input: (str, list, dict, None) A user generated input received
+            by an API endpoint or imported LDAP objects.
+        expected_result: (str, list, dict, None) The user_input with escaped
+            HTML code.
+    """
+    assert expected_result == escape_user_input(user_input)

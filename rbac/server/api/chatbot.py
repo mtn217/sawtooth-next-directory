@@ -20,6 +20,7 @@ from sanic import Blueprint
 
 from rbac.app.config import CHATBOT_REST_ENDPOINT
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api import utils
 from rbac.server.db import users_query
 from rbac.server.db.db_utils import create_connection
@@ -56,17 +57,21 @@ async def create_response(request, recv):
 
 async def update_tracker(request, recv):
     """Update the chatbot tracker."""
+    next_id = escape_user_input(recv.get("next_id"))
+
     if recv.get("approver_id"):
         conn = await create_connection()
         owner_resource = await users_query.fetch_user_resource_summary(
-            conn, recv.get("approver_id")
+            conn, escape_user_input(recv.get("approver_id"))
         )
         await create_event(
-            request, recv.get("next_id"), "approver_name", owner_resource.get("name")
+            request, next_id, "approver_name", owner_resource.get("name")
         )
     if recv.get("resource_id"):
-        LOGGER.info("[Chatbot] %s: Updating tracker token", recv.get("next_id"))
-        await create_event(request, recv.get("next_id"), "token", recv.get("token"))
+        LOGGER.info("[Chatbot] %s: Updating tracker token", next_id)
+        await create_event(
+            request, next_id, "token", escape_user_input(recv.get("token"))
+        )
 
 
 async def create_event(request, next_id, name, value):
@@ -80,7 +85,8 @@ async def create_event(request, next_id, name, value):
 async def generate_chatbot_reply(request, recv):
     """Get a reply from the chatbot engine"""
     url = CHATBOT_REST_ENDPOINT + "/webhooks/rest/webhook"
-    data = {"sender": recv.get("next_id"), "message": recv.get("text")}
-    LOGGER.info("[Chatbot] %s: Sending generated reply", recv.get("next_id"))
+    next_id = escape_user_input(recv.get("next_id"))
+    data = {"sender": next_id, "message": recv.get("text")}
+    LOGGER.info("[Chatbot] %s: Sending generated reply", next_id)
     async with request.app.config.HTTP_SESSION.post(url=url, json=data) as response:
         return await response.json()

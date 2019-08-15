@@ -20,6 +20,7 @@ from sanic.response import json
 from sanic_openapi import doc
 
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.auth import authorized
 from rbac.server.api.errors import ApiBadRequest, ApiForbidden
 from rbac.server.api.roles import add_role_member
@@ -132,7 +133,7 @@ async def create_new_pack(request):
     log_request(request)
     required_fields = ["owners", "name", "roles"]
     validate_fields(required_fields, request.json)
-    pack_title = " ".join(request.json.get("name").split())
+    pack_title = " ".join(escape_user_input(request.json.get("name")).split())
 
     if len(request.json.get("name")) > 30:
         raise ApiBadRequest("Input pack name exceeded max character length: 30")
@@ -149,11 +150,13 @@ async def create_new_pack(request):
         await packs_query.create_pack_resource(
             conn,
             pack_id,
-            request.json.get("owners"),
+            escape_user_input(request.json.get("owners")),
             pack_title,
-            request.json.get("description"),
+            escape_user_input(request.json.get("description")),
         )
-        await packs_query.add_roles(conn, pack_id, request.json.get("roles"))
+        await packs_query.add_roles(
+            conn, pack_id, escape_user_input(request.json.get("roles"))
+        )
         conn.close()
         return create_pack_response(request, pack_id)
     conn.close()
@@ -190,6 +193,7 @@ async def create_new_pack(request):
 async def get_pack(request, pack_id):
     """Get a single pack"""
     log_request(request)
+    pack_id = escape_user_input(pack_id)
     head_block = await get_request_block(request)
     conn = await create_connection()
     pack_resource = await packs_query.fetch_pack_resource(conn, pack_id)
@@ -217,7 +221,9 @@ async def check_pack_name(request):
     """Check if a pack exists with provided name"""
     log_request(request)
     conn = await create_connection()
-    response = await packs_query.packs_search_duplicate(conn, request.args.get("name"))
+    response = await packs_query.packs_search_duplicate(
+        conn, escape_user_input(request.args.get("name"))
+    )
     conn.close()
 
     return json({"exists": bool(response)})
@@ -251,6 +257,7 @@ async def add_pack_member(request, pack_id):
     log_request(request)
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
+    pack_id = escape_user_input(pack_id)
 
     conn = await create_connection()
     pack_resource = await packs_query.fetch_pack_resource(conn, pack_id)
@@ -290,10 +297,13 @@ async def add_pack_role(request, pack_id):
     log_request(request)
     required_fields = ["roles"]
     validate_fields(required_fields, request.json)
+
+    pack_id = escape_user_input(pack_id)
+    roles = escape_user_input(request.json.get("roles"))
     conn = await create_connection()
-    await packs_query.add_roles(conn, pack_id, request.json.get("roles"))
+    await packs_query.add_roles(conn, pack_id, roles)
     conn.close()
-    return json({"roles": request.json.get("roles")})
+    return json({"roles": roles})
 
 
 @PACKS_BP.delete("api/packs/<pack_id>")
@@ -336,6 +346,8 @@ async def delete_pack(request, pack_id):
     log_request(request)
     _, txn_user_id = await get_transactor_key(request)
 
+    pack_id = escape_user_input(pack_id)
+
     conn = await create_connection()
     pack = await packs_query.get_pack_by_pack_id(conn, pack_id)
     if not pack:
@@ -362,8 +374,8 @@ def create_pack_response(request, pack_id):
     """Create pack response"""
     pack_resource = {
         "pack_id": pack_id,
-        "name": request.json.get("name"),
-        "owners": request.json.get("owners"),
-        "roles": request.json.get("roles"),
+        "name": escape_user_input(request.json.get("name")),
+        "owners": escape_user_input(request.json.get("owners")),
+        "roles": escape_user_input(request.json.get("roles")),
     }
     return json({"data": pack_resource})

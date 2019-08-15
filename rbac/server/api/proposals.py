@@ -21,6 +21,7 @@ from rbac.common.logs import get_default_logger
 from rbac.common.role import Role
 from rbac.common.task import Task
 from rbac.common.user import User
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.auth import authorized
 from rbac.server.api.errors import ApiBadRequest, ApiUnauthorized
 from rbac.server.api.utils import (
@@ -192,6 +193,7 @@ async def get_all_proposals(request):
 async def get_proposal(request, proposal_id):
     """Get specific proposal by proposal_id."""
     log_request(request)
+    proposal_id = escape_user_input(proposal_id)
     head_block = await get_request_block(request)
     conn = await create_connection()
     proposal = await proposals_query.fetch_proposal_resource(conn, proposal_id)
@@ -234,9 +236,10 @@ async def batch_update_proposals(request):
     log_request(request)
     required_fields = ["ids"]
     validate_fields(required_fields, request.json)
-    for proposal_id in request.json["ids"]:
+    proposal_ids_list = escape_user_input(request.json["ids"])
+    for proposal_id in proposal_ids_list:
         await update_proposal(request, proposal_id)
-    return json({"proposal_ids": request.json["ids"]})
+    return json({"proposal_ids": proposal_ids_list})
 
 
 @PROPOSALS_BP.patch("api/proposals/<proposal_id>")
@@ -271,7 +274,11 @@ async def update_proposal(request, proposal_id):
     LOGGER.debug("update proposal %s\n%s", proposal_id, request.json)
     required_fields = ["reason", "status"]
     validate_fields(required_fields, request.json)
-    if request.json["status"] not in ("REJECTED", "APPROVED"):
+
+    proposal_id = escape_user_input(proposal_id)
+    proposal_status = escape_user_input(request.json.get("status"))
+
+    if proposal_status not in ("REJECTED", "APPROVED"):
         raise ApiBadRequest(
             "Bad Request: status must be either 'REJECTED' or 'APPROVED'"
         )
@@ -288,14 +295,14 @@ async def update_proposal(request, proposal_id):
             "Bad Request: You don't have the authorization to APPROVE or REJECT the proposal"
         )
     batch_list = PROPOSAL_TRANSACTION[proposal_resource.get("type")][
-        request.json["status"]
+        proposal_status
     ].batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
         proposal_id=proposal_id,
         object_id=proposal_resource.get("object"),
         related_id=proposal_resource.get("target"),
-        reason=request.json.get("reason"),
+        reason=escape_user_input(request.json.get("reason")),
     )
     await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
     await send_notification(proposal_resource.get("target"), proposal_id)

@@ -14,6 +14,8 @@
 # ------------------------------------------------------------------------------
 """Filters for stadardization of inbound json data to NEXT fields"""
 import datetime
+
+from rbac.providers.common.common import escape_user_input
 from rbac.providers.common.provider_transforms import (
     GROUP_OUTBOUND_TRANSFORM,
     GROUP_TRANSFORM,
@@ -74,7 +76,7 @@ def inbound_value_filter(inbound_value, field_name):
         elif isinstance(value, datetime.datetime):
             epoch_zero = datetime.datetime(1970, 1, 1, tzinfo=value.tzinfo)
             value = int((value - epoch_zero).total_seconds())
-    return value
+    return escape_user_input(value)
 
 
 def outbound_queue_filter(entry_data):

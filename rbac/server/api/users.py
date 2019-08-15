@@ -24,10 +24,11 @@ from sanic.response import json
 from sanic_openapi import doc
 
 from rbac.common.crypto.keys import Key
-from rbac.common.crypto.secrets import encrypt_private_key, generate_api_key
+from rbac.common.crypto.secrets import encrypt_private_key
 from rbac.common.logs import get_default_logger
 from rbac.common.sawtooth import batcher
 from rbac.common.user import User
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.auth import authorized
 from rbac.server.api.errors import (
     ApiBadRequest,
@@ -41,7 +42,6 @@ from rbac.server.api.errors import (
 from rbac.server.api.proposals import compile_proposal_resource, PROPOSAL_TRANSACTION
 from rbac.server.api.utils import (
     check_admin_status,
-    create_authorization_response,
     create_response,
     get_request_block,
     get_request_paging_info,
@@ -188,7 +188,9 @@ async def create_new_user(request):
     validate_fields(required_fields, request.json)
     # Check if username already exists
     conn = await create_connection()
-    username = request.json.get("username")
+
+    username = escape_user_input(request.json.get("username"))
+    email = escape_user_input(request.json.get("email"))
     if await users_query.fetch_username_match_count(conn, username) > 0:
         # Throw Error response to Next_UI
         return await handle_errors(
@@ -214,18 +216,18 @@ async def create_new_user(request):
     if request.json.get("metadata") is None:
         set_metadata = {}
     else:
-        set_metadata = request.json.get("metadata")
+        set_metadata = escape_user_input(request.json.get("metadata"))
     set_metadata["sync_direction"] = "OUTBOUND"
     # Build create user transaction
     batch_list = User().batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
         next_id=next_id,
-        name=request.json.get("name"),
-        username=request.json.get("username"),
-        email=request.json.get("email"),
+        name=escape_user_input(request.json.get("name")),
+        username=username,
+        email=email,
         metadata=set_metadata,
-        manager_id=request.json.get("manager"),
+        manager_id=escape_user_input(request.json.get("manager")),
         key=key_pair.public_key,
     )
 
@@ -242,7 +244,7 @@ async def create_new_user(request):
 
     # Save new user in auth table
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("utf-8")
-    password = request.json.get("password").encode("utf-8")
+    password = escape_user_input(request.json.get("password")).encode("utf-8")
     hashed_password = hashlib.pbkdf2_hmac("sha256", password, salt, 100000).hex()
 
     encrypted_private_key = encrypt_private_key(
@@ -253,8 +255,8 @@ async def create_new_user(request):
         "salt": salt,
         "hashed_password": hashed_password,
         "encrypted_private_key": encrypted_private_key,
-        "username": request.json.get("username"),
-        "email": request.json.get("email"),
+        "username": username,
+        "email": email,
     }
 
     mapping_data = {
@@ -380,20 +382,24 @@ async def update_user_details(request):
         raise ApiDisabled("This action is not enabled in this mode.")
     required_fields = ["next_id", "name", "username", "email"]
     validate_fields(required_fields, request.json)
+
+    username = escape_user_input(request.json.get("username"))
+    next_id = escape_user_input(request.json.get("next_id"))
+    email = escape_user_input(request.json.get("email"))
     txn_key, txn_user_id = await get_transactor_key(request)
     is_admin = await check_admin_status(txn_user_id)
     if not is_admin:
         raise ApiForbidden("You are not a NEXT Administrator.")
     conn = await create_connection()
-    user = await users_query.users_search_duplicate(conn, request.json.get("username"))
-    if user and user[0]["next_id"] != request.json.get("next_id"):
+    user = await users_query.users_search_duplicate(conn, username)
+    if user and user[0]["next_id"] != next_id:
         conn.close()
         raise ApiBadRequest(
             "Username already exists. Please give a different Username."
         )
 
     # Get resources for update
-    user_info = await users_query.fetch_user_resource(conn, request.json.get("next_id"))
+    user_info = await users_query.fetch_user_resource(conn, next_id)
     if "manager_id" in user_info:
         manager = user_info["manager_id"]
     else:
@@ -402,28 +408,25 @@ async def update_user_details(request):
     if request.json.get("metadata") is None or request.json.get("metadata") == {}:
         set_metadata = {}
     else:
-        set_metadata = request.json.get("metadata")
+        set_metadata = escape_user_input(request.json.get("metadata"))
     set_metadata["sync_direction"] = "OUTBOUND"
 
     # Build and submit transaction
     batch_list = User().update.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
-        next_id=request.json.get("next_id"),
-        name=request.json.get("name"),
-        username=request.json.get("username"),
-        email=request.json.get("email"),
+        next_id=next_id,
+        name=escape_user_input(request.json.get("name")),
+        username=username,
+        email=email,
         metadata=set_metadata,
         manager_id=manager,
     )
     await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
 
     # Update_auth_table
-    auth_updates = {
-        "username": request.json.get("username"),
-        "email": request.json.get("email"),
-    }
-    await auth_query.update_auth(request.json.get("next_id"), auth_updates)
+    auth_updates = {"username": username, "email": email}
+    await auth_query.update_auth(next_id, auth_updates)
 
     # Send back success response
     return json({"message": "User information was successfully updated."})
@@ -459,7 +462,9 @@ async def get_user(request, next_id):
     log_request(request)
     head_block = await get_request_block(request)
     conn = await create_connection()
-    user_resource = await users_query.fetch_user_resource(conn, next_id)
+    user_resource = await users_query.fetch_user_resource(
+        conn, escape_user_input(next_id)
+    )
     conn.close()
 
     return await create_response(conn, request.url, user_resource, head_block)
@@ -490,6 +495,8 @@ async def delete_user(request, next_id):
     env = Env()
     if not env.int("ENABLE_NEXT_BASE_USE"):
         raise ApiDisabled("Not a valid action. Source not enabled.")
+
+    next_id = escape_user_input(next_id)
     txn_list = []
     txn_key, _ = await get_transactor_key(request)
     txn_list = await create_del_ownr_by_user_txns(txn_key, next_id, txn_list)
@@ -550,7 +557,9 @@ async def get_user_summary(request, next_id):
     log_request(request)
     head_block = await get_request_block(request)
     conn = await create_connection()
-    user_resource = await users_query.fetch_user_resource_summary(conn, next_id)
+    user_resource = await users_query.fetch_user_resource_summary(
+        conn, escape_user_input(next_id)
+    )
     conn.close()
 
     return await create_response(conn, request.url, user_resource, head_block)
@@ -592,7 +601,9 @@ async def get_user_relationships(request, next_id):
     log_request(request)
     head_block = await get_request_block(request)
     conn = await create_connection()
-    user_resource = await users_query.fetch_user_relationships(conn, next_id)
+    user_resource = await users_query.fetch_user_relationships(
+        conn, escape_user_input(next_id)
+    )
     conn.close()
 
     return await create_response(conn, request.url, user_resource, head_block)
@@ -639,6 +650,8 @@ async def update_manager(request, next_id):
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
+
+    manager_id = escape_user_input(request.json.get("id"))
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
     if await check_admin_status(txn_user_id):
@@ -649,14 +662,14 @@ async def update_manager(request, next_id):
             signer_keypair=txn_key,
             signer_user_id=txn_user_id,
             proposal_id=proposal_id,
-            next_id=next_id,
-            new_manager_id=request.json.get("id"),
-            reason=request.json.get("reason"),
-            metadata=request.json.get("metadata"),
+            next_id=escape_user_input(next_id),
+            new_manager_id=manager_id,
+            reason=escape_user_input(request.json.get("reason")),
+            metadata=escape_user_input(request.json.get("metadata")),
             assigned_approver=next_admins_list,
         )
         await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
-        await send_notification(request.json.get("id"), proposal_id)
+        await send_notification(manager_id, proposal_id)
     else:
         raise ApiBadRequest("Proposal opener is not a Next Admin.")
     return json({"proposal_id": proposal_id})
@@ -712,18 +725,21 @@ async def update_password(request):
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["next_id", "password"]
     validate_fields(required_fields, request.json)
-    txn_key, txn_user_id = await get_transactor_key(request)
+    _, txn_user_id = await get_transactor_key(request)
     is_admin = await check_admin_status(txn_user_id)
     if not is_admin:
         raise ApiBadRequest("You are not a NEXT Administrator.")
 
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("utf-8")
-    password = request.json.get("password").encode("utf-8")
+    password = escape_user_input(request.json.get("password")).encode("utf-8")
     hashed_password = hashlib.pbkdf2_hmac("sha256", password, salt, 100000).hex()
 
     conn = await create_connection()
     await users_query.update_user_password(
-        conn, request.json.get("next_id"), hashed_password=hashed_password, salt=salt
+        conn,
+        escape_user_input(request.json.get("next_id")),
+        hashed_password=hashed_password,
+        salt=salt,
     )
     conn.close()
     return json({"message": "Password successfully updated"})
@@ -798,7 +814,7 @@ async def fetch_open_proposals(request, next_id):
     for proposal_resource in proposal_resources:
         if (
             proposal_resource["status"] == "OPEN"
-            and next_id in proposal_resource["assigned_approver"]
+            and escape_user_input(next_id) in proposal_resource["assigned_approver"]
         ):
             open_proposals.append(proposal_resource)
 
@@ -872,7 +888,7 @@ async def fetch_confirmed_proposals(request, next_id):
     for proposal_resource in proposal_resources:
         if (
             proposal_resource["status"] == "CONFIRMED"
-            and next_id in proposal_resource["approvers"]
+            and escape_user_input(next_id) in proposal_resource["approvers"]
         ):
             confirmed_proposals.append(proposal_resource)
 
@@ -946,7 +962,7 @@ async def fetch_rejected_proposals(request, next_id):
     for proposal_resource in proposal_resources:
         if (
             proposal_resource["status"] == "REJECTED"
-            and next_id in proposal_resource["approvers"]
+            and escape_user_input(next_id) in proposal_resource["approvers"]
         ):
             rejected_proposals.append(proposal_resource)
 
@@ -984,10 +1000,11 @@ async def update_expired_roles(request, next_id):
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
 
+    role_id = escape_user_input(request.json.get("id"))
     conn = await create_connection()
-    await roles_query.expire_role_member(conn, request.json.get("id"), next_id)
+    await roles_query.expire_role_member(conn, role_id, escape_user_input(next_id))
     conn.close()
-    return json({"role_id": request.json.get("id")})
+    return json({"role_id": role_id})
 
 
 async def reject_users_proposals(next_id, request):
@@ -1022,28 +1039,6 @@ async def reject_users_proposals(next_id, request):
             reason=reason,
         )
         await send(request.app.config.VAL_CONN, batch_list, request.app.config.TIMEOUT)
-
-
-def create_user_response(request, next_id):
-    """Compose the json response for a create new user request."""
-    token = generate_api_key(request.app.config.SECRET_KEY, next_id)
-    user_resource = {
-        "id": next_id,
-        "name": request.json.get("name"),
-        "username": request.json.get("username"),
-        "email": request.json.get("email"),
-        "ownerOf": [],
-        "administratorOf": [],
-        "memberOf": [],
-        "proposals": [],
-    }
-    if request.json.get("manager"):
-        user_resource["manager"] = request.json.get("manager")
-    if request.json.get("metadata"):
-        user_resource["metadata"] = request.json.get("metadata")
-    return create_authorization_response(
-        token, {"message": "Authorization successful", "user": user_resource}
-    )
 
 
 @USERS_BP.get("api/users/check")

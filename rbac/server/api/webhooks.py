@@ -17,10 +17,11 @@
 from sanic import Blueprint
 from sanic_openapi import doc
 
-from rbac.server.api.auth import authorized
-from rbac.server.api import packs, roles
-from rbac.server.api import utils
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
+from rbac.server.api import packs, roles, utils
+from rbac.server.api.auth import authorized
+
 
 LOGGER = get_default_logger(__name__)
 WEBHOOKS_BP = Blueprint("webhooks")
@@ -71,13 +72,13 @@ async def execute_action_add_member(request):
     required_fields = ["reason", "resource_id"]
     utils.validate_fields(required_fields, request.json["tracker"].get("slots"))
 
-    request.json["id"] = request.json.get("sender_id")
-    request.json["reason"] = request.json["tracker"]["slots"].get("reason")
+    request.json["id"] = escape_user_input(request.json.get("sender_id"))
+    request.json["reason"] = escape_user_input(
+        request.json["tracker"]["slots"].get("reason")
+    )
+
+    resource_id = escape_user_input(request.json["tracker"]["slots"].get("resource_id"))
 
     if request.json["tracker"]["slots"].get("resource_type") == "PACK":
-        return await packs.add_pack_member(
-            request, request.json["tracker"]["slots"].get("resource_id")
-        )
-    return await roles.add_role_member(
-        request, request.json["tracker"]["slots"].get("resource_id")
-    )
+        return await packs.add_pack_member(request, resource_id)
+    return await roles.add_role_member(request, resource_id)

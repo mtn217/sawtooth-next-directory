@@ -17,13 +17,14 @@
 """ Functions that are common to all providers.
 """
 import time
+from html import escape
+
 import rethinkdb as r
 
 from rbac.common.logs import get_default_logger
-from rbac.providers.common.expected_errors import ExpectedError
 from rbac.providers.common.db_queries import get_last_sync
+from rbac.providers.common.expected_errors import ExpectedError
 from rbac.utils import connect_to_db
-
 
 LOGGER = get_default_logger(__name__)
 
@@ -77,3 +78,32 @@ def check_last_sync(sync_source, sync_type):
         except Exception as err:
             LOGGER.warning(type(err).__name__)
             raise err
+
+
+def escape_user_input(user_input):
+    """ Escape HTML code from user_input.
+
+    Args:
+        user_input: (str, list, dict, None) A user generated input received
+            by an API endpoint or imported LDAP objects.
+    Returns:
+        escaped_input: (str, list, dict, None) Returns the user_input
+            with escaped HTML code.
+    """
+    if isinstance(user_input, str):
+        return escape(user_input)
+
+    if isinstance(user_input, list):
+        escaped_input = []
+        for item in user_input:
+            escaped_input.append(escape(item))
+        return escaped_input
+
+    if isinstance(user_input, dict):
+        escaped_input = {}
+        for key in user_input:
+            escaped_input[escape(key)] = escape_user_input(user_input[key])
+        return escaped_input
+
+    # If user_input is None
+    return user_input

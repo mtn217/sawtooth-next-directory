@@ -15,6 +15,7 @@
 """Utility functions to support APIs."""
 import binascii
 import datetime as dt
+
 import rethinkdb as r
 
 from sanic.response import json
@@ -24,6 +25,7 @@ from sawtooth_sdk.protobuf import validator_pb2
 from rbac.common.crypto.keys import Key
 from rbac.common.crypto.secrets import decrypt_private_key, deserialize_api_key
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.errors import ApiBadRequest, ApiInternalError, ApiUnauthorized
 from rbac.server.db import blocks_query
 from rbac.server.db.auth_query import get_auth_by_next_id
@@ -60,9 +62,9 @@ def extract_request_token(request):
     the 'Authorization' header token."""
 
     if request.token is not None:
-        return request.token
+        return escape_user_input(request.token)
     try:
-        return request.json["tracker"]["slots"]["token"]
+        return escape_user_input(request.json["tracker"]["slots"]["token"])
     except (KeyError, TypeError):
         pass
 
@@ -161,7 +163,7 @@ async def get_request_block(request):
     """Get headblock from request or newest."""
     conn = await create_connection()
     try:
-        head_block_id = request.args["head"][0]
+        head_block_id = escape_user_input(request.args["head"][0])
         head_block = await blocks_query.fetch_block_by_id(conn, head_block_id)
     except KeyError:
         head_block = await blocks_query.fetch_latest_block_with_retry(conn, 5)

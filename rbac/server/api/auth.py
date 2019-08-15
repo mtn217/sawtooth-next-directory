@@ -31,6 +31,7 @@ from sanic_openapi import doc
 from rbac.app.config import ADAPI_REST_ENDPOINT
 from rbac.common.crypto.secrets import deserialize_api_key, generate_api_key
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api import utils
 from rbac.server.api.errors import ApiNotFound, ApiUnauthorized, ApiBadRequest
 from rbac.server.api.utils import log_request
@@ -162,8 +163,8 @@ async def authorize(request):
     required_fields = ["id", "password"]
     utils.validate_fields(required_fields, request.json)
     log_request(request, True)
-    username = request.json.get("id")
-    password = request.json.get("password")
+    username = escape_user_input(request.json.get("id"))
+    password = escape_user_input(request.json.get("password"))
     env = Env()
 
     if username == "" or password == "":
