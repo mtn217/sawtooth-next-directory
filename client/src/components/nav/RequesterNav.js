@@ -140,6 +140,7 @@ class RequesterNav extends Component {
       <Container>
         <Search
           input={() => <Input
+            maxLength='255'
             icon='search'
             placeholder='Search roles and packs...'/>}
           className='next-requester-nav-search'

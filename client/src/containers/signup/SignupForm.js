@@ -157,8 +157,9 @@ class SignupForm extends Component {
                   content={error.message}/>
               </div>
             }
-            <Form onSubmit={() => submit(username, password)}>
-              <Form.Field>
+            <Form
+              onSubmit={() => submit(username, password)}>
+              <Form.Field >
                 <span id='next-username-prefix'>
                   GSM1900\
                 </span>

@@ -33,7 +33,7 @@ limitations under the License.
 }
 
 .next-people-list-name .ui.checkbox label {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .next-people-list-email {

@@ -37,11 +37,12 @@ import * as utils from 'services/Utils';
 class CreatePack extends Component {
 
   state = {
-    activeIndex:    0,
-    description:    '',
-    name:           '',
-    selectedRoles:  [],
-    validName:      null,
+    activeIndex:      0,
+    description:      '',
+    name:             '',
+    selectedRoles:    [],
+    validDescription: true,
+    validName:        null,
   };
 
 
@@ -137,7 +138,15 @@ class CreatePack extends Component {
    */
   validate = (name, value) => {
     name === 'name' &&
-      this.setState({ validName: value.length > 4 });
+      this.setState({
+        validName: !utils.isWhitespace(value) &&
+          value.length > 4 && value.length <= 30,
+      });
+    name === 'description' &&
+      this.setState({
+        validDescription: (!utils.isWhitespace(value) &&
+          value.length <= 255) || value === '',
+      });
   }
 
 
@@ -151,6 +160,7 @@ class CreatePack extends Component {
       description,
       name,
       selectedRoles,
+      validDescription,
       validName } = this.state;
     const { packExists } = this.props;
 
@@ -170,16 +180,18 @@ class CreatePack extends Component {
               <Button
                 id='next-approver-manage-exit-button'
                 as={Link}
-                icon='close'
+                content='Close'
                 size='huge'
                 to='/approval/manage/packs'/>}
             {...this.props}/>
           <div id='next-approver-manage-create-pack-content'>
             { activeIndex === 0 &&
-              <div id='next-approver-manage-create-pack-view-1'>
+              <div
+                id='next-approver-manage-create-pack-view-1'
+                className='form-default'>
                 <Form id='next-approver-manage-create-pack-form'>
                   <h3>
-                    Title
+                    Title*
                   </h3>
                   <Form.Input id='next-create-pack-title-field'
                     label='Create a descriptive name for your new pack.'
@@ -198,12 +210,28 @@ class CreatePack extends Component {
                       This pack name already exists.
                     </Label>
                   }
+                  { name.length > 30 &&
+                    <Label
+                      basic
+                      id='next-approver-manage-create-pack-error-label'>
+                      <Icon name='exclamation circle'/>
+                      Name shouldn&apos;t exceed 30 characters.
+                    </Label>
+                  }
+                  { name !== '' && name.length <= 4 &&
+                    <Label
+                      basic
+                      id='next-approver-manage-create-pack-error-label'>
+                      <Icon name='exclamation circle'/>
+                      Name should be more than 4 characters.
+                    </Label>
+                  }
                   <h3>
-                    Description
+                    Description (Optional)
                   </h3>
                   <Form.TextArea
                     rows='6'
-                    label={`Create a compelling description of your new pack
+                    label={`Add a compelling description of your new pack
                             that clearly explains its intended use.`}
                     name='description'
                     value={description}
@@ -211,6 +239,14 @@ class CreatePack extends Component {
                     placeholder={
                       'A long time ago in a galaxy far, far away....'
                     }/>
+                  { description.length > 255 &&
+                    <Label
+                      basic
+                      id='next-approver-manage-create-role-error-label'>
+                      <Icon name='exclamation circle'/>
+                      Description shouldn&apos;t exceed 255 characters.
+                    </Label>
+                  }
                 </Form>
               </div>
             }
@@ -228,7 +264,7 @@ class CreatePack extends Component {
                   primary
                   size='large'
                   id='next-approver-manage-create-pack-done-button'
-                  disabled={!validName || packExists}
+                  disabled={!validDescription || !validName || packExists}
                   content='Next'
                   onClick={() => this.setFlow(1)}/>
               }
@@ -245,7 +281,7 @@ class CreatePack extends Component {
                     as={Link}
                     to={'/approval/manage/packs'}
                     id='next-approver-manage-create-pack-done-button'
-                    disabled={!validName || packExists}
+                    disabled={!validDescription || !validName || packExists}
                     content='Done'
                     onClick={this.createPack}/>
                 </div>

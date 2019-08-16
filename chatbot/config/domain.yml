@@ -20,7 +20,6 @@ intents:
   - affirm
   - awe
   - bye
-  - cancel
   - deny
   - expired
   - feeling
@@ -186,11 +185,23 @@ templates:
 
   utter_standby:
     - text: Feel free to ping me anytime.
+      buttons:
+      - title: Request access
+        payload: Request access.
+      - title: I need help...
+        payload: I need help...
     - text: I'll be here for you.
-
-  utter_passive:
-    - text: Fine.
-    - text: Have it your way.
+      buttons:
+      - title: Request access
+        payload: Request access.
+      - title: I need help...
+        payload: I need help...
+    - text: Fine. Have it your way.
+      buttons:
+      - title: Request access
+        payload: Request access.
+      - title: I need help...
+        payload: I need help...
 
   utter_whoami:
     - text: >-
@@ -228,8 +239,15 @@ templates:
 
   utter_help:
     - text: >-
-        I'm here to help you get access to resources
-        you need.
+        <strong>National Suicide Prevention Lifeline:</strong><br>
+        <h3>1-800-273-8255</h3>
+    - text: >-
+        For English, <strong>press 1</strong>. Para Español, <strong>marque número 2</strong>.
+      buttons:
+      - title: 📞 1
+        payload: haha
+      - title: 📞 2
+        payload: lol
 
   utter_insult:
     - text: >-

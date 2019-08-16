@@ -44,24 +44,19 @@ limitations under the License.
   right: 18px;
 }
 
-#next-create-pack-title-field {
-  margin-bottom: 60px;
-}
-
 #next-approver-manage-create-pack-form .field label {
   color: #999;
   margin-bottom: 30px;
-  max-width: 300px;
+  max-width: 500px;
 }
 
-#next-approver-manage-create-pack-form  h3 {
-  color: var(--magenta);
+#next-approver-manage-create-pack-form h3 {
+  color: black;
   margin-bottom: 5px;
 }
 
 #next-approver-manage-create-pack-error-label {
   border: 0;
-  color: var(--magenta);
-  position: absolute;
-  top: 138px;
+  font-weight: 400;
+  padding: 0;
 }

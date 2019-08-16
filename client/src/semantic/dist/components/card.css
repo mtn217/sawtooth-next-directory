@@ -176,7 +176,7 @@
 /* Default Header Size */
 .ui.cards > .card > .content > .header:not(.ui),
 .ui.card > .content > .header:not(.ui) {
-  font-weight: bold;
+  font-weight: 500;
   font-size: 1.21428571em;
   margin-top: -0.21425em;
   line-height: 1.28571429em;

@@ -61,7 +61,7 @@
   padding: 0.92857143em 0.78571429em;
   vertical-align: inherit;
   font-style: none;
-  font-weight: bold;
+  font-weight: 500;
   text-transform: none;
   border-bottom: 0;
   border-left: none;
@@ -184,7 +184,7 @@
   }
   .ui.table:not(.unstackable) th:first-child,
   .ui.table:not(.unstackable) td:first-child {
-    font-weight: bold;
+    font-weight: 500;
   }
   
 /* Definition Table */
@@ -274,7 +274,7 @@
 .ui.definition.table tr td:first-child:not(.ignored),
 .ui.definition.table tr td.definition {
   background: rgba(0, 0, 0, 0.03);
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.95);
   text-transform: '';
   -webkit-box-shadow: '';

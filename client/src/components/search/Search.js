@@ -95,6 +95,7 @@ class Search extends Component {
             size='large'
             icon='search'
             placeholder='Search...'
+            maxLength='255'
             name='searchInput'
             value={searchInput}
             onChange={this.handleChange}/>}

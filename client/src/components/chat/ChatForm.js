@@ -15,9 +15,10 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
-import { Button, Form, Icon } from 'semantic-ui-react';
+import { Button, Form, Icon, Label } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import './ChatForm.css';
+import * as utils from 'services/Utils';
 
 
 /**
@@ -51,7 +52,7 @@ class ChatForm extends Component {
   };
 
 
-  state = { message: '', isDraft: null };
+  state = { message: '', isDraft: null, validMessage: null };
 
 
   /**
@@ -104,7 +105,7 @@ class ChatForm extends Component {
    * Reset form to default state
    */
   reset () {
-    this.setState({ message: '', isDraft: null });
+    this.setState({ message: '', isDraft: null, validMessage: null });
   }
 
 
@@ -156,6 +157,22 @@ class ChatForm extends Component {
    */
   handleChange = (event, { name, value }) => {
     this.setState({ [name]: value });
+    this.validate(name, value);
+  }
+
+
+  /**
+   * Validate chat form input
+   * @param {string} name  Name of form element derived from
+   *                       HTML attribute 'name'
+   * @param {string} value Value of form field
+   */
+  validate = (name, value) => {
+    name === 'message' &&
+      this.setState({
+        validMessage: !utils.isWhitespace(value) &&
+          value.length > 0 && value.length <= 255,
+      });
   }
 
 
@@ -212,7 +229,7 @@ class ChatForm extends Component {
       disabled,
       messagesById,
       socketMaxAttemptsReached } = this.props;
-    const { message } = this.state;
+    const { isDraft, message, validMessage } = this.state;
 
     const resource = activePack || activeRole;
     const activeMessages = resource && messagesById(resource.id);
@@ -228,7 +245,7 @@ class ChatForm extends Component {
                 ${index < 1 ? 'primary' : 'basic'}`}
               circular
               size='medium'
-              disabled={disabled}
+              disabled={disabled || (!index && isDraft && !validMessage)}
               onClick={() =>
                 this.handleSend(this.createPayload(button.payload), false)}>
 
@@ -346,6 +363,17 @@ class ChatForm extends Component {
               `/request_access${JSON.stringify(
                 {reason: '', resource_id: '', resource_type: ''}
               )}`), false)}>
+            { message.length > 255 &&
+              <Label
+                basic
+                id='next-chat-form-max-error-label'>
+                <Icon name='exclamation circle'/>
+                <span>
+                  {message.length}
+                </span>
+                /255
+              </Label>
+            }
             <Form.TextArea id='next-chat-form-draft-textarea'
               placeholder='Draft your message...'
               autoFocus

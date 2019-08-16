@@ -4,5 +4,8 @@
   "resource": "pack",
   "permission": "pack",
   "group": "pack",
-  "role": "pack"
+  "role": "pack",
+  "assist": "help",
+  "assistance": "help",
+  "support": "help"
 }

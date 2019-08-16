@@ -15,7 +15,6 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Button,
   Container,
@@ -186,16 +185,6 @@ class LoginForm extends Component {
                     onClick={() => this.setFlow(1)}>
                   Forgot Password? */}
                 {/* </Button> */}
-                { process.env.REACT_APP_ENABLE_NEXT_BASE_USE === '1' &&
-                <Label>
-                  <div id='next-login-new-account-container'>
-                    Don&apos;t have an account?
-                    <Link to='/signup'>
-                      Sign Up
-                    </Link>
-                  </div>
-                </Label>
-                }
               </Form.Field>
               <Container textAlign='center'>
                 <Form.Button

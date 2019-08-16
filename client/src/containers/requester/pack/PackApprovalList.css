@@ -33,7 +33,7 @@ limitations under the License.
 
 #next-pack-approval-list-grid div:first-child h5 {
   color: var(--small-heading-color);
-  font-weight: bold;
+  font-weight: 500;
   text-transform: uppercase;
 }
 

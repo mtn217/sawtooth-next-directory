@@ -39,6 +39,7 @@ class ApprovedNav extends Component {
           fluid
           input={() => <Input
             fluid
+            maxLength='255'
             size='large'
             icon='search'
             placeholder='Search...'/>}

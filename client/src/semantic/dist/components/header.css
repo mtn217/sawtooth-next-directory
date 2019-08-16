@@ -208,7 +208,7 @@ h5.ui.header .sub.header {
 .ui.sub.header {
   padding: 0em;
   margin-bottom: 0.14285714rem;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.85714286em;
   text-transform: uppercase;
   color: '';

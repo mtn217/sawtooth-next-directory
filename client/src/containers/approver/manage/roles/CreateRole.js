@@ -39,9 +39,10 @@ class CreateRole extends Component {
 
 
   state = {
-    description:    '',
-    name:           '',
-    validName:      null,
+    description:      '',
+    name:             '',
+    validDescription: true,
+    validName:        null,
   };
 
 
@@ -107,7 +108,15 @@ class CreateRole extends Component {
    */
   validate = (name, value) => {
     name === 'name' &&
-      this.setState({ validName: value.length > 4 });
+      this.setState({
+        validName: !utils.isWhitespace(value) &&
+          value.length > 4 && value.length <= 30,
+      });
+    name === 'description' &&
+      this.setState({
+        validDescription: (!utils.isWhitespace(value) &&
+          value.length <= 255) || value === '',
+      });
   }
 
 
@@ -116,8 +125,13 @@ class CreateRole extends Component {
    * @returns {JSX}
    */
   render () {
+    const {
+      description,
+      name,
+      validDescription,
+      validName } = this.state;
     const { roleExists } = this.props;
-    const { validName } = this.state;
+
     return (
       <Grid id='next-approver-grid'>
         <Grid.Column
@@ -134,41 +148,69 @@ class CreateRole extends Component {
               <Button
                 id='next-approver-manage-exit-button'
                 as={Link}
-                icon='close'
+                content='Close'
                 size='huge'
                 to='/approval/manage/roles'/>}
             {...this.props}/>
-          <div id='next-approver-manage-create-role-content'>
+          <div
+            id='next-approver-manage-create-role-content'
+            className='form-default'>
             <Form id='next-approver-manage-create-role-form'>
               <h3>
-                Title
+                Title*
               </h3>
               <Form.Input id='next-create-role-title-field'
                 label='Create a descriptive name for your new role.'
                 autoFocus
                 error={validName === false}
                 name='name'
+                value={name}
                 placeholder='My Awesome Role'
                 onBlur={this.handleBlur}
                 onChange={this.handleChange}/>
               { roleExists &&
-              <Label
-                basic
-                id='next-approver-manage-create-role-error-label'>
-                <Icon name='exclamation circle'/>
-                    This role name already exists.
-              </Label>
+                <Label
+                  basic
+                  id='next-approver-manage-create-role-error-label'>
+                  <Icon name='exclamation circle'/>
+                  This role name already exists.
+                </Label>
+              }
+              { name.length > 30 &&
+                <Label
+                  basic
+                  id='next-approver-manage-create-role-error-label'>
+                  <Icon name='exclamation circle'/>
+                  Name shouldn&apos;t exceed 30 characters.
+                </Label>
+              }
+              { name !== '' && name.length <= 4 &&
+                <Label
+                  basic
+                  id='next-approver-manage-create-role-error-label'>
+                  <Icon name='exclamation circle'/>
+                  Name should be more than 4 characters.
+                </Label>
               }
               <h3>
-                Description
+                Description (Optional)
               </h3>
               <Form.TextArea
                 rows='6'
-                label={`Create a compelling description of your new role
+                label={`Add a compelling description of your new role
                         that clearly explains its intended use.`}
                 name='description'
+                error={validDescription === false}
                 onChange={this.handleChange}
                 placeholder='A long time ago in a galaxy far, far away....'/>
+              { description.length > 255 &&
+                <Label
+                  basic
+                  id='next-approver-manage-create-role-error-label'>
+                  <Icon name='exclamation circle'/>
+                  Description shouldn&apos;t exceed 255 characters.
+                </Label>
+              }
             </Form>
             <div id='next-approver-manage-create-role-toolbar'>
               <Button
@@ -177,7 +219,7 @@ class CreateRole extends Component {
                 size='large'
                 to='/approval/manage/roles'
                 id='next-approver-manage-create-role-done-button'
-                disabled={!validName || roleExists}
+                disabled={!validName || !validDescription || roleExists}
                 onClick={this.createRole}>
                   Done
               </Button>

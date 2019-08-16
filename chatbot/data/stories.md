@@ -129,11 +129,6 @@
 * no_owner
   - utter_no_owner
 
-## story_cancel
-* cancel
-  - utter_passive
-  - utter_standby
-
 ## story_thank
 * thank
   - utter_thank

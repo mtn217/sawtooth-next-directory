@@ -15,7 +15,7 @@ limitations under the License.
 
 
 #next-approver-manage-create-role-content {
-  padding: 0 30px;
+  padding-bottom: 160px;
   position: relative;
   top: 220px;
 }
@@ -43,24 +43,19 @@ limitations under the License.
   right: 18px;
 }
 
-#next-create-role-title-field {
-  margin-bottom: 60px;
-}
-
 #next-approver-manage-create-role-form .field label {
   color: #aaa;
   margin-bottom: 30px;
-  max-width: 300px;
+  max-width: 500px;
 }
 
-#next-approver-manage-create-role-form  h3 {
-  color: var(--magenta);
+#next-approver-manage-create-role-form h3 {
+  color: black;
   margin-bottom: 5px;
 }
 
 #next-approver-manage-create-role-error-label {
   border: 0;
-  color: var(--magenta);
-  position: absolute;
-  top: 138px;
+  font-weight: 400;
+  padding: 0;
 }

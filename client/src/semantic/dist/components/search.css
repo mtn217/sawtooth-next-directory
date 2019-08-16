@@ -122,7 +122,7 @@
 .ui.search > .results .result .title {
   margin: -0.14285714em 0em 0em;
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.92857143em;
   color: rgba(0, 0, 0, 0.85);
 }
@@ -146,7 +146,7 @@
 .ui.search > .results > .message .header {
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 0.92857143rem;
-  font-weight: bold;
+  font-weight: 500;
   color: #525252;
 }
 .ui.search > .results > .message .description {
@@ -162,7 +162,7 @@
   background: #F3F4F5;
   padding: 0.92857143em 0.92857143em;
   color: #525252;
-  font-weight: bold;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -350,7 +350,7 @@
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1em;
   padding: 0.4em 1em;
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.4);
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
 }

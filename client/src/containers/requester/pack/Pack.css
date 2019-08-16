@@ -37,7 +37,7 @@ limitations under the License.
 
 #next-requester-packs-content h5 {
   color: var(--small-heading-color);
-  font-weight: bold;
+  font-weight: 500;
   margin-bottom: 15px;
 }
 

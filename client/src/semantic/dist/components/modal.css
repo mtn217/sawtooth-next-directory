@@ -89,7 +89,7 @@
 .ui.modal > .header:not(.ui) {
   font-size: 1.35714286rem;
   line-height: 1.28571429em;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 /*--------------

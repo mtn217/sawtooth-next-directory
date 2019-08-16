@@ -136,6 +136,7 @@ class ApproverNav extends Component {
       <Container>
         <Search
           input={() => <Input
+            maxLength='255'
             icon='search'
             placeholder='Search roles and packs...'/>}
           className='next-approver-nav-search'

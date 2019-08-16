@@ -53,6 +53,7 @@ const create = (baseURL =
   // Configuration
   const api = apisauce.create({
     baseURL,
+    timeout: 30000,
   });
 
 

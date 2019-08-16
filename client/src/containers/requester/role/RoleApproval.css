@@ -49,7 +49,7 @@ limitations under the License.
 #next-role-approval-date,
 #next-role-approval-request-id {
   color: black;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 #next-role-approval-details {

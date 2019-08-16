@@ -60,3 +60,17 @@ limitations under the License.
 #next-chat-form-submit-icon {
   right: 6px;
 }
+
+#next-chat-form-max-error-label {
+  border: 0;
+  font-weight: 400;
+  left: 0;
+  padding: 0;
+  position: absolute;
+  text-align: left;
+  top: -1.5em;
+}
+
+#next-chat-form-max-error-label span {
+  color: red
+}

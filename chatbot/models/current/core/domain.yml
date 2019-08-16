@@ -60,8 +60,6 @@ intents:
     use_entities: true
 - bye:
     use_entities: true
-- cancel:
-    use_entities: true
 - deny:
     use_entities: true
 - expired:
@@ -224,7 +222,14 @@ templates:
   - text: What's up?
   - text: How may I serve you?
   utter_help:
-  - text: I'm here to help you get access to resources you need.
+  - text: <strong>National Suicide Prevention Lifeline:</strong><br> <h3>1-800-273-8255</h3>
+  - buttons:
+    - payload: haha
+      title: 📞 1
+    - payload: lol
+      title: 📞 2
+    text: For English, <strong>press 1</strong>. Para Español, <strong>marque número
+      2</strong>.
   utter_insult:
   - text: I'm trying my best to be helpful. Please let me know more clearly how I
       can help you.
@@ -267,9 +272,6 @@ templates:
       title: No, thanks
     text: You own this resource. However, you are not yet a member. Would you also
       like to become a member of your resource?
-  utter_passive:
-  - text: Fine.
-  - text: Have it your way.
   utter_pending_pack:
   - text: I'll keep you posted as I hear from each approver. Keep in mind that even
       if an approver rejects a request, you'll still have access to any other roles
@@ -311,8 +313,24 @@ templates:
       access for you right now. But please don't lose faith in me. Simply try again
       later.
   utter_standby:
-  - text: Feel free to ping me anytime.
-  - text: I'll be here for you.
+  - buttons:
+    - payload: Request access.
+      title: Request access
+    - payload: I need help...
+      title: I need help...
+    text: Feel free to ping me anytime.
+  - buttons:
+    - payload: Request access.
+      title: Request access
+    - payload: I need help...
+      title: I need help...
+    text: I'll be here for you.
+  - buttons:
+    - payload: Request access.
+      title: Request access
+    - payload: I need help...
+      title: I need help...
+    text: Fine. Have it your way.
   utter_thank:
   - text: You're most welcome.
   - text: No problem.

@@ -24,6 +24,6 @@ limitations under the License.
 
 #next-approver-expiring-pending h5 {
   color: var(--small-heading-color);
-  font-weight: bold;
+  font-weight: 500;
   margin: 20px 30px;
 }

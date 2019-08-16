@@ -77,10 +77,5 @@
 
 .ui.form textarea {
   background: transparent;
-  border-radius: .7em;
 }
 
-.ui.form textarea:focus {
-  border: 1px solid @magenta;
-  border-radius: .7em;
-}

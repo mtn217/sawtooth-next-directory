@@ -65,7 +65,7 @@ limitations under the License.
 
 .next-organization-user-info h4 {
   color: var(--text-dark);
-  font-weight: bold;
+  font-weight: 500;
 }
 
 #next-organization-current-person-user-info-container .next-organization-user-info h4 {

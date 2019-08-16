@@ -1162,11 +1162,6 @@
 }
 .ui.form textarea {
   background: transparent;
-  border-radius: 0.7em;
-}
-.ui.form textarea:focus {
-  border: 1px solid #E40073;
-  border-radius: 0.7em;
 }
 
 

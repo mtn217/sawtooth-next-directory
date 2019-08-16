@@ -958,7 +958,7 @@ body,
   padding: 0.78571429em 1.5em 0.78571429em;
   text-transform: none;
   text-shadow: none;
-  font-weight: bold;
+  font-weight: 500;
   line-height: 1em;
   font-style: normal;
   text-align: center;
@@ -2053,7 +2053,7 @@ body,
   line-height: 1.78571429em;
   color: rgba(0, 0, 0, 0.4);
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
   -webkit-box-shadow: 0px 0px 0px 1px transparent inset;
   box-shadow: 0px 0px 0px 1px transparent inset;
 }
@@ -5604,7 +5604,7 @@ button.ui.link:focus {
   margin: 1rem 0rem;
   line-height: 1;
   height: 0em;
-  font-weight: bold;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: rgba(0, 0, 0, 0.85);
@@ -7362,7 +7362,7 @@ h5.ui.header .sub.header {
 .ui.sub.header {
   padding: 0em;
   margin-bottom: 0.14285714rem;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.85714286em;
   text-transform: uppercase;
   color: '';
@@ -15035,7 +15035,7 @@ img.ui.bordered.image {
   padding: 0.5833em 0.833em;
   color: rgba(0, 0, 0, 0.6);
   text-transform: none;
-  font-weight: bold;
+  font-weight: 500;
   border: 0px solid transparent;
   border-radius: 0.71428571rem;
   -webkit-transition: background 0.1s ease;
@@ -15090,7 +15090,7 @@ a.ui.label {
 .ui.label > .detail {
   display: inline-block;
   vertical-align: top;
-  font-weight: bold;
+  font-weight: 500;
   margin-left: 1em;
   opacity: 0.8;
 }
@@ -16659,7 +16659,7 @@ ol.ui.list ol li,
   display: block;
   margin: 0em;
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   color: #525252;
 }
 
@@ -19967,7 +19967,7 @@ ol.ui.horizontal.list li:before,
 .ui.steps .step .title {
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1.07142857em;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.steps .step > .title {
@@ -20050,7 +20050,7 @@ ol.ui.horizontal.list li:before,
   font-size: 2.5em;
   counter-increment: ordered;
   font-family: inherit;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.ordered.steps .step > * {
@@ -20599,7 +20599,7 @@ ol.ui.horizontal.list li:before,
 *******************************/
 
 .ui.breadcrumb .active.section {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 /*******************************
@@ -21928,12 +21928,6 @@ ol.ui.horizontal.list li:before,
 
 .ui.form textarea {
   background: transparent;
-  border-radius: 0.7em;
-}
-
-.ui.form textarea:focus {
-  border: 1px solid #E40073;
-  border-radius: 0.7em;
 }
 
 /*******************************
@@ -24457,13 +24451,13 @@ ol.ui.horizontal.list li:before,
   margin: 0em;
   background: '';
   text-transform: normal;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.vertical.menu .item > .header:not(.ui) {
   margin: 0em 0em 0.5em;
   font-size: 0.92857143em;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 /*--------------
@@ -24522,7 +24516,7 @@ ol.ui.horizontal.list li:before,
 
 .ui.menu .ui.dropdown .menu > .active.item {
   background: rgba(0, 0, 0, 0.03) !important;
-  font-weight: bold !important;
+  font-weight: 500 !important;
   color: rgba(0, 0, 0, 0.95) !important;
 }
 
@@ -24721,7 +24715,7 @@ ol.ui.horizontal.list li:before,
 .ui.menu .active.item {
   background: #E40073;
   color: rgba(255, 255, 255, 0.9);
-  font-weight: bold;
+  font-weight: 500;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -24904,7 +24898,7 @@ Floated Menu / Item
 
 .ui.vertical.menu .item .menu .active.item {
   background-color: transparent;
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -24953,7 +24947,7 @@ Floated Menu / Item
   color: rgba(0, 0, 0, 0.95);
   border-top-width: 1px;
   border-color: #D4D4D5;
-  font-weight: bold;
+  font-weight: 500;
   margin-bottom: -1px;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -25326,7 +25320,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
   box-shadow: none;
   border-color: #1B1C1D;
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.95);
 }
 
@@ -25442,7 +25436,7 @@ Floated Menu / Item
   color: rgba(0, 0, 0, 0.85);
   font-size: 0.92857143em;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 /* Image */
@@ -26730,7 +26724,7 @@ Floated Menu / Item
 .ui.message .header {
   display: block;
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   margin: -0.14285714em 0em 0rem 0em;
 }
 
@@ -27317,7 +27311,7 @@ Floated Menu / Item
   padding: 0.92857143em 0.78571429em;
   vertical-align: inherit;
   font-style: none;
-  font-weight: bold;
+  font-weight: 500;
   text-transform: none;
   border-bottom: 0;
   border-left: none;
@@ -27467,7 +27461,7 @@ Floated Menu / Item
 
   .ui.table:not(.unstackable) th:first-child,
   .ui.table:not(.unstackable) td:first-child {
-    font-weight: bold;
+    font-weight: 500;
   }
 
   /* Definition Table */
@@ -27563,7 +27557,7 @@ Floated Menu / Item
 .ui.definition.table tr td:first-child:not(.ignored),
 .ui.definition.table tr td.definition {
   background: rgba(0, 0, 0, 0.03);
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.95);
   text-transform: '';
   -webkit-box-shadow: '';
@@ -28826,7 +28820,7 @@ Floated Menu / Item
   content: 'Ad';
   color: #FFFFFF;
   font-size: 0.92857143em;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.mobile.test.ad:after {
@@ -29034,7 +29028,7 @@ Floated Menu / Item
 
 .ui.cards > .card > .content > .header:not(.ui),
 .ui.card > .content > .header:not(.ui) {
-  font-weight: bold;
+  font-weight: 500;
   font-size: 1.21428571em;
   margin-top: -0.21425em;
   line-height: 1.28571429em;
@@ -30177,7 +30171,7 @@ a.ui.card:hover,
 .ui.comments .comment .author {
   font-size: 1em;
   color: #525252;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.comments .comment a.author {
@@ -30488,7 +30482,7 @@ a.ui.card:hover,
 .ui.feed > .event > .content .summary {
   margin: 0em;
   font-size: 0.92857143em;
-  font-weight: bold;
+  font-weight: 500;
   color: #525252;
 }
 
@@ -30509,7 +30503,7 @@ a.ui.card:hover,
 
 .ui.feed > .event > .content .user {
   display: inline-block;
-  font-weight: bold;
+  font-weight: 500;
   margin-right: 0em;
   vertical-align: baseline;
 }
@@ -30814,7 +30808,7 @@ a.ui.card:hover,
   display: inline-block;
   margin: -0.21425em 0em 0em;
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.85);
 }
 
@@ -31305,7 +31299,7 @@ a.ui.card:hover,
 .ui.statistic > .label {
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 0.92857143em;
-  font-weight: bold;
+  font-weight: 500;
   color: #525252;
   text-transform: uppercase;
   text-align: center;
@@ -31348,7 +31342,7 @@ a.ui.card:hover,
 .ui.statistic > .text.value {
   line-height: 1em;
   min-height: 2em;
-  font-weight: bold;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -31961,7 +31955,7 @@ a.ui.card:hover,
   margin: 0em;
   padding: 0.75em 1em;
   color: rgba(0, 0, 0, 0.4);
-  font-weight: bold;
+  font-weight: 500;
   border-top: 1px solid rgba(34, 36, 38, 0.15);
   -webkit-transition: background 0.1s ease, color 0.1s ease;
   transition: background 0.1s ease, color 0.1s ease;
@@ -33184,7 +33178,7 @@ body.dimmable > .dimmer {
   padding: 0em 1.07142857rem;
   color: rgba(0, 0, 0, 0.85);
   font-size: 0.78571429em;
-  font-weight: bold;
+  font-weight: 500;
   text-transform: uppercase;
 }
 
@@ -33820,7 +33814,7 @@ select.ui.dropdown {
 }
 
 .ui.inline.dropdown > .text {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.inline.dropdown .menu {
@@ -33841,7 +33835,7 @@ select.ui.dropdown {
 
 .ui.dropdown .menu .active.item {
   background: transparent;
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.95);
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -34938,7 +34932,7 @@ select.ui.dropdown {
 .ui.modal > .header:not(.ui) {
   font-size: 1.35714286rem;
   line-height: 1.28571429em;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 /*--------------
@@ -35715,7 +35709,7 @@ a.ui.nag {
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1.07142857em;
   line-height: 1.2;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .ui.popup > .header + .content {
@@ -36570,7 +36564,7 @@ a.ui.nag {
   color: rgba(255, 255, 255, 0.7);
   text-shadow: none;
   margin-top: -0.5em;
-  font-weight: bold;
+  font-weight: 500;
   text-align: left;
 }
 
@@ -36585,7 +36579,7 @@ a.ui.nag {
   left: 0%;
   bottom: auto;
   color: #525252;
-  font-weight: bold;
+  font-weight: 500;
   text-shadow: none;
   margin-top: 0.2em;
   text-align: center;
@@ -37493,7 +37487,7 @@ a.ui.nag {
 .ui.search > .results .result .title {
   margin: -0.14285714em 0em 0em;
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.92857143em;
   color: rgba(0, 0, 0, 0.85);
 }
@@ -37520,7 +37514,7 @@ a.ui.nag {
 .ui.search > .results > .message .header {
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 0.92857143rem;
-  font-weight: bold;
+  font-weight: 500;
   color: #525252;
 }
 
@@ -37538,7 +37532,7 @@ a.ui.nag {
   background: #F3F4F5;
   padding: 0.92857143em 0.92857143em;
   color: #525252;
-  font-weight: bold;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -37738,7 +37732,7 @@ a.ui.nag {
   font-family: 'Rubik', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1em;
   padding: 0.4em 1em;
-  font-weight: bold;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.4);
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
 }

@@ -128,7 +128,7 @@
 .ui.feed > .event > .content .summary {
   margin: 0em;
   font-size: 0.92857143em;
-  font-weight: bold;
+  font-weight: 500;
   color: #525252;
 }
 
@@ -148,7 +148,7 @@
 
 .ui.feed > .event > .content .user {
   display: inline-block;
-  font-weight: bold;
+  font-weight: 500;
   margin-right: 0em;
   vertical-align: baseline;
 }

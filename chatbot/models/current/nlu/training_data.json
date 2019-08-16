@@ -74,10 +74,6 @@
         "text": "/expired"
       },
       {
-        "intent": "cancel",
-        "text": "Nevermind."
-      },
-      {
         "intent": "access",
         "text": "access"
       },
@@ -159,7 +155,19 @@
       },
       {
         "intent": "help",
+        "text": "get help"
+      },
+      {
+        "intent": "help",
         "text": "i need help"
+      },
+      {
+        "intent": "help",
+        "text": "I need help..."
+      },
+      {
+        "intent": "help",
+        "text": "I require help"
       },
       {
         "intent": "help",
@@ -175,11 +183,31 @@
       },
       {
         "intent": "help",
-        "text": "what can you do"
+        "text": "please help"
       },
       {
         "intent": "help",
-        "text": "What are your capabilities?"
+        "text": "please help me"
+      },
+      {
+        "intent": "help",
+        "text": "assist"
+      },
+      {
+        "intent": "help",
+        "text": "assistance"
+      },
+      {
+        "intent": "help",
+        "text": "assist me please"
+      },
+      {
+        "intent": "help",
+        "text": "i need your assistance"
+      },
+      {
+        "intent": "help",
+        "text": "help topics"
       },
       {
         "intent": "reason",
@@ -662,6 +690,14 @@
         "text": "maybe next time"
       },
       {
+        "intent": "deny",
+        "text": "Nevermind."
+      },
+      {
+        "intent": "deny",
+        "text": "nevermind"
+      },
+      {
         "intent": "name",
         "entities": [
           {
@@ -931,6 +967,14 @@
         "value": "role",
         "synonyms": [
           "pack"
+        ]
+      },
+      {
+        "value": "help",
+        "synonyms": [
+          "assist",
+          "assistance",
+          "support"
         ]
       }
     ]

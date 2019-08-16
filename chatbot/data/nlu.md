@@ -34,9 +34,6 @@
 - /expired
 - /expired
 
-## intent:cancel
-- Nevermind.
-
 ## intent:access
 - access
 - access please
@@ -60,12 +57,20 @@
 - help
 - help me
 - show me help
+- get help
 - i need help
+- I need help...
+- I require help
 - can you help me?
 - could you offer assistance
 - can you assist
-- what can you do
-- What are your capabilities?
+- please help
+- please help me
+- assist
+- assistance
+- assist me please
+- i need your assistance
+- help topics
 
 ## intent:reason
 - Please grant me access. I need it for my job.
@@ -206,6 +211,8 @@
 - i don't think so
 - don't need you
 - maybe next time
+- Nevermind.
+- nevermind
 
 ## intent:name
 - My name is [Juste](name)
@@ -259,3 +266,8 @@
 - resource
 - permission
 - group
+
+## synonym:help
+- assist
+- assistance
+- support

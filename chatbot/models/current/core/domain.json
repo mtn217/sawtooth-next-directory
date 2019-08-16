@@ -4,7 +4,6 @@
     "intent_affirm",
     "intent_awe",
     "intent_bye",
-    "intent_cancel",
     "intent_deny",
     "intent_expired",
     "intent_feeling",
