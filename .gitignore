@@ -1,5 +1,6 @@
 # environment
 .env
+.env.production
 
 # OS
 .DS_Store
@@ -141,3 +142,6 @@ nginx.conf
 # Log files
 NEXT_output.log
 NEXT_error.log
+
+# Artifactory deployment script
+artifactory_deployment.sh

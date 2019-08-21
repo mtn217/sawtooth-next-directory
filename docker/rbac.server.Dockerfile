@@ -35,4 +35,5 @@ RUN pip install \
         sanic-openapi==0.5.3
 EXPOSE 8000/tcp
 WORKDIR /project/hyperledger-rbac
+COPY . .
 CMD ["./bin/rbac-server"]

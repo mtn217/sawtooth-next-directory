@@ -24,4 +24,5 @@ RUN pip install \
         environs==4.1.0
 RUN pip install ldap3==2.5.1 
 WORKDIR /project/hyperledger-rbac
+COPY . .
 CMD [ "./bin/rbac-providers-ldap" ]

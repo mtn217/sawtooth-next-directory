@@ -23,4 +23,5 @@ RUN pip install \
         requests==2.20.0 \
         environs==4.1.0
 WORKDIR /project/hyperledger-rbac
+COPY . .
 CMD [ "./bin/bootstrap" ]

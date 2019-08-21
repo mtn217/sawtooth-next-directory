@@ -22,4 +22,5 @@ RUN pip install \
         rethinkdb==2.3.0.post6 \
         environs==4.1.0
 WORKDIR /project/hyperledger-rbac
+COPY ./bin bin/
 CMD [ "./bin/setup_db" ]

@@ -240,9 +240,9 @@ def get_provider(admin_identifier):
     """
     if admin_identifier == "NextAdmins" or admin_identifier == ENV("NEXT_ADMIN_USER"):
         return "NEXT-created"
-    if ENV.int("ENABLE_LDAP_SYNC", 0):
+    if ENV("ENABLE_LDAP_SYNC", "0") == "1":
         return ENV("LDAP_DC")
-    if ENV.int("ENABLE_AZURE_SYNC", 0):
+    if ENV("ENABLE_AZURE_SYNC", "0") == "1":
         return ENV("TENANT_ID")
     return "NEXT-created"
 

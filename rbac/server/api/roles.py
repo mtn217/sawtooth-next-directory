@@ -189,7 +189,7 @@ async def create_new_role(request):
     """Create a new role."""
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled.")
     required_fields = ["name", "administrators", "owners"]
     validate_fields(required_fields, request.json)
@@ -341,7 +341,7 @@ async def update_role(request, role_id):
     """Update a role."""
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["description"]
     validate_fields(required_fields, request.json)
@@ -418,7 +418,7 @@ async def delete_role(request, role_id):
     """
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled")
 
     role_id = escape_user_input(role_id)
@@ -518,7 +518,7 @@ async def add_role_admin(request, role_id):
     """Add an admin to role."""
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
@@ -708,7 +708,7 @@ async def add_role_owner(request, role_id):
     """Add an owner to a role."""
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["id"]
     validate_fields(required_fields, request.json)

@@ -20,7 +20,7 @@ import rethinkdb as r
 from rbac.common.logs import get_default_logger
 
 DB_HOST = os.getenv("DB_HOST", "rethink")
-DB_PORT = os.getenv("DB_PORT", "28015")
+DB_PORT = int(os.getenv("DB_PORT", "28015"))
 DB_NAME = os.getenv("DB_NAME", "rbac")
 DB_CONNECT_TIMEOUT = int(float(os.getenv("DB_CONNECT_TIMEOUT", "1")))
 LOGGER = get_default_logger(__name__)

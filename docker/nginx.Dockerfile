@@ -12,25 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------------
-FROM rasa/rasa_core:0.12.3
 
-RUN apt-get update \
- && apt-get install -y --allow-unauthenticated -q \
-        python3-pip \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+# This Dockerfile will be used to host NEXT's frontend code statically through Nginx
 
-RUN pip3 install \
-        msgpack==0.5.6 \
-        rasa_nlu[spacy]==0.13.8
+FROM nginx:stable-alpine
 
-RUN python -m spacy download en_core_web_md \
- && python -m spacy link en_core_web_md en
-
-WORKDIR /project/hyperledger-rbac
-
-COPY ./chatbot /project/hyperledger-rbac/chatbot
-# Base image entrypoint reset
-ENTRYPOINT []
-
-CMD ["/project/hyperledger-rbac/chatbot/entrypoint"]
+COPY client/build/ /usr/share/nginx/html

@@ -24,4 +24,5 @@ RUN pip install \
         environs==4.1.0
 RUN pip install azure-eventhub==1.2.0
 WORKDIR /project/hyperledger-rbac
+COPY . .
 CMD [ "./bin/rbac-providers-azure" ]

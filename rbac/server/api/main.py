@@ -64,13 +64,12 @@ async def finish(app, loop):
 
 def load_config(app):
     """Load configuration (alphabetical)"""
-    host = get_config("HOST") + ":" + get_config("SERVER_PORT")
     app.config.AES_KEY = get_config("AES_KEY")
     app.config.AIOHTTP_CONN_LIMIT = int(get_config("AIOHTTP_CONN_LIMIT"))
     app.config.AIOHTTP_DNS_TTL = int(get_config("AIOHTTP_DNS_TTL"))
     app.config.API_CONTACT_EMAIL = "blockchain@t-mobile.com"
     app.config.API_DESCRIPTION = "Available API endpoints for Sawtooth Next Directory."
-    app.config.API_HOST = host
+    app.config.API_HOST = get_config("HOST")
     app.config.API_LICENSE_NAME = "Apache License 2.0"
     app.config.API_LICENSE_URL = (
         "https://github.com/tmobile/sawtooth-next-directory/blob/develop/LICENSE"
@@ -91,10 +90,10 @@ def load_config(app):
     app.config.CHATBOT_HOST = get_config("CHATBOT_HOST")
     app.config.CHATBOT_PORT = get_config("CHATBOT_PORT")
     app.config.CLIENT_HOST = get_config("CLIENT_HOST")
-    app.config.CLIENT_PORT = get_config("CLIENT_PORT")
+    app.config.CLIENT_PORT = int(get_config("CLIENT_PORT"))
     app.config.DB_HOST = get_config("DB_HOST")
     app.config.DB_NAME = get_config("DB_NAME")
-    app.config.DB_PORT = get_config("DB_PORT")
+    app.config.DB_PORT = int(get_config("DB_PORT"))
     app.config.DEBUG = bool(get_config("DEBUG"))
     app.config.LOGGING_LEVEL = get_config("LOGGING_LEVEL")
     app.config.SECRET_KEY = get_config("SECRET_KEY")

@@ -36,13 +36,6 @@ def parse_args(args):
 
     parser.add_argument("-v", "--verbosity", action="count", help="The logging level.")
 
-    parser.add_argument(
-        "validator_endpoint",
-        nargs="?",
-        default="tcp://" + VALIDATOR_HOST + ":" + VALIDATOR_PORT,
-        help="The validator's component address.",
-    )
-
     return parser.parse_args(args)
 
 
@@ -53,7 +46,9 @@ def main(args=None):
     opts = parse_args(args)
     processor = None
     try:
-        processor = TransactionProcessor(url=opts.validator_endpoint)
+        processor = TransactionProcessor(
+            url="tcp://" + VALIDATOR_HOST + ":" + VALIDATOR_PORT
+        )
         init_console_logging(verbose_level=opts.verbosity)
         processor.add_handler(RBACTransactionHandler())
         processor.start()

@@ -178,10 +178,14 @@ async def authorize(request):
     next_auth = None
     for user_map in user_maps:
         result = None
-        if user_map["provider_id"] == env("LDAP_DC") and env.int("ENABLE_LDAP_SYNC"):
+        if (
+            user_map["provider_id"] == env("LDAP_DC")
+            and env("ENABLE_LDAP_SYNC", "0") == "1"
+        ):
             result = auth_via_ldap(user_map, password, env)
-        elif user_map["provider_id"] == env("TENANT_ID") and env.int(
-            "ENABLE_AZURE_SYNC"
+        elif (
+            user_map["provider_id"] == env("TENANT_ID")
+            and env("ENABLE_AZURE_SYNC", "0") == "1"
         ):
             auth_via_azure(user_map)
         elif user_map["provider_id"] == "NEXT-created":
@@ -198,7 +202,7 @@ async def authorize(request):
             return result
 
     # Authorization via NEXT
-    if next_auth and env.int("ENABLE_NEXT_BASE_USE"):
+    if next_auth and env("ENABLE_NEXT_BASE_USE", "0") == "1":
         return await auth_via_next(next_auth, password, env)
 
     raise ApiBadRequest("Invalid authentication source.")

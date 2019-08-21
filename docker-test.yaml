@@ -72,7 +72,8 @@ services:
     environment:
       - LOGGING_LEVEL=${LOGGING_LEVEL:-INFO}
       - HOST=${HOST:-localhost}
-    command: ./bin/rbac-tp tcp://validator:4004
+      - VALIDATOR_HOST=${VALIDATOR_HOST}
+      - VALIDATOR_PORT=${VALIDATOR_PORT}
 
   ledger-sync:
     build:
@@ -104,8 +105,8 @@ services:
   rest-api:
     container_name: sawtooth-rest-api
     image: hyperledger/sawtooth-rest-api:1.0
-    ports:
-      - "8008:8008"
+    expose:
+      - "8008"
     depends_on:
       - validator
     command: sawtooth-rest-api --connect tcp://validator:4004 --bind rest-api:8008

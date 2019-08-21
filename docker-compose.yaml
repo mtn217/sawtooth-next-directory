@@ -59,7 +59,7 @@ services:
       - CLIENT_ID=${CLIENT_ID}
       - CLIENT_SECRET=${CLIENT_SECRET}
       - CLIENT_ASSERTION=${CLIENT_ASSERTION}
-      - ENABLE_AZURE_SYNC=${ENABLE_AZURE_SYNC:-False}
+      - ENABLE_AZURE_SYNC=${ENABLE_AZURE_SYNC:-0}
       - LOGGING_LEVEL=${LOGGING_LEVEL:-INFO}
       - TENANT_ID=${TENANT_ID}
     depends_on:
@@ -76,7 +76,7 @@ services:
       - ".:/project/hyperledger-rbac"
     environment:
       - DELTA_SYNC_INTERVAL_SECONDS=${DELTA_SYNC_INTERVAL_SECONDS:-3600}
-      - ENABLE_LDAP_SYNC=${ENABLE_LDAP_SYNC:-False}
+      - ENABLE_LDAP_SYNC=${ENABLE_LDAP_SYNC:-0}
       - LDAP_DC=${LDAP_DC}
       - LDAP_SERVER=${LDAP_SERVER}
       - LDAP_USER=${LDAP_USER}
@@ -186,7 +186,8 @@ services:
       - HOST=${HOST:-localhost}
       - LOGGING_LEVEL=${LOGGING_LEVEL:-INFO}
       - SECRET_KEY=${SECRET_KEY}
-    command: ./bin/rbac-tp tcp://validator:4004
+      - VALIDATOR_HOST=${VALIDATOR_HOST}
+      - VALIDATOR_PORT=${VALIDATOR_PORT}
 
   ledger-sync:
     build:
@@ -256,8 +257,8 @@ services:
   rest-api:
     container_name: sawtooth-rest-api
     image: hyperledger/sawtooth-rest-api:1.0
-    ports:
-      - "8008:8008"
+    expose:
+      - "8008"
     depends_on:
       - validator
     command: sawtooth-rest-api --connect tcp://validator:4004 --bind rest-api:8008

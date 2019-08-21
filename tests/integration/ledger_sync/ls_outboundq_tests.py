@@ -37,19 +37,19 @@ from tests.utils import (
 
 ENV = Env()
 
-ENABLE_LDAP_SYNC = ENV.int("ENABLE_LDAP_SYNC", 0)
-ENABLE_NEXT_BASE_USE = ENV.int("ENABLE_NEXT_BASE_USE", 0)
+ENABLE_LDAP_SYNC = ENV("ENABLE_LDAP_SYNC", "0")
+ENABLE_NEXT_BASE_USE = ENV("ENABLE_NEXT_BASE_USE", "0")
 
 LOGGER = get_default_logger(__name__)
 
 
 @pytest.mark.skipif(
-    ENABLE_NEXT_BASE_USE == 0, reason="Skipping test, NEXT base mode is not enabled"
+    ENABLE_NEXT_BASE_USE == "0", reason="Skipping test, NEXT base mode is not enabled"
 )
 def test_role_outq_insertion():
     """ Test the insertion of a new fake role resource which is unique
         into the outbound_queue table.
-        This test will only run if ENABLE_NEXT_BASE_USE is set to 1.
+        This test will only run if ENABLE_NEXT_BASE_USE is set to "1".
     """
     user1_payload = {
         "name": "Test Unique User",
@@ -90,13 +90,13 @@ def test_role_outq_insertion():
 
 
 @pytest.mark.skipif(
-    ENABLE_NEXT_BASE_USE == 0, reason="Skipping test, NEXT base mode is not enabled"
+    ENABLE_NEXT_BASE_USE == "0", reason="Skipping test, NEXT base mode is not enabled"
 )
 def test_add_role_member_outqueue():
     """ Test adding a new member to a role in NEXT-only mode.
     Creates two test users and a role using the first user,
     then adds the second user as member to role. This test will
-    only run if ENABLE_NEXT_BASE_USE is set to 1.
+    only run if ENABLE_NEXT_BASE_USE is set to "1".
     """
     user1_payload = {
         "name": "Test Owner 0521201905",
@@ -170,13 +170,13 @@ def test_add_role_member_outqueue():
 
 
 @pytest.mark.skipif(
-    ENABLE_LDAP_SYNC == 0, reason="Skipping test, LDAP mode is not enabled"
+    ENABLE_LDAP_SYNC == "0", reason="Skipping test, LDAP mode is not enabled"
 )
 def test_add_role_member_ldap():
     """ Test adding a new member to a role in LDAP-only mode.
     Creates two test users and a role using the first user,
     then adds the second user as member to role. This test will
-    only run if ENABLE_LDAP_SYNC is set to 1.
+    only run if ENABLE_LDAP_SYNC is set to "1".
     """
     user1_payload = {
         "name": "Michael Scott",

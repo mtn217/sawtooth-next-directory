@@ -29,4 +29,5 @@ RUN pip install \
         environs==4.1.0 \
         setuptools
 WORKDIR /project/hyperledger-rbac
+COPY . .
 CMD ["./bin/rbac-tp"]

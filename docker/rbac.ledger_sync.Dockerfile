@@ -34,4 +34,5 @@ RUN pip install \
         sanic-openapi==0.5.3 \
         aiohttp==3.5.4
 WORKDIR /project/hyperledger-rbac
+COPY . .
 CMD ["./bin/rbac-ledger-sync"]

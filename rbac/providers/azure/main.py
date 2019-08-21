@@ -28,8 +28,8 @@ LOGGER = get_default_logger(__name__)
 def main():
     """Start the initial sync and two delta threads."""
     env = Env()
-    azure_sync = env.int("ENABLE_AZURE_SYNC", 0)
-    if not azure_sync:
+    azure_sync = env("ENABLE_AZURE_SYNC", "0")
+    if azure_sync != "1":
         LOGGER.warning("Azure sync not enabled. Exiting...")
         return
     tenant_id = os.getenv("TENANT_ID")

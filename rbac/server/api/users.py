@@ -208,7 +208,7 @@ async def create_new_user(request):
     }
     if request.json != next_admin:
         # Try to see if they are in NEXT
-        if not env.int("ENABLE_NEXT_BASE_USE"):
+        if env("ENABLE_NEXT_BASE_USE", "0") != "1":
             raise ApiDisabled("Not a valid action. Source not enabled.")
         txn_key, txn_user_id, next_id, key_pair = await non_admin_creation(request)
     else:
@@ -378,7 +378,7 @@ async def update_user_details(request):
     log_request(request)
     # Checks for action viability
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE", 0):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("This action is not enabled in this mode.")
     required_fields = ["next_id", "name", "username", "email"]
     validate_fields(required_fields, request.json)
@@ -493,7 +493,7 @@ async def delete_user(request, next_id):
     """Delete a specific user by next_id."""
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled.")
 
     next_id = escape_user_input(next_id)
@@ -646,7 +646,7 @@ async def update_manager(request, next_id):
     """Update a user's manager."""
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["id"]
     validate_fields(required_fields, request.json)
@@ -721,7 +721,7 @@ async def update_password(request):
     """
     log_request(request)
     env = Env()
-    if not env.int("ENABLE_NEXT_BASE_USE"):
+    if env("ENABLE_NEXT_BASE_USE", "0") != "1":
         raise ApiDisabled("Not a valid action. Source not enabled")
     required_fields = ["next_id", "password"]
     validate_fields(required_fields, request.json)

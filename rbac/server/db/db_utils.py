@@ -25,7 +25,7 @@ async def create_connection():
     env = Env()
     r.set_loop_type("asyncio")
     connection = await r.connect(
-        host=env("DB_HOST"), port=env("DB_PORT"), db=env("DB_NAME")
+        host=env("DB_HOST"), port=int(env("DB_PORT")), db=env("DB_NAME")
     )
     return connection
 
