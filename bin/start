@@ -95,6 +95,11 @@ if [[ "$PROD" == "1" ]]; then
         echo "nginx.conf file not found. Creating one from nginx.conf-example ..."
         cp ./nginx.conf-example ./nginx.conf
     fi
+    if ! [ -e client/build/ ]
+    then
+        echo "Client build folder is missing, please run ./bin/build_client first."
+        exit 1
+    fi
 else
     CMD="$CMD -f docker-compose.override.yaml"
 fi

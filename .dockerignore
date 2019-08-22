@@ -29,6 +29,7 @@ npm-debug.log
 Dockerfile*
 docker-compose*
 .env
+.env.production
 .dockerignore
 .git
 .gitignore

@@ -221,29 +221,6 @@ services:
         ./bin/rbac-ledger-sync --db-host rethink --validator tcp://validator:4004
       \"\""
 
-  client:
-    build:
-      context: .
-      dockerfile: ./docker/client.Dockerfile
-    container_name: rbac-client
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - NODE_PATH=${NODE_PATH-src/}
-      - REACT_APP_DEFAULT_LANDING=${REACT_APP_DEFAULT_LANDING}
-      - REACT_APP_HTTP_PROTOCOL=${REACT_APP_HTTP_PROTOCOL}
-      - REACT_APP_SERVER_HOST=${REACT_APP_SERVER_HOST}
-      - REACT_APP_SERVER_PORT=${REACT_APP_SERVER_PORT}
-      - REACT_APP_WS_PROTOCOL=${REACT_APP_WS_PROTOCOL}
-      - REACT_APP_VERSION_NUMBER=${VERSION_NUMBER}
-      - REACT_APP_ENABLE_NEXT_BASE_USE=${ENABLE_NEXT_BASE_USE}
-      - REACT_APP_ENABLE_LDAP_SYNC=${ENABLE_LDAP_SYNC}
-    image: rbac-client:${ISOLATION_ID-latest}
-    volumes:
-      - ./client:/client
-      - /client/node_modules
-    depends_on:
-      - rbac-server
-
   chatbot:
     build:
       context: .

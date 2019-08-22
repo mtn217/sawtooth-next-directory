@@ -23,11 +23,6 @@ services:
     ports:
       - "8000:8000"
 
-  client:
-    ports:
-      - "4201:3000"
-      - "35729:35729"
-
   chatbot:
     ports:
       - "5005:5005"
@@ -35,3 +30,29 @@ services:
   rethink:
     ports:
       - "9090:8080"
+
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/client.Dockerfile
+    container_name: rbac-client
+    ports:
+      - "4201:3000"
+      - "35729:35729"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_PATH=${NODE_PATH-src/}
+      - REACT_APP_DEFAULT_LANDING=${REACT_APP_DEFAULT_LANDING}
+      - REACT_APP_HTTP_PROTOCOL=${REACT_APP_HTTP_PROTOCOL}
+      - REACT_APP_SERVER_HOST=${REACT_APP_SERVER_HOST}
+      - REACT_APP_SERVER_PORT=${REACT_APP_SERVER_PORT}
+      - REACT_APP_WS_PROTOCOL=${REACT_APP_WS_PROTOCOL}
+      - REACT_APP_VERSION_NUMBER=${VERSION_NUMBER}
+      - REACT_APP_ENABLE_NEXT_BASE_USE=${ENABLE_NEXT_BASE_USE}
+      - REACT_APP_ENABLE_LDAP_SYNC=${ENABLE_LDAP_SYNC}
+    image: rbac-client:${ISOLATION_ID-latest}
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    depends_on:
+      - rbac-server
