@@ -109,12 +109,6 @@ class PackApproval extends Component {
             <Grid columns={4} padded='vertically'>
               <Grid.Column id='next-pack-approval-request-info'>
                 <div>
-                  Request ID
-                  <div id='next-pack-approval-request-id'>
-                    Unavailable
-                  </div>
-                </div>
-                <div>
                   Request Date
                   <div id='next-pack-approval-date'>
                     { proposals[0].created_date &&
