@@ -36,6 +36,8 @@ class Manage extends Component {
    * @returns {JSX}
    */
   render () {
+    const disabled = process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
+      'disabled' : '';
     return (
       <Grid id='next-approver-grid'>
         <Grid.Column
@@ -53,23 +55,24 @@ class Manage extends Component {
                   <Card
                     fluid
                     as={Link}
-                    to='manage/roles'
-                    header='Roles'
-                    className='minimal huge'
-                    description={`
-                      Create a new role, modify an existing one,
-                      or delete one.
-                    `}/>
-                </Grid.Column>
-                <Grid.Column>
-                  <Card
-                    fluid
-                    as={Link}
                     to='manage/packs'
                     header='Packs'
                     className='minimal huge'
                     description={`
                       Create, modify, or delete an existing pack.
+                    `}/>
+                </Grid.Column>
+                <Grid.Column>
+                  <Card
+                    as={process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
+                      '' : Link}
+                    fluid
+                    to='manage/roles'
+                    header='Roles'
+                    className={`minimal huge ${disabled}`}
+                    description={`
+                      Create a new role, modify an existing one,
+                      or delete one.
                     `}/>
                 </Grid.Column>
                 <Grid.Column>

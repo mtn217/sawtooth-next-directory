@@ -51,7 +51,10 @@ class CreateRole extends Component {
    * component.
    */
   componentDidMount () {
-    const { resetRoleExists } = this.props;
+    const { history, resetRoleExists } = this.props;
+    if (process.env.REACT_APP_ENABLE_LDAP_SYNC === '1')
+      history.push('/approval/manage');
+
     theme.apply(this.themes);
     resetRoleExists();
   }

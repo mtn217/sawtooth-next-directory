@@ -56,6 +56,10 @@ class ManageRoles extends Component {
    * component.
    */
   componentDidMount () {
+    const { history } = this.props;
+    if (process.env.REACT_APP_ENABLE_LDAP_SYNC === '1')
+      history.push('/approval/manage');
+
     theme.apply(this.themes);
     this.init();
   }
