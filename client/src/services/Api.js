@@ -105,6 +105,8 @@ const create = (baseURL =
           toast(res.data.message);
         break;
       default:
+        if (res.status >= 500)
+          res.data.message = 'Oops! Something broke on our end.';
         toast(res.data.message);
         break;
     }
