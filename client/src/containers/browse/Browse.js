@@ -51,10 +51,6 @@ class Browse extends Component {
 
 
   state = {
-    searchInput:    '',
-    searchStart:    1,
-    searchLimit:    20,
-    searchTypes:    ['pack', 'role'],
     start:          0,
     limit:          100,
   };
@@ -65,6 +61,13 @@ class Browse extends Component {
    * component. On load, get roles
    */
   componentDidMount () {
+    const {
+      setSearchInput,
+      setSearchTypes } = this.props;
+
+    setSearchInput('');
+    setSearchTypes(['role', 'pack']);
+
     theme.apply(this.themes);
     this.loadNext(0);
     this.init();
@@ -113,24 +116,6 @@ class Browse extends Component {
 
 
   /**
-   * Set search input state
-   * @param {string} searchInput Search input value
-   */
-  setSearchInput = (searchInput) => {
-    this.setState({ searchInput });
-  }
-
-
-  /**
-   * Set search start state
-   * @param {string} searchStart Search start value
-   */
-  setSearchStart = (searchStart) => {
-    this.setState({ searchStart });
-  }
-
-
-  /**
    * Load next set of data
    * @param {number} start Loading start index
    */
@@ -151,12 +136,13 @@ class Browse extends Component {
    * @param {number} start Loading start index
    */
   loadNextSearch = () => {
-    const { search } = this.props;
     const {
+      search,
       searchInput,
       searchLimit,
       searchStart,
-      searchTypes } = this.state;
+      searchTypes,
+      setSearchStart } = this.props;
 
     const query = {
       query: {
@@ -167,7 +153,7 @@ class Browse extends Component {
       },
     };
 
-    this.setState({ searchStart: searchStart + 1 });
+    setSearchStart(searchStart + 1);
     search('browse', query);
   }
 
@@ -243,13 +229,14 @@ class Browse extends Component {
       fetchingAllRoles,
       fetchingSearchResults,
       rolesTotalCount,
-      totalSearchPages } = this.props;
-    const {
-      limit,
       searchInput,
       searchLimit,
       searchStart,
-      searchTypes } = this.state;
+      searchTypes,
+      setSearchInput,
+      setSearchStart,
+      totalSearchPages } = this.props;
+    const { limit } = this.state;
 
     const showNoContentLabel = !fetchingAllPacks &&
       !fetchingAllRoles &&
@@ -265,8 +252,8 @@ class Browse extends Component {
           searchInput={searchInput}
           searchLimit={searchLimit}
           searchTypes={searchTypes}
-          setSearchInput={this.setSearchInput}
-          setSearchStart={this.setSearchStart}
+          setSearchInput={setSearchInput}
+          setSearchStart={setSearchStart}
           {...this.props}/>
         <div id='next-browse-wrapper'>
           <Container fluid id='next-browse-container'>

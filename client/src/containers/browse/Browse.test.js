@@ -27,13 +27,14 @@ import Browse from './Browse';
 
 const store = customStore.create();
 const props = {
-  browseData: [],
-  clearSearchData: () => {},
-  getAllPacks: () => {},
-  getAllRoles: () => {},
-};
-const prevProp = {
-  browseData: [],
+  browseData:         [],
+  clearSearchData:    () => {},
+  getAllPacks:        () => {},
+  getAllRoles:        () => {},
+  searchInput:        '',
+  setSearchInput:     () => {},
+  setSearchStart:     () => {},
+  setSearchTypes:     () => {},
 };
 const column = [{ id: 'role-id-1' }, { id: 'role-id-2' }];
 const wrapper = shallow(<Browse store={store} {...props}/>);
@@ -53,13 +54,16 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
+
 it('calls renderPlaceholder function', () => {
   wrapper.dive(props).instance().renderPlaceholder();
 });
 
+
 it('calls renderColumns function', () => {
   wrapper.dive(props).instance().renderColumns(column);
 });
+
 
 it('calls loadNext function', () => {
   wrapper.dive(props).instance().loadNext();

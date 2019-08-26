@@ -71,6 +71,7 @@ class PeopleNav extends Component {
         { activeIndex === 0 &&
         <Search
           fetchingSearchResults={fetchingSearchResults}
+          placeholder='Search people...'
           searchInput={searchInput}
           searchLimit={searchLimit}
           searchTypes={searchTypes}

@@ -25,6 +25,7 @@ import {
 
 
 import './Approved.css';
+import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
 import ApprovedNav from 'components/nav/ApprovedNav';
@@ -276,48 +277,53 @@ class Approved extends Component {
    * @returns {JSX}
    */
   render () {
-    const { confirmedProposals } = this.props;
+    const { confirmedProposals, showSearch } = this.props;
     const { selectedProposal } = this.state;
 
     return (
-      <Grid id='next-approver-grid'>
-        <Grid.Column
-          id='next-approver-grid-track-column'
-          width={12}>
-          <TrackHeader
-            inverted
-            glyph={glyph}
-            title='Approved Requests'
-            {...this.props}/>
-          <div id='next-approver-approved-content'>
-            <ApprovedNav/>
-            { !confirmedProposals &&
-              this.renderPlaceholder()
-            }
-            { confirmedProposals && confirmedProposals.length > 0 &&
-              this.renderTable()
-            }
-            { confirmedProposals && confirmedProposals.length === 0 &&
+      <div>
+        { showSearch && <People {...this.props}/> }
+        { !showSearch &&
+        <Grid id='next-approver-grid'>
+          <Grid.Column
+            id='next-approver-grid-track-column'
+            width={12}>
+            <TrackHeader
+              inverted
+              glyph={glyph}
+              title='Approved Requests'
+              {...this.props}/>
+            <div id='next-approver-approved-content'>
+              <ApprovedNav/>
+              { !confirmedProposals &&
+                  this.renderPlaceholder()
+              }
+              { confirmedProposals && confirmedProposals.length > 0 &&
+                  this.renderTable()
+              }
+              { confirmedProposals && confirmedProposals.length === 0 &&
               <Header as='h3' textAlign='center' color='grey'>
                 <Header.Content>
-                  You haven&#39;t approved any items
+                      You haven&#39;t approved any items
                 </Header.Content>
               </Header>
-            }
-          </div>
-        </Grid.Column>
-        <Grid.Column
-          id='next-approver-grid-converse-column'
-          width={4}>
-          <Chat
-            disabled={true}
-            hideButtons
-            selectedProposal={selectedProposal}
-            subtitle={this.roleName(selectedProposal.object)}
-            title={this.userName(selectedProposal.opener)}
-            type='APPROVER' {...this.props}/>
-        </Grid.Column>
-      </Grid>
+              }
+            </div>
+          </Grid.Column>
+          <Grid.Column
+            id='next-approver-grid-converse-column'
+            width={4}>
+            <Chat
+              disabled={true}
+              hideButtons
+              selectedProposal={selectedProposal}
+              subtitle={this.roleName(selectedProposal.object)}
+              title={this.userName(selectedProposal.opener)}
+              type='APPROVER' {...this.props}/>
+          </Grid.Column>
+        </Grid>
+        }
+      </div>
     );
   }
 

@@ -27,6 +27,10 @@ const { Types, Creators } = createActions({
   searchPeopleSuccess:     ['result'],
   searchPeopleFailure:     ['error'],
 
+  setSearchInput:          ['searchInput'],
+  setSearchStart:          ['searchStart'],
+  setSearchTypes:          ['searchTypes'],
+  setShowSearch:           ['showSearch'],
   clearSearchData:         null,
 });
 
@@ -36,9 +40,14 @@ export default Creators;
 
 
 export const INITIAL_STATE = Immutable({
-  error:                null,
-  people:               null,
-  packs:                null,
-  roles:                null,
-  totalPages:           null,
+  error:                   null,
+  people:                  null,
+  packs:                   null,
+  roles:                   null,
+  searchInput:             '',
+  searchLimit:             20,
+  searchStart:             1,
+  searchTypes:             null,
+  showSearch:              null,
+  totalPages:              null,
 });

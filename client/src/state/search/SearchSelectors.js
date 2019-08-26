@@ -28,5 +28,9 @@ export const SearchSelectors = {
   },
   people:       (state) => state.search.people,
   roles:        (state) => state.search.roles,
+  searchInput:  (state) => state.search.searchInput,
+  searchLimit:  (state) => state.search.searchLimit,
+  searchTypes:  (state) => state.search.searchTypes,
+  showSearch:   (state) => state.search.showSearch,
   totalPages:   (state) => state.search.totalPages,
 };

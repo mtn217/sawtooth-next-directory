@@ -91,6 +91,10 @@ export const appState = (state) => ({
   browseSearchData:    SearchSelectors.browse(state),
   peopleSearchData:    SearchSelectors.people(state),
   roleSearchData:      SearchSelectors.roles(state),
+  searchInput:         SearchSelectors.searchInput(state),
+  searchLimit:         SearchSelectors.searchLimit(state),
+  searchTypes:         SearchSelectors.searchTypes(state),
+  showSearch:          SearchSelectors.showSearch(state),
   totalSearchPages:    SearchSelectors.totalPages(state),
 
   // User
@@ -170,6 +174,14 @@ export const appDispatch = (dispatch) => ({
     type === 'browse' && dispatch(Search.searchBrowseRequest(query));
     type === 'people' && dispatch(Search.searchPeopleRequest(query));
   },
+  setSearchInput: (searchInput) =>
+    dispatch(Search.setSearchInput(searchInput)),
+  setSearchStart: (searchStart) =>
+    dispatch(Search.setSearchStart(searchStart)),
+  setSearchTypes: (searchTypes) =>
+    dispatch(Search.setSearchTypes(searchTypes)),
+  setShowSearch: (showSearch) =>
+    dispatch(Search.setShowSearch(showSearch)),
 
   // User
   editUser:    (payload) => dispatch(User.editUserRequest(payload)),

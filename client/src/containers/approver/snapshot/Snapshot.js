@@ -15,13 +15,16 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
-import { Button, Header, Image } from 'semantic-ui-react';
+import { Grid, Image } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import './Snapshot.css';
+import TrackHeader from 'components/layouts/TrackHeader';
 import expireGlyph from 'images/glyph-expire-soon.png';
 import SnapshotCard from './SnapshotCard';
+
+
 import * as theme from 'services/Theme';
 import * as utils from 'services/Utils';
 
@@ -83,46 +86,45 @@ class Snapshot extends Component {
       openProposalsByRoleCount } = this.props;
 
     return (
-      <div className='snapshot-container'>
-        <div className='snapshot-header'>
-          <Header
-            as='h1'
-            id='next-snapshot-header'
-            inverted>
-            Requests Snapshot
-          </Header>
-          <Button id='next-snapshot-button'
-            onClick={() => this.goBack()}
-            icon='close'
-            size='huge'/>
-        </div>
-        <div className='snapshot-sub-container'>
-          <SnapshotCard
-            count={openProposalsCount || 0}
-            status={`Pending across ${
-              utils.countLabel(openProposalsByRoleCount, 'role')
-            }`}/>
-          <SnapshotCard
-            image={<Image
-              floated='right'
-              src={expireGlyph}
-              className='next-snapshot-glyph'/>}
-            count={0}
-            status='About to Expire'/>
-          <SnapshotCard
-            count={0}
-            status='Delegated'/>
-          <SnapshotCard
-            count={0}
-            status='Unattended for 1 week'/>
-          <SnapshotCard
-            count={0}
-            status='Escalated'/>
-          <SnapshotCard
-            count={0}
-            status='Messages'/>
-        </div>
-      </div>
+      <Grid id='next-approver-grid'>
+        <Grid.Column
+          id='next-approver-grid-track-column'
+          width={16}>
+          <TrackHeader
+            inverted
+            title='Snapshot'
+            subtitle='An overview of your pending requests'
+            {...this.props}/>
+          <div className='snapshot-container'>
+            <div className='snapshot-sub-container'>
+              <SnapshotCard
+                count={openProposalsCount || 0}
+                status={`Pending across ${
+                  utils.countLabel(openProposalsByRoleCount, 'role')
+                }`}/>
+              <SnapshotCard
+                image={<Image
+                  floated='right'
+                  src={expireGlyph}
+                  className='next-snapshot-glyph'/>}
+                count={0}
+                status='About to Expire'/>
+              <SnapshotCard
+                count={0}
+                status='Delegated'/>
+              <SnapshotCard
+                count={0}
+                status='Unattended for 1 week'/>
+              <SnapshotCard
+                count={0}
+                status='Escalated'/>
+              <SnapshotCard
+                count={0}
+                status='Messages'/>
+            </div>
+          </div>
+        </Grid.Column>
+      </Grid>
     );
   }
 

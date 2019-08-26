@@ -34,6 +34,7 @@ import Expiring from 'containers/approver/proposals/Expiring';
 import Individual from 'containers/approver/proposals/Individual';
 import PeopleApproval from 'containers/approver/proposals/PeopleApproval';
 import Rejected from 'containers/approver/proposals/Rejected';
+import Snapshot from 'containers/approver/snapshot/Snapshot';
 
 
 import Manage from 'containers/approver/manage/Manage';
@@ -169,6 +170,12 @@ const routes = (props) => [
   {
     path:   '/approval/expired',
     main:   (rest) => <Expired {...props} {...rest}/>,
+    nav:    () => <ApproverNav {...props}/>,
+    exact:  true,
+  },
+  {
+    path:   '/approval/snapshot',
+    main:   (rest) => <Snapshot {...props} {...rest}/>,
     nav:    () => <ApproverNav {...props}/>,
     exact:  true,
   },

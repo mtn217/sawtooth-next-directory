@@ -73,7 +73,11 @@ class RequesterNav extends Component {
    * in the client and dispatch actions to retrieve them.
    */
   init () {
-    const { getPacks, packs, recommendedPacks } = this.props;
+    const {
+      getPacks,
+      packs,
+      recommendedPacks } = this.props;
+
     let diff;
     packs && recommendedPacks ?
       diff = recommendedPacks.filter(packId =>

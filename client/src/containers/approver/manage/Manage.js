@@ -20,6 +20,8 @@ import { Card, Grid } from 'semantic-ui-react';
 
 
 import './Manage.css';
+
+import People from 'containers/approver/people/People';
 import TrackHeader from 'components/layouts/TrackHeader';
 
 
@@ -32,89 +34,104 @@ import TrackHeader from 'components/layouts/TrackHeader';
 class Manage extends Component {
 
   /**
+   * Render content
+   * @returns {JSX}
+   */
+  renderContent () {
+    const disabled = process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
+      'disabled' : '';
+    return (
+      <div id='next-approver-manage-content'>
+        <Grid stackable>
+          <Grid.Row columns={3} stretched>
+            <Grid.Column>
+              <Card
+                fluid
+                as={Link}
+                to='manage/packs'
+                header='Packs'
+                className='minimal huge'
+                description={`
+                  Create, modify, or delete an existing pack.
+                `}/>
+            </Grid.Column>
+            <Grid.Column>
+              <Card
+                as={process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
+                  '' : Link}
+                fluid
+                to='manage/roles'
+                header='Roles'
+                className={`minimal huge ${disabled}`}
+                description={`
+                  Create a new role, modify an existing one,
+                  or delete one.
+                `}/>
+            </Grid.Column>
+            <Grid.Column>
+              <Card
+                fluid
+                header='Delegations'
+                className='minimal huge disabled'
+                description={`
+                  Setup or modify a temporary or permanent delegation.
+                `}/>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={3} stretched>
+            <Grid.Column>
+              <Card
+                fluid
+                header='Hierarchical'
+                className='minimal huge disabled'
+                description={`
+                  Setup who can approve on your behalf.
+                `}/>
+            </Grid.Column>
+            <Grid.Column>
+              <Card
+                fluid
+                header='Alerts'
+                className='minimal huge disabled'
+                description={`
+                  Manage what you get alerts for and alert frequency.
+                `}/>
+            </Grid.Column>
+            <Grid.Column>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Card.Group itemsPerRow={3}>
+        </Card.Group>
+      </div>
+    );
+  }
+
+
+  /**
    * Render entrypoint
    * @returns {JSX}
    */
   render () {
-    const disabled = process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
-      'disabled' : '';
+    const { showSearch } = this.props;
     return (
-      <Grid id='next-approver-grid'>
-        <Grid.Column
-          id='next-approver-grid-track-column'
-          width={16}>
-          <TrackHeader
-            inverted
-            title='Manage'
-            subtitle='Manage roles, packs, delegations, and other preferences'
-            {...this.props}/>
-          <div id='next-approver-manage-content'>
-            <Grid stackable>
-              <Grid.Row columns={3} stretched>
-                <Grid.Column>
-                  <Card
-                    fluid
-                    as={Link}
-                    to='manage/packs'
-                    header='Packs'
-                    className='minimal huge'
-                    description={`
-                      Create, modify, or delete an existing pack.
-                    `}/>
-                </Grid.Column>
-                <Grid.Column>
-                  <Card
-                    as={process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
-                      '' : Link}
-                    fluid
-                    to='manage/roles'
-                    header='Roles'
-                    className={`minimal huge ${disabled}`}
-                    description={`
-                      Create a new role, modify an existing one,
-                      or delete one.
-                    `}/>
-                </Grid.Column>
-                <Grid.Column>
-                  <Card
-                    fluid
-                    header='Delegations'
-                    className='minimal huge disabled'
-                    description={`
-                      Setup or modify a temporary or permanent delegation.
-                    `}/>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row columns={3} stretched>
-                <Grid.Column>
-                  <Card
-                    fluid
-                    header='Hierarchical'
-                    className='minimal huge disabled'
-                    description={`
-                      Setup who can approve on your behalf.
-                    `}/>
-                </Grid.Column>
-                <Grid.Column>
-                  <Card
-                    fluid
-                    header='Alerts'
-                    className='minimal huge disabled'
-                    description={`
-                      Manage what you get alerts for and alert frequency.
-                    `}/>
-                </Grid.Column>
-                <Grid.Column>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-
-            <Card.Group itemsPerRow={3}>
-            </Card.Group>
-
-          </div>
-        </Grid.Column>
-      </Grid>
+      <div>
+        { showSearch && <People {...this.props}/> }
+        { !showSearch &&
+          <Grid id='next-approver-grid'>
+            <Grid.Column
+              id='next-approver-grid-track-column'
+              width={16}>
+              <TrackHeader
+                inverted
+                title='Manage'
+                subtitle='Manage roles, packs, and other preferences'
+                {...this.props}/>
+              { this.renderContent() }
+            </Grid.Column>
+          </Grid>
+        }
+      </div>
     );
   }
 

@@ -27,8 +27,29 @@ export const failure = (state, { error }) =>
   state.merge({ fetching: false, error });
 
 
-export const clearSearchData = () =>
-  INITIAL_STATE;
+export const clearSearchData = (state) =>
+  state.merge({
+    error:        null,
+    people:       null,
+    packs:        null,
+    roles:        null,
+  });
+
+
+export const setShowSearch = (state, { showSearch }) =>
+  state.merge({ showSearch });
+
+
+export const setSearchInput = (state, { searchInput }) =>
+  state.merge({ searchInput });
+
+
+export const setSearchStart = (state, { searchStart }) =>
+  state.merge({ searchStart });
+
+
+export const setSearchTypes = (state, { searchTypes }) =>
+  state.merge({ searchTypes });
 
 
 export const success = {
@@ -70,5 +91,9 @@ export const SearchReducer = createReducer(INITIAL_STATE, {
   [Types.SEARCH_PEOPLE_SUCCESS]:   success.people,
   [Types.SEARCH_PEOPLE_FAILURE]:   failure,
 
+  [Types.SET_SHOW_SEARCH]:         setShowSearch,
+  [Types.SET_SEARCH_INPUT]:        setSearchInput,
+  [Types.SET_SEARCH_START]:        setSearchStart,
+  [Types.SET_SEARCH_TYPES]:        setSearchTypes,
   [Types.CLEAR_SEARCH_DATA]:       clearSearchData,
 });

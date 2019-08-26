@@ -33,12 +33,14 @@ class Search extends Component {
   static propTypes = {
     clearSearchData:        PropTypes.func,
     fetchingSearchResults:  PropTypes.bool,
+    placeholder:            PropTypes.string,
     search:                 PropTypes.func,
     searchInput:            PropTypes.string,
     searchLimit:            PropTypes.number,
     searchTypes:            PropTypes.array,
     setSearchInput:         PropTypes.func,
     setSearchStart:         PropTypes.func,
+    setShowSearch:          PropTypes.func,
     type:                   PropTypes.string,
   };
 
@@ -58,13 +60,18 @@ class Search extends Component {
       searchTypes,
       search,
       setSearchInput,
+      setShowSearch,
       type } = this.props;
 
     setSearchInput(value);
     setSearchStart(1);
+    setShowSearch(true);
     clearSearchData();
 
-    if (utils.isWhitespace(value)) return;
+    if (utils.isWhitespace(value)) {
+      setShowSearch(false);
+      return;
+    }
 
     const query = {
       query: {
@@ -84,7 +91,10 @@ class Search extends Component {
    * @returns {JSX}
    */
   render () {
-    const { fetchingSearchResults, searchInput } = this.props;
+    const {
+      fetchingSearchResults,
+      placeholder,
+      searchInput } = this.props;
     return (
       <div>
         <SearchInput
@@ -94,7 +104,7 @@ class Search extends Component {
             loading={fetchingSearchResults}
             size='large'
             icon='search'
-            placeholder='Search...'
+            placeholder={placeholder || 'Search...'}
             maxLength='255'
             name='searchInput'
             value={searchInput}

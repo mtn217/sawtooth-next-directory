@@ -21,7 +21,6 @@ import { Grid } from 'semantic-ui-react';
 
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
-import PeopleNav from './PeopleNav';
 import Organization from './Organization';
 import UserRoles from './UserRoles';
 import OrganizationList from './OrganizationList';
@@ -38,14 +37,7 @@ import './People.css';
  */
 class People extends Component {
 
-  state = {
-    searchInput:    '',
-    searchStart:    1,
-    searchLimit:    20,
-    searchTypes:    ['user'],
-    activeIndex:    0,
-    activeUser:     null,
-  };
+  state = { activeIndex: 0, activeUser: null };
 
 
   /**
@@ -84,36 +76,12 @@ class People extends Component {
 
 
   /**
-   * Set search input state
-   * @param {string} searchInput Search input value
-   */
-  setSearchInput = (searchInput) => {
-    this.setState({ searchInput });
-  }
-
-
-  /**
-   * Set search start state
-   * @param {string} searchStart Search start value
-   */
-  setSearchStart = (searchStart) => {
-    this.setState({ searchStart });
-  }
-
-
-  /**
    * Render entrypoint
    * @returns {JSX}
    */
   render () {
     const { fetchingSearchResults } = this.props;
-    const {
-      activeIndex,
-      activeUser,
-      searchInput,
-      searchLimit,
-      searchStart,
-      searchTypes } = this.state;
+    const { activeIndex, activeUser } = this.state;
 
     return (
       <Grid id='next-approver-grid'>
@@ -126,25 +94,10 @@ class People extends Component {
             subtitle='Browse all of the people within your organization'
             {...this.props}/>
           <div id='next-approver-people-content'>
-            <PeopleNav
-              fetchingSearchResults={fetchingSearchResults}
-              searchInput={searchInput}
-              searchLimit={searchLimit}
-              searchTypes={searchTypes}
-              setSearchInput={this.setSearchInput}
-              setSearchStart={this.setSearchStart}
-              activeIndex={activeIndex}
-              setFlow={this.setFlow}
-              {...this.props}/>
             <div>
               { activeIndex === 0 &&
                 <OrganizationList
                   fetchingSearchResults={fetchingSearchResults}
-                  searchInput={searchInput}
-                  searchLimit={searchLimit}
-                  searchStart={searchStart}
-                  searchTypes={searchTypes}
-                  setSearchStart={this.setSearchStart}
                   handleUserSelect={this.handleUserSelect}
                   {...this.props}/>
               }

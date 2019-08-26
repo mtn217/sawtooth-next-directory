@@ -20,6 +20,7 @@ import { Grid, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
+import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
 import IndividualNav from 'components/nav/IndividualNav';
@@ -147,14 +148,79 @@ class Individual extends Component {
 
 
   /**
+   * Render content
+   * @returns {JSX}
+   */
+  renderContent () {
+    const { openProposals, me } = this.props;
+    const {
+      activeIndex,
+      allSelected,
+      selectedProposals,
+      selectedRoles,
+      selectedUsers } = this.state;
+
+    return (
+      <div id='next-approver-individual-content'>
+        <IndividualNav
+          allSelected={allSelected}
+          handleSelect={this.handleSelect}
+          activeIndex={activeIndex}
+          setFlow={this.setFlow}/>
+        <div id='next-approver-individual-pending'>
+          <h5>
+            { openProposals &&
+              openProposals.filter(
+                proposal => proposal.opener !== me.id
+              ).length + ' PENDING'
+            }
+          </h5>
+        </div>
+        { openProposals && openProposals.length !== 0 &&
+          <div>
+            { activeIndex === 0 &&
+              <RoleList
+                selectedProposals={selectedProposals}
+                selectedRoles={selectedRoles}
+                handleChange={this.handleChange}
+                {...this.props}/>
+            }
+            { activeIndex === 1 &&
+              <PeopleList
+                selectedProposals={selectedProposals}
+                selectedUsers={selectedUsers}
+                handleChange={this.handleChange}
+                {...this.props}/>
+            }
+            { activeIndex === 2 &&
+              <TableList
+                selectedProposals={selectedProposals}
+                selectedUsers={selectedUsers}
+                handleChange={this.handleChange}
+                {...this.props}/>
+            }
+          </div>
+        }
+        { openProposals && openProposals.length === 0 &&
+          <Header as='h3' textAlign='center' color='grey'>
+            <Header.Content>
+              Nothing to see here
+            </Header.Content>
+          </Header>
+        }
+      </div>
+    );
+  }
+
+
+  /**
    * Render entrypoint
    * @returns {JSX}
    */
   render () {
-    const { openProposals, userFromId, me } = this.props;
+    const { showSearch, openProposals, userFromId } = this.props;
     const {
       activeIndex,
-      allSelected,
       selectedProposals,
       selectedRoles,
       selectedUsers } = this.state;
@@ -166,82 +232,40 @@ class Individual extends Component {
       selected`;
 
     return (
-      <Grid id='next-approver-grid'>
-        <Grid.Column id='next-approver-grid-track-column' width={12}>
-          <TrackHeader
-            inverted
-            glyph={glyph}
-            title='Individual Requests'
-            {...this.props}/>
-          <div id='next-approver-individual-content'>
-            <IndividualNav
-              allSelected={allSelected}
-              handleSelect={this.handleSelect}
-              activeIndex={activeIndex}
-              setFlow={this.setFlow}/>
-            <div id='next-approver-individual-pending'>
-              <h5>
-                { openProposals &&
-                  openProposals.filter(
-                    proposal => proposal.opener !== me.id
-                  ).length + ' PENDING'
-                }
-              </h5>
-            </div>
-            { openProposals && openProposals.length !== 0 &&
-              <div>
-                { activeIndex === 0 &&
-                  <RoleList
-                    selectedProposals={selectedProposals}
-                    selectedRoles={selectedRoles}
-                    handleChange={this.handleChange}
-                    {...this.props}/>
-                }
-                { activeIndex === 1 &&
-                  <PeopleList
-                    selectedProposals={selectedProposals}
-                    selectedUsers={selectedUsers}
-                    handleChange={this.handleChange}
-                    {...this.props}/>
-                }
-                { activeIndex === 2 &&
-                  <TableList
-                    selectedProposals={selectedProposals}
-                    selectedUsers={selectedUsers}
-                    handleChange={this.handleChange}
-                    {...this.props}/>
-                }
-              </div>
-            }
-            { openProposals && openProposals.length === 0 &&
-              <Header as='h3' textAlign='center' color='grey'>
-                <Header.Content>
-                  Nothing to see here
-                </Header.Content>
-              </Header>
-            }
-          </div>
-        </Grid.Column>
-        <Grid.Column
-          id='next-approver-grid-converse-column'
-          width={4}>
-          <Chat
-            type='APPROVER'
-            hideForm
-            hideButtons={selectedProposals.length === 0}
-            title={title}
-            subtitle={subtitle}
-            groupBy={activeIndex}
-            disabled={!openProposals ||
-              (openProposals && openProposals.length === 0)}
-            selectedProposals={selectedProposals}
-            selectedRoles={selectedRoles}
-            selectedUsers={selectedUsers}
-            handleChange={this.handleChange}
-            reset={this.reset}
-            {...this.props}/>
-        </Grid.Column>
-      </Grid>
+      <div>
+        { showSearch && <People {...this.props}/> }
+        { !showSearch &&
+          <Grid id='next-approver-grid'>
+            <Grid.Column id='next-approver-grid-track-column' width={12}>
+              <TrackHeader
+                inverted
+                glyph={glyph}
+                title='Individual Requests'
+                {...this.props}/>
+              { this.renderContent() }
+            </Grid.Column>
+            <Grid.Column
+              id='next-approver-grid-converse-column'
+              width={4}>
+              <Chat
+                type='APPROVER'
+                hideForm
+                hideButtons={selectedProposals.length === 0}
+                title={title}
+                subtitle={subtitle}
+                groupBy={activeIndex}
+                disabled={!openProposals ||
+                  (openProposals && openProposals.length === 0)}
+                selectedProposals={selectedProposals}
+                selectedRoles={selectedRoles}
+                selectedUsers={selectedUsers}
+                handleChange={this.handleChange}
+                reset={this.reset}
+                {...this.props}/>
+            </Grid.Column>
+          </Grid>
+        }
+      </div>
     );
   }
 

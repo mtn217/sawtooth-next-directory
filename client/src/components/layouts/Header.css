@@ -94,6 +94,7 @@ limitations under the License.
 }
 
 #next-header-actions-bell {
+  align-items: center;
   display: flex;
   height: 100%;
   padding: 7px 10px;
@@ -108,7 +109,7 @@ limitations under the License.
 
 .next-global-loading-bar {
   background: linear-gradient(to right, #393f5844 0%, #393f5887 95%, #212c3a00 100%);
-  height: 39px;
+  height: calc(var(--header-height) - 1px);
   left: 0;
   position: absolute;
   top: 0;
@@ -118,10 +119,10 @@ limitations under the License.
 #next-header-global-menu:before {
   background: #212c3a;
   content: '';
-  height: 40px;
+  height: var(--header-height);
   position: absolute;
   right: 1px;
-  top: -40px;
+  top: calc(-1 * var(--header-height));
   width: 60px;
   z-index: -1;
 }

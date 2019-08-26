@@ -15,17 +15,17 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import {
   Button,
   Icon,
-  Container,
-  Input,
-  Search } from 'semantic-ui-react';
+  Container } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
 import './ApproverNav.css';
+import Search from 'components/search/Search';
 import NavList from './NavList';
 
 
@@ -47,6 +47,29 @@ class ApproverNav extends Component {
     startAnimation:         PropTypes.func,
     users:                  PropTypes.array,
   };
+
+
+  /**
+   * Entry point to perform tasks required to render component.
+   * Get first page of all users.
+   */
+  componentDidMount   () {
+    this.init();
+  }
+
+
+  /**
+   * Reset search state
+   */
+  init () {
+    const {
+      setSearchInput,
+      setSearchTypes,
+      setShowSearch } = this.props;
+    setSearchInput('');
+    setSearchTypes(['user']);
+    setShowSearch(false);
+  }
 
 
   /**
@@ -107,13 +130,11 @@ class ApproverNav extends Component {
           </Link>
         </h4>
         <div>
-          <h4 className={`hover ${this.isItemActive('people') ?
+          <h4 className={`hover ${this.isItemActive('snapshot') ?
             'active' : ''}`}>
-            <NavList
-              titleIsLink
-              listTitle='People'
-              // list={bar}
-              route='/approval/people'/>
+            <Link to='/approval/snapshot'>
+              Snapshot
+            </Link>
           </h4>
           <h4 className={`hover ${this.isItemActive('manage') ?
             'active' : ''}`}>
@@ -132,25 +153,81 @@ class ApproverNav extends Component {
    * @returns {JSX}
    */
   render () {
+    const {
+      fetchingSearchResults,
+      searchInput,
+      searchLimit,
+      searchTypes,
+      showSearch } = this.props;
+
     return (
-      <Container>
+      <Container id='next-approver-nav-search'>
         <Search
-          input={() => <Input
-            maxLength='255'
-            icon='search'
-            placeholder='Search roles and packs...'/>}
-          className='next-approver-nav-search'
-          category
-          loading={false}/>
-        <Link to='/snapshot' id='next-approver-nav-snapshot'>
-          <Button primary fluid>
-            <Button.Content visible>
-              SNAPSHOT
-              <Icon name='arrow right'/>
-            </Button.Content>
-          </Button>
-        </Link>
-        { this.renderLists() }
+          fetchingSearchResults={fetchingSearchResults}
+          placeholder='Search people...'
+          searchInput={searchInput}
+          searchLimit={searchLimit}
+          searchTypes={searchTypes}
+          type='people'
+          {...this.props}/>
+        { !showSearch && !this.isItemActive('people') &&
+          <Link
+            to='/approval/people'
+            id='next-approver-nav-primary-button'>
+            <Button primary fluid>
+              <Button.Content visible>
+                <span>
+                  PEOPLE
+                </span>
+                <Icon name='arrow right'/>
+              </Button.Content>
+            </Button>
+          </Link>
+        }
+        { this.isItemActive('people') &&
+          <Link
+            to='/approval/pending/individual'
+            id='next-approver-nav-primary-button'>
+            <Button primary fluid>
+              <Button.Content visible>
+                <Icon name='arrow left'/>
+                <span>
+                  BACK
+                </span>
+              </Button.Content>
+            </Button>
+          </Link>
+        }
+        { showSearch && !this.isItemActive('people') &&
+          <div id='next-approver-nav-primary-button'>
+            <Button primary fluid onClick={() => this.init()}>
+              <Button.Content visible>
+                <Icon name='arrow left'/>
+                <span>
+                  BACK
+                </span>
+              </Button.Content>
+            </Button>
+          </div>
+        }
+        { !showSearch && !this.isItemActive('people') &&
+          this.renderLists()
+        }
+        { (showSearch || this.isItemActive('people')) &&
+          <div id='next-approver-panel-nav-text'>
+            <p>
+              Type in the search box above to search for
+              people within your organization.
+            </p>
+            <p>
+              Click&nbsp;
+              <strong>
+                Back
+              </strong>
+              &nbsp;to return to the previous view.
+            </p>
+          </div>
+        }
       </Container>
     );
   }
@@ -158,4 +235,16 @@ class ApproverNav extends Component {
 }
 
 
-export default withRouter(ApproverNav);
+const mapStateToProps = (state) => {
+  return {
+    fetchingSearchResults: state.search.fetching,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ApproverNav)
+);

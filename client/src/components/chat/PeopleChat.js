@@ -313,7 +313,7 @@ class PeopleChat extends Component {
                       <Button
                         as={Link}
                         size='large'
-                        to={`people/${activeUser}/pending`}
+                        to={`/approval/people/${activeUser}/pending`}
                         onClick={handleOnBehalfOf}>
                         Pending Approvals
                       </Button>

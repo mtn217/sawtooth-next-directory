@@ -32,7 +32,6 @@ import Signup from 'containers/signup/Signup';
 import Header from 'components/layouts/Header';
 import Waves from 'components/layouts/Waves';
 import NotFound from 'components/layouts/NotFound';
-import Snapshot from 'containers/approver/snapshot/Snapshot';
 
 
 import { appDispatch, appState } from './AppHelper';
@@ -235,10 +234,6 @@ class App extends Component {
               exact
               path='/browse'
               render={() => <Browse {...this.props}/>}/>
-            <Route
-              exact
-              path='/snapshot'
-              render={() => <Snapshot {...this.props}/>}/>
             { this.routes &&
               this.routes.map((route, index) => (
                 <Route

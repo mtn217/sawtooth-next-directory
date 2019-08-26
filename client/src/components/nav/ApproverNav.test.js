@@ -15,13 +15,22 @@ limitations under the License.
 
 
 import React from 'react';
-
-
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 
+import * as customStore from 'customStore';
 import ApproverNav from './ApproverNav';
+
+
+const store = customStore.create();
+
+const props = {
+  setSearchInput: () => {},
+  setSearchTypes: () => {},
+  setShowSearch:  () => {},
+};
 
 
 describe('ApproverNav component', () => {
@@ -29,9 +38,11 @@ describe('ApproverNav component', () => {
     const div = document.createElement('div');
 
     ReactDOM.render(
-      <BrowserRouter>
-        <ApproverNav/>
-      </BrowserRouter>, div
+      <Provider store={store}>
+        <BrowserRouter>
+          <ApproverNav {...props}/>
+        </BrowserRouter>
+      </Provider>, div
     );
 
     ReactDOM.unmountComponentAtNode(div);
