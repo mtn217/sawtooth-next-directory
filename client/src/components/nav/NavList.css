@@ -18,6 +18,21 @@ limitations under the License.
   margin-top: 45px;
 }
 
+.next-nav-list-container img {
+  height: 1.6em !important;
+  margin: .12em 0 0 1.2em !important;
+  opacity: .2;
+  width: 1.6em !important;
+}
+
+.next-nav-list-container .active img {
+  opacity: 1;
+}
+
+.next-nav-list-container .active .header {
+  font-weight: 500 !important;
+}
+
 .next-list-item-disabled {
   text-indent: var(--nav-list-padding);
 }
@@ -26,13 +41,14 @@ limitations under the License.
   color: var(--nav-heading-color);
 }
 
-.next-nav-list-content  {
+.next-nav-list-content {
   width: 85% !important;
 }
 
 .next-nav-list-content .header {
+  font-size: .95em;
+  font-weight: 400 !important;
   overflow: hidden;
-  padding-left: 20px;
   text-indent: 0;
   text-overflow: ellipsis;
 }

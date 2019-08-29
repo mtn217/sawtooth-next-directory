@@ -3930,8 +3930,6 @@ button.ui.link:focus {
 }
 .toggle.buttons .ui.button.active div {
   background: #4c4b5f;
-  -webkit-box-shadow: 0 1em 1.7em #00000070;
-          box-shadow: 0 1em 1.7em #00000070;
   color: #c8c9cd;
   -webkit-transition: all 0.35s;
   transition: all 0.35s;

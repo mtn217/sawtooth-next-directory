@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 
 import './Login.css';
 import logo from 'images/next-logo-primary.png';
+import tmobileLogo from 'images/tmobile-logo.svg';
 import cloud from 'images/cloud.svg';
 import { AuthActions, AuthSelectors } from 'state';
 import LoginForm from './LoginForm';
@@ -51,7 +52,7 @@ class Login extends Component {
   };
 
 
-  themes = ['flux'];
+  themes = [];
 
 
   /**
@@ -111,6 +112,10 @@ class Login extends Component {
 
     return (
       <div id='next-login-container'>
+        <div id='next-login-header'>
+          <Image size='tiny' src={tmobileLogo}/>
+          <Button primary as={Link} to='/' content='Home'/>
+        </div>
         <div id='next-login-panel'>
           <Grid container centered columns={1}>
             <Grid.Column id='next-login-column'>

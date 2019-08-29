@@ -34,10 +34,8 @@ const stepper = (fn) => (mock) => fn.next(mock).value;
 
 test('getBase: success path', () => {
   const res = { ok: true, data: {} };
-
   const step = stepper(getBase(FixtureAPI));
 
-  step();
   step();
   const stepRes = step(res);
   expect(stepRes).toEqual(put(RequesterActions.baseSuccess(res)));
@@ -46,13 +44,11 @@ test('getBase: success path', () => {
 
 test('fetchRole: success Path', () => {
   const id = 'e15a71ee-58d2-49e8-a8e4-21888144be1f';
-
   const res = { ok: true, data: {data: ''}};
-
   const step = stepper(fetchRole(FixtureAPI, id));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes).toEqual(put(RequesterActions.roleSuccess(res.data.data)));
 });
 
@@ -60,7 +56,6 @@ test('fetchRole: success Path', () => {
 test('fetchRole: failure path', () => {
   const res = { ok: false, data: {} };
   const id = 'e15a71ee-58d2-49e8-a8e4-21888144be1f';
-
   const step = stepper(fetchRole(FixtureAPI, id));
 
   step();
@@ -71,13 +66,11 @@ test('fetchRole: failure path', () => {
 
 test('fetchPack: success Path', () => {
   const id = 'e15a71ee-58d2-49e8-a8e4-21888144be1f';
-
   const res = { ok: true, data: {data: ''}};
-
   const step = stepper(fetchPack(FixtureAPI, id));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes).toEqual(put(RequesterActions.packSuccess(res.data.data)));
 });
 
@@ -85,7 +78,6 @@ test('fetchPack: success Path', () => {
 test('fetchPack: failure path', () => {
   const res = { ok: false, data: {} };
   const id = 'e15a71ee-58d2-49e8-a8e4-21888144be1f';
-
   const step = stepper(fetchPack(FixtureAPI, id));
 
   step();
@@ -98,11 +90,10 @@ test('getAllRoles: success Path', () => {
   const res = { ok: true, data: {data: '', paging: { total: 0 }}};
   const start = 1;
   const limit = 10;
-
   const step = stepper(getAllRoles(FixtureAPI, start, limit));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes).toEqual(put(RequesterActions.allRolesSuccess(
     res.data.data,
     res.data.paging.total,
@@ -114,11 +105,10 @@ test('getAllRoles: failure Path', () => {
   const res = { ok: false, data: {error: '', data: ''}};
   const start = 1;
   const limit = 10;
-
   const step = stepper(getAllRoles(FixtureAPI, start, limit));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.allRolesFailure(res.data)));
 });
@@ -128,11 +118,10 @@ test('getAllPacks: success Path', () => {
   const res = { ok: true, data: {data: '', paging: { total: 0 }}};
   const start = 1;
   const limit = 10;
-
   const step = stepper(getAllPacks(FixtureAPI, start, limit));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes).toEqual(put(RequesterActions.allPacksSuccess(
     res.data.data,
     res.data.paging.total,
@@ -144,95 +133,80 @@ test('getAllPacks: failure Path', () => {
   const res = { ok: false, data: {error: '', data: ''}};
   const start = 1;
   const limit = 10;
-
   const step = stepper(getAllPacks(FixtureAPI, start, limit));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.allPacksFailure(res.data)));
 });
 
 
 test('roleAccess: success Path', () => {
-
   const res = { ok: true, data: {data: ''}};
-
   const step = stepper(roleAccess(FixtureAPI, {
     id: '',
     userId: '',
     reason: '',
   }));
+
   step();
-
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.roleAccessSuccess(res.data.data)));
 });
 
 
 test('roleAccess: failure Path', () => {
-
   const res = { ok: false, data: {data: ''}};
-
   const step = stepper(roleAccess(FixtureAPI, {
     id: '',
     userId: '',
     reason: '',
   }));
+
   step();
-
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.roleAccessFailure(res.data.data)));
 });
 
 test('packAccess: success Path', () => {
-
   const res = { ok: true, data: {data: ''}};
-
   const step = stepper(packAccess(FixtureAPI, {
     id: '',
     userId: '',
     reason: '',
   }));
+
   step();
-
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.packAccessSuccess(res.data.data)));
 });
 
 
 test('packAccess: failure Path', () => {
-
   const res = { ok: false, data: {data: ''}};
-
   const step = stepper(packAccess(FixtureAPI, {
     id: '',
     userId: '',
     reason: '',
   }));
+
   step();
-
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.packAccessFailure(res.data.data)));
 });
 
 test('fetchProposal: success Path', () => {
   const id = 'e15a71ee-58d2-49e8-a8e4-21888144be1f';
-
   const res = { ok: true, data: {data: ''}};
-
   const step = stepper(fetchProposal(FixtureAPI, id));
+
   step();
   const stepRes = step(res);
-
   expect(stepRes)
     .toEqual(put(RequesterActions.proposalSuccess(res.data.data)));
 });
@@ -241,7 +215,6 @@ test('fetchProposal: success Path', () => {
 test('fetchProposal: failure path', () => {
   const res = { ok: false, data: {} };
   const id = 'e15a71ee-58d2-49e8-a8e4-21888144be1f';
-
   const step = stepper(fetchProposal(FixtureAPI, id));
 
   step();

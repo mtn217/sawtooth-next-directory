@@ -61,7 +61,7 @@ class TrackHeader extends Component {
               { title &&
                 <Header as='h1' inverted={inverted}>
                   { glyph &&
-                    <Image size='large' src={glyph}/>
+                    <Image size='medium' src={glyph}/>
                   }
                   <Header.Content>
                     {title}

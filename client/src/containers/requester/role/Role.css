@@ -40,6 +40,12 @@ limitations under the License.
   padding: 20px 10px;
 }
 
+#next-requester-roles-content h3 {
+  font-size: 1.5em;
+  font-weight: 300;
+  margin-bottom: .5em;
+}
+
 #next-requester-roles-content h5 {
   color: var(--small-heading-color);
   font-weight: 500;

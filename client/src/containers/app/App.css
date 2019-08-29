@@ -32,12 +32,45 @@ limitations under the License.
   overflow: auto;
   padding: var(--header-height) 0 15px 0;
   position: fixed;
-  width: var(--sidebar-width);
+  width: 0;
+  opacity: .75;
 }
 
 #next-inner-grid-main {
   flex: 1;
-  margin-left: var(--sidebar-width);
+  margin-left: 0;
   min-width: 0;
+  opacity: .5;
   padding: 0;
+}
+
+.nav-animate {
+  animation: nav-slide-right .75s forwards;
+  animation-delay: 1.75s;
+}
+
+.nav-no-animate {
+  opacity: 1 !important;
+  width: var(--sidebar-width) !important;
+}
+
+.main-animate {
+  animation: main-slide-right 2.5s forwards;
+}
+
+.main-no-animate {
+  opacity: 1 !important;
+  margin-left: var(--sidebar-width) !important;
+}
+
+@keyframes nav-slide-right {
+  from { opacity: .75; width: 0; }
+  to { opacity: 1; width: var(--sidebar-width); }
+}
+
+@keyframes main-slide-right {
+  0%   { opacity: .5; margin-left: 0; }
+  25%  { opacity: 1; margin-left: 0; }
+  70%  { opacity: 1; margin-left: 0; }
+  100% { opacity: 1; margin-left: var(--sidebar-width); }
 }

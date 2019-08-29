@@ -37,6 +37,7 @@ class NavList extends Component {
 
   static propTypes = {
     disabled:         PropTypes.bool,
+    glyph:            PropTypes.string,
     labels:           PropTypes.array,
     list:             PropTypes.array,
     listTitle:        PropTypes.string,
@@ -90,7 +91,7 @@ class NavList extends Component {
    * @returns {JSX}
    */
   renderList (list) {
-    const { labels } = this.props;
+    const { labels, glyph } = this.props;
 
     return (
       list.map((item, index) => (
@@ -100,7 +101,7 @@ class NavList extends Component {
           as={Link}
           to={this.createNavLink(item)}>
 
-          <Image floated='left' src=''/>
+          <Image floated='left' size='mini' src={glyph}/>
 
           <List.Content className='pull-left next-nav-list-content'>
             <List.Header>

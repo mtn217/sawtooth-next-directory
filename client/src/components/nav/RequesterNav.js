@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 
 
 import './RequesterNav.css';
+import roleGlyph from 'images/glyph-role-white.png';
 import NavList from './NavList';
 import * as utils from '../../services/Utils';
 
@@ -114,6 +115,7 @@ class RequesterNav extends Component {
     return (
       <div id='next-requester-nav-lists-container'>
         <NavList
+          glyph={roleGlyph}
           listTitle='Your Roles'
           list={memberOf}/>
         <NavList

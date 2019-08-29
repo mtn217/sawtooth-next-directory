@@ -35,6 +35,25 @@ limitations under the License.
   margin: 0;
 }
 
+#next-login-header {
+  padding: 1em;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+#next-login-header a {
+  margin: 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#next-login-header img {
+  margin: 0 auto;
+}
+
 #next-login-panel {
   align-items: center;
   display: flex;
@@ -43,13 +62,12 @@ limitations under the License.
 }
 
 #next-login-column {
-  background: white;
   border-radius: 2.1em;
   display: flex;
   flex-direction: column;
   height: 650px;
   max-width: 570px;
-  padding: 4em 7em 1.5em 7em;
+  padding: 3em 7em 1.5em 7em;
   width: 100%;
 }
 

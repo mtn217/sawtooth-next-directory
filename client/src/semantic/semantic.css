@@ -197,7 +197,7 @@ strong {
 
 b,
 strong {
-  font-weight: bolder;
+  font-weight: 500;
 }
 
 /**
@@ -787,24 +787,22 @@ body,
 }
 
 .flux {
-  background: #273544;
-  background: -webkit-gradient(linear, left top, left bottom, from(#db22a1), to(#bf3de9));
-  background: -webkit-linear-gradient(top, #db22a1, #bf3de9);
-  background: linear-gradient(180deg, #db22a1, #bf3de9);
+  /* background: @darkBackground; */
+  /* background: linear-gradient(180deg, #db22a1, #bf3de9); */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(40%, white), to(#ffcefa));
+  background: -webkit-linear-gradient(white 40%, #ffcefa 100%);
+  background: linear-gradient(white 40%, #ffcefa 100%);
 }
 
-.flux:before {
-  background: -webkit-gradient(linear, left top, left bottom, from(#1d49df), to(#1be2b9));
-  background: -webkit-linear-gradient(top, #1d49df, #1be2b9);
-  background: linear-gradient(180deg, #1d49df, #1be2b9);
+/*.flux:before {
+  background: linear-gradient(white 40%, #ffcefa 100%);
   content: '';
   height: 100%;
   opacity: 0;
   position: absolute;
-  -webkit-transition: 1s ease opacity;
   transition: 1s ease opacity;
   width: 100%;
-}
+}*/
 
 .interpolate:before {
   opacity: 1;
@@ -5405,8 +5403,6 @@ button.ui.link:focus {
 
 .toggle.buttons .ui.button.active div {
   background: #4c4b5f;
-  -webkit-box-shadow: 0 1em 1.7em #00000070;
-  box-shadow: 0 1em 1.7em #00000070;
   color: #c8c9cd;
   -webkit-transition: all 0.35s;
   transition: all 0.35s;

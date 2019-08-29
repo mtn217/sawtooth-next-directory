@@ -27,6 +27,7 @@ import PropTypes from 'prop-types';
 
 import './App.css';
 import Browse from 'containers/browse/Browse';
+import Landing from 'containers/landing/Landing';
 import Login from 'containers/login/Login';
 import Signup from 'containers/signup/Signup';
 import Header from 'components/layouts/Header';
@@ -53,6 +54,9 @@ class App extends Component {
     isAuthenticated: PropTypes.bool,
     routes: PropTypes.func,
   };
+
+
+  state = { transition: null };
 
 
   /**
@@ -99,6 +103,7 @@ class App extends Component {
     if (prevProps.isAuthenticated !== isAuthenticated) {
       openSocket('chatbot');
       openSocket('feed');
+      this.setState({ transition: true });
       this.hydrate();
     }
 
@@ -198,12 +203,21 @@ class App extends Component {
    * @returns {JSX}
    */
   renderGrid (nav, main, props) {
+    const { transition } = this.state;
+
+    if (transition)
+      setTimeout(() => this.setState({ transition: false }), 2.5e3);
+
     return (
       <Grid id='next-outer-grid'>
-        <Grid.Column id='next-outer-grid-nav'>
+        <Grid.Column
+          id='next-outer-grid-nav'
+          className={transition ? 'nav-animate' : 'nav-no-animate'}>
           { nav(props) }
         </Grid.Column>
-        <Grid.Column id='next-inner-grid-main'>
+        <Grid.Column
+          id='next-inner-grid-main'
+          className={transition ? 'main-animate' : 'main-no-animate'}>
           <Waves {...this.props}/>
           { main(props) }
         </Grid.Column>
@@ -223,13 +237,14 @@ class App extends Component {
     return (
       <Router>
         <div id='next-global-container'>
-          <Header {...this.props}/>
+          { isAuthenticated && <Header {...this.props}/> }
           <Switch>
+            <Route exact path='/' component={Landing}/>
             <Route exact path='/login' component={Login}/>
             { process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' &&
               <Route exact path='/signup' component={Signup}/>
             }
-            { !isAuthenticated && <Redirect to='/login'/> }
+            { !isAuthenticated && <Redirect to='/'/> }
             <Route
               exact
               path='/browse'

@@ -110,7 +110,6 @@ button.ui.link:focus {
 
 .toggle.buttons .ui.button.active div {
   background: #4c4b5f;
-  box-shadow: 0 1em 1.7em #00000070;
   color: #c8c9cd;
   transition: all .35s;
 }

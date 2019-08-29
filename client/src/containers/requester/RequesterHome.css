@@ -33,7 +33,17 @@ limitations under the License.
 }
 
 #next-requester-landing-container {
-  background: url('../../images/next-logo-landing.gif') 50% 38% / 250px no-repeat;
+  animation: pattern-fade-in 4s forwards;
+  animation-delay: 1s;
+  background-color: white;
+  background-attachment: fixed;
+  background-image: url('../../images/requester-landing-background.svg');
+  background-size: cover;
   height: 100%;
-  opacity: 0.18;
+  opacity: 0;
+}
+
+@keyframes pattern-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

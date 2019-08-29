@@ -65,7 +65,7 @@ class RequesterHome extends Component {
         <Grid.Column
           id='next-requester-grid-track-column'
           width={16}>
-          <Container id='next-requester-landing-container'></Container>
+          <Container fluid id='next-requester-landing-container'></Container>
         </Grid.Column>
       </Grid>
     );

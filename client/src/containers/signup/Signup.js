@@ -25,6 +25,7 @@ import './Signup.css';
 import { AuthActions, AuthSelectors } from 'state';
 import SignupForm from './SignupForm';
 import logo from 'images/next-logo-primary.png';
+import tmobileLogo from 'images/tmobile-logo.svg';
 import cloud from 'images/cloud.svg';
 
 
@@ -51,7 +52,7 @@ class Signup extends Component {
   };
 
 
-  themes = ['flux'];
+  themes = [];
 
 
   /**
@@ -113,6 +114,10 @@ class Signup extends Component {
 
     return (
       <div id='next-signup-container'>
+        <div id='next-signup-header'>
+          <Image size='tiny' src={tmobileLogo}/>
+          <Button primary as={Link} to='/' content='Home'/>
+        </div>
         <div id='next-signup-panel'>
           <Grid container centered columns={2}>
             <Grid.Column id='next-signup-column'>

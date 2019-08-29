@@ -22,59 +22,31 @@ import { BrowserRouter } from 'react-router-dom';
 
 
 import * as customStore from 'customStore';
-import Header from './Header';
+import Landing from './Landing';
 
 
 const store = customStore.create();
 
 
-describe('Header component', () => {
+describe('Landing component', () => {
+
+  const props = {};
+  const wrapper = shallow(
+    <Landing {...props} store={store}/>
+  );
+
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    const props = {
-      id: '1234',
-      isSocketOpen: () => {},
-      me: { name: 'username' },
-      history: {
-        location: { pathname: '' },
-      },
-      openProposalsCount: 5,
-      renderMenu: () => {  },
-      logout: () => { },
-      users: [],
-    };
+    const props = {};
+
     ReactDOM.render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Header {...props}/>
-        </BrowserRouter>
-      </Provider>, div
+      <BrowserRouter>
+        <Landing {...props} store={store}/>
+      </BrowserRouter>, div
     );
 
     ReactDOM.unmountComponentAtNode(div);
-  });
-
-  it('calls logout function', () => {
-    const props = {
-      isSocketOpen: () => {},
-      me: { name: 'username' },
-      history: {
-        location: { pathname: '' },
-      },
-      location: {
-        pathname: '',
-      },
-      openProposalsCount: 5,
-      renderMenu: () => {  },
-      logout: () => { },
-    };
-
-    const wrapper = shallow(
-      <Header.WrappedComponent {...props} store={store}/>
-    );
-
-    wrapper.instance().logout();
   });
 
 });

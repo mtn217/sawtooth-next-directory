@@ -56,11 +56,11 @@ export const createHomeLink = (packs = [], roles = []) => {
       else if (roles && roles.length > 0)
         return `/roles/${createSlug(roles[0].id)}`;
     }
-    return '/';
+    return '/home';
   } catch (error) {
     console.error(error);
     console.error('Error creating home link.');
-    return '/';
+    return '/home';
   }
 };
 

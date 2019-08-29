@@ -15,7 +15,6 @@ limitations under the License.
 
 
 import { all, call, fork, put, spawn } from 'redux-saga/effects';
-import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import { RequesterActions, UserActions } from 'state';
 
 
@@ -27,15 +26,12 @@ import { RequesterActions, UserActions } from 'state';
  */
 export function * getBase (api, action) {
   try {
-    yield put(showLoading());
     const res = yield all([
       call(api.getRecommended),
     ]);
     yield put(RequesterActions.baseSuccess(res));
   } catch (err) {
     console.error(err);
-  } finally {
-    yield put(hideLoading());
   }
 }
 

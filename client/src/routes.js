@@ -54,7 +54,7 @@ import ManageDelegations
 
 const routes = (props) => [
   {
-    path:   '/',
+    path:   '/home',
     main:   (rest) => <RequesterHome {...props} {...rest}/>,
     nav:    () => <RequesterNav {...props}/>,
     exact:  true,

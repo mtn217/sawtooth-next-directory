@@ -158,26 +158,26 @@ export class Role extends Component {
                 '' : 'next-margin-1'}
               id='next-requester-roles-description-container'>
               <div id='next-requester-roles-description'>
-                <h5>
-                  DESCRIPTION
-                </h5>
+                <h3>
+                  Description
+                </h3>
                 {this.role.description || 'No description available.'}
               </div>
             </Container>
             <Container id='next-requester-roles-owner-list-container'>
-              <h5>
-                OWNERS
+              <h3>
+                Owners
                 {this.role.owners.length === 0 && ' (0)'}
-              </h5>
+              </h3>
               <MemberList {...this.props}
                 isOwner
                 members={this.role.owners}/>
             </Container>
             <Container id='next-requester-roles-member-list-container'>
-              <h5>
-                MEMBERS
+              <h3>
+                Members
                 {this.role.members.length === 0 && ' (0)'}
-              </h5>
+              </h3>
               <MemberList {...this.props}
                 members={this.role.members}/>
             </Container>

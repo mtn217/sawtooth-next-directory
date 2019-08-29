@@ -74,3 +74,9 @@ limitations under the License.
   top: 25px;
   width: 500px;
 }
+
+#next-track-header .ui.header .content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

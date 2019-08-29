@@ -20,12 +20,15 @@ import {
   Container,
   Grid,
   Header,
-  Icon,
+  Image,
   Placeholder,
   Popup,
   Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+
+
 import './MemberList.css';
+import shield from 'images/glyph-shield.svg';
 import Avatar from 'components/layouts/Avatar';
 import * as utils from 'services/Utils';
 
@@ -142,24 +145,12 @@ class MemberList extends Component {
     return (
       <Grid.Column key={userId} largeScreen={8} widescreen={5}>
         <Segment className='avatar no-padding minimal'>
-          { isOwner ?
+          { isOwner &&
             <Popup
               inverted
-              trigger={<Icon
-                name='shield'
-                className='pull-right'
-                color='green'/>}
+              trigger={<Image className='pull-right' src={shield}/>}
               content='Owner'
               id='next-member-list-owner-popup-box'
-              position='top center'/> :
-            <Popup
-              inverted
-              trigger={<Icon
-                name='key'
-                className='pull-right'
-                color='grey'/>}
-              content='Member'
-              id='next-member-list-member-popup-box'
               position='top center'/>
           }
           <Header as='h4' className='next-member-list-user-info'>

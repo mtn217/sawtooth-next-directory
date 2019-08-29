@@ -158,7 +158,8 @@ class LoginForm extends Component {
                 <Input
                   id='next-username-input'
                   autoFocus
-                  placeholder='Username'
+                  autoComplete='off'
+                  placeholder='JSmith'
                   error={validUsername === false}
                   name='username'
                   type='text'
@@ -175,7 +176,7 @@ class LoginForm extends Component {
                   error={validPassword === false}
                   name='password'
                   type='password'
-                  placeholder='Password'
+                  placeholder='Enter your password'
                   value={password}
                   onChange={this.handleChange}/>
                 {/* <Button

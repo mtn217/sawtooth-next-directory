@@ -339,6 +339,7 @@ class Header extends Component {
   render () {
     const {
       id,
+      location,
       me,
       recommendedPacks,
       recommendedRoles,
@@ -348,6 +349,11 @@ class Header extends Component {
       approverViewEnabled,
       globalMenuVisible,
       notificationMenuVisible } = this.state;
+
+    const showLogo = location.pathname !== '/' &&
+      !location.pathname.includes('/login') &&
+      !location.pathname.includes('/signup');
+
     return (
       <header className='next-header' ref={this.setRef}>
         <LoadingBar className='next-global-loading-bar'/>
@@ -355,14 +361,16 @@ class Header extends Component {
           showModal={aboutModalVisible}
           handleClose={this.toggleAboutModal}/>
         <div id='next-header-logo'>
-          <Image
-            as={Link}
-            to={approverViewEnabled ?
-              '/approval/pending/individual' :
-              utils.createHomeLink(recommendedPacks, recommendedRoles)}
-            src={logo}
-            onClick={startAnimation}
-            size='tiny'/>
+          { showLogo &&
+            <Image
+              as={Link}
+              to={approverViewEnabled ?
+                '/approval/pending/individual' :
+                utils.createHomeLink(recommendedPacks, recommendedRoles)}
+              src={logo}
+              onClick={startAnimation}
+              size='tiny'/>
+          }
         </div>
         { me &&
         <div className='next-render-approver'>
