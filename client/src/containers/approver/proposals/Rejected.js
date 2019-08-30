@@ -28,7 +28,7 @@ import './Rejected.css';
 import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
-import ApprovedNav from 'components/nav/ApprovedNav';
+// import ApprovedNav from 'components/nav/ApprovedNav';
 import glyph from 'images/glyph-individual.png';
 import Avatar from 'components/layouts/Avatar';
 
@@ -294,7 +294,7 @@ class Rejected extends Component {
               title='Rejected Requests'
               {...this.props}/>
             <div id='next-approver-rejected-content'>
-              <ApprovedNav/>
+              {/* <ApprovedNav/> */}
               { !rejectedProposals &&
                   this.renderPlaceholder()
               }

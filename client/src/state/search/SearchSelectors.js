@@ -30,6 +30,7 @@ export const SearchSelectors = {
   roles:        (state) => state.search.roles,
   searchInput:  (state) => state.search.searchInput,
   searchLimit:  (state) => state.search.searchLimit,
+  searchStart:  (state) => state.search.searchStart,
   searchTypes:  (state) => state.search.searchTypes,
   showSearch:   (state) => state.search.showSearch,
   totalPages:   (state) => state.search.totalPages,

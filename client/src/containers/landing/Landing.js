@@ -73,16 +73,16 @@ class Landing extends Component {
                   content='Rocket.Chat'
                   labelPosition='left'/>
               </a>
-              <a href='//github.com/tmobile/sawtooth-next-directory'>
+              <a
+                href='//github.com/tmobile/sawtooth-next-directory'
+                target='_blank'
+                rel='noopener noreferrer'>
                 <Button
                   icon='github'
                   content='GitHub'
                   labelPosition='left'/>
               </a>
-              <a
-                href='mailto:blockchain@t-mobile.com'
-                target='_blank'
-                rel='noopener noreferrer'>
+              <a href='mailto:blockchain@t-mobile.com'>
                 <Button
                   icon='mail'
                   content='Email'

@@ -57,26 +57,26 @@ export const success = {
     result.page > 1 ?
       state.merge({
         fetching: false,
-        packs: [...(state.packs || []), ...result.packs],
-        roles: [...(state.roles || []), ...result.roles],
+        packs: [...(state.packs || []), ...result.data.packs],
+        roles: [...(state.roles || []), ...result.data.roles],
         totalPages: result.total_pages,
       }) :
       state.merge({
         fetching: false,
-        packs: result.packs,
-        roles: result.roles,
+        packs: result.data.packs,
+        roles: result.data.roles,
         totalPages: result.total_pages,
       }),
   people: (state, { result }) =>
     result.page > 1 ?
       state.merge({
         fetching: false,
-        people: [...(state.people || []), ...result.users],
+        people: [...(state.people || []), ...result.data.users],
         totalPages: result.total_pages,
       }) :
       state.merge({
         fetching: false,
-        people: result.users,
+        people: result.data.users,
         totalPages: result.total_pages,
       }),
 };

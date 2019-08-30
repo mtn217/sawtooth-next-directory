@@ -34,3 +34,12 @@
   top: 11px;
   width: 30%;
 }
+
+.dark.pattern {
+  background-color: #161718;
+  background-image: url('../../../images/landing-billboard-background.svg');
+}
+
+.dark.pattern #next-outer-grid-nav {
+  background: transparent;
+}

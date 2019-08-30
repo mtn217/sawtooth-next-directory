@@ -33,6 +33,7 @@ class Search extends Component {
   static propTypes = {
     clearSearchData:        PropTypes.func,
     fetchingSearchResults:  PropTypes.bool,
+    isLocal:                PropTypes.bool,
     placeholder:            PropTypes.string,
     search:                 PropTypes.func,
     searchInput:            PropTypes.string,
@@ -55,6 +56,7 @@ class Search extends Component {
   handleChange = (event, { name, value }) => {
     const {
       clearSearchData,
+      isLocal,
       setSearchStart,
       searchLimit,
       searchTypes,
@@ -65,7 +67,7 @@ class Search extends Component {
 
     setSearchInput(value);
     setSearchStart(1);
-    setShowSearch(true);
+    setShowSearch(!isLocal);
     clearSearchData();
 
     if (utils.isWhitespace(value)) {
@@ -100,6 +102,7 @@ class Search extends Component {
         <SearchInput
           fluid
           input={() => <Input
+            autoComplete='off'
             fluid
             loading={fetchingSearchResults}
             size='large'

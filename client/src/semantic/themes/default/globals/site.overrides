@@ -96,7 +96,7 @@ body,
   color: @avatarPalette7TextColor;
 }
 
-.avatar-palette-8{
+.avatar-palette-8 {
   background: @avatarPalette8;
   color: @avatarPalette8TextColor;
 }

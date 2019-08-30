@@ -25,6 +25,7 @@ import PropTypes from 'prop-types';
 
 
 import './ApproverNav.css';
+import glyph from 'images/glyph-individual.png';
 import Search from 'components/search/Search';
 import NavList from './NavList';
 
@@ -97,6 +98,7 @@ class ApproverNav extends Component {
         className='nav-list'>
         <NavList
           disabled
+          glyph={glyph}
           listTitle='Pending'
           labels={[
             openProposalsCount,
@@ -155,21 +157,19 @@ class ApproverNav extends Component {
   render () {
     const {
       fetchingSearchResults,
-      searchInput,
-      searchLimit,
-      searchTypes,
       showSearch } = this.props;
+
+    const showInput = !this.isItemActive('manage');
 
     return (
       <Container id='next-approver-nav-search'>
-        <Search
-          fetchingSearchResults={fetchingSearchResults}
-          placeholder='Search people...'
-          searchInput={searchInput}
-          searchLimit={searchLimit}
-          searchTypes={searchTypes}
-          type='people'
-          {...this.props}/>
+        { showInput &&
+          <Search
+            fetchingSearchResults={fetchingSearchResults}
+            placeholder='Search people...'
+            type='people'
+            {...this.props}/>
+        }
         { !showSearch && !this.isItemActive('people') &&
           <Link
             to='/approval/people'

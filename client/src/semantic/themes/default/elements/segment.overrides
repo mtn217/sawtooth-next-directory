@@ -76,17 +76,6 @@
   padding: 10px;
 }
 
-.ui.segment.gradient {
-  background: linear-gradient(to bottom, #9600e8 0%,#f70597 100%);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  height: 170px;
-  justify-content: space-between;
-  margin-bottom: 1.1rem;
-  padding: 22px 25px;
-}
-
 .ui.segment.select:before {
   background: #f6f9fb;
   content: '';
@@ -95,4 +84,24 @@
   position: absolute;
   top: 0;
   width: 62px;
+}
+
+
+/*******************************
+         Masonry Segment
+*******************************/
+
+.masonry .ui.segment {
+  background: transparent;
+  border-radius: 1.6em;
+  display: flex;
+  flex-direction: column;
+  height: 220px;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  padding: 0;
+}
+
+.masonry .ui.segment:hover {
+  box-shadow: 0 0 0 0.5em #48486180;
 }

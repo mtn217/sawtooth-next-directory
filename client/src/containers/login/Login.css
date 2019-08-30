@@ -16,6 +16,10 @@ limitations under the License.
 
 #next-login-container {
   align-items: center;
+  background-attachment: fixed;
+  background-color: white;
+  background-image: url('../../images/landing-background.svg');
+  background-size: cover;
   display: flex;
   flex-direction: column;
   height: 100%;

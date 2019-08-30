@@ -301,7 +301,7 @@ class Header extends Component {
             as={Link} to='/approval/manage'
             onClick={this.toggleGlobalMenu}>
             <MenuHeader as='h5'>
-              <Icon name='setting' color='grey'/>
+              <Icon name='setting' inverted/>
               <MenuHeader.Content>
                 Manage
               </MenuHeader.Content>
@@ -310,7 +310,7 @@ class Header extends Component {
           <Menu.Item
             onClick={this.toggleAboutModal}>
             <MenuHeader as='h5'>
-              <Icon name='info circle' color='grey'/>
+              <Icon name='info circle' inverted/>
               <MenuHeader.Content>
                 About
               </MenuHeader.Content>
@@ -320,7 +320,7 @@ class Header extends Component {
             id='next-signout-button'
             onClick={this.logout}>
             <MenuHeader as='h5'>
-              <Icon name='sign out' color='grey'/>
+              <Icon name='sign out' inverted/>
               <MenuHeader.Content>
                 Sign out
               </MenuHeader.Content>

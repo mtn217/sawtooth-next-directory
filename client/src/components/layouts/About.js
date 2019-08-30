@@ -45,21 +45,18 @@ class About extends Component {
     const { handleClose, showModal } = this.props;
     return (
       <Modal
+        id='next-about-modal-container'
         open={showModal}
         onClose={handleClose}
-        size='mini'>
-        <Header
-          id='next-about-modal-header'
-          icon='info circle'
-          content='About'/>
+        size='small'>
         <Modal.Content id='next-about-modal-content'>
           <Header
-            as='h3'
+            as='h1'
             content='NEXT Directory'/>
-          <span>
+          <code>
             {'Version '}
             {process.env.REACT_APP_VERSION_NUMBER}
-          </span>
+          </code>
         </Modal.Content>
         <Modal.Actions id='next-about-modal-actions'>
           <Button primary size='large' onClick={handleClose}>

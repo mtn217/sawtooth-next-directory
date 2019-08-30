@@ -23,6 +23,9 @@ import RequesterHome from 'containers/requester/RequesterHome';
 import RequesterNav from 'components/nav/RequesterNav';
 
 
+import Browse from 'containers/browse/Browse';
+
+
 import Role from 'containers/requester/role/Role';
 import Pack from 'containers/requester/pack/Pack';
 
@@ -56,6 +59,12 @@ const routes = (props) => [
   {
     path:   '/home',
     main:   (rest) => <RequesterHome {...props} {...rest}/>,
+    nav:    () => <RequesterNav {...props}/>,
+    exact:  true,
+  },
+  {
+    path:   '/browse',
+    main:   (rest) => <Browse {...props} {...rest}/>,
     nav:    () => <RequesterNav {...props}/>,
     exact:  true,
   },

@@ -771,7 +771,7 @@ body,
 }
 
 .dark {
-  background: #273544;
+  background: #2b2b3a;
 }
 
 .contrast {
@@ -809,63 +809,63 @@ body,
 }
 
 .avatar-palette-1 {
-  background: #ffb5e8;
-  color: #ff69d0;
+  background: #b41e8d;
+  color: white;
 }
 
 .avatar-palette-2 {
-  background: #ff9cee;
-  color: #ff50e1;
+  background: #ed174b;
+  color: white;
 }
 
 .avatar-palette-3 {
-  background: #b28dff;
-  color: #7e41ff;
+  background: #4f1b1e;
+  color: white;
 }
 
 .avatar-palette-4 {
-  background: #d5aaff;
-  color: #af5dff;
+  background: #650052;
+  color: white;
 }
 
 .avatar-palette-5 {
-  background: #ebe4ff;
-  color: #b298ff;
+  background: #702b8f;
+  color: white;
 }
 
 .avatar-palette-6 {
-  background: #aff8db;
-  color: #5efcbd;
+  background: #f14e24;
+  color: white;
 }
 
 .avatar-palette-7 {
-  background: #85e3ff;
-  color: #38d1ff;
+  background: #007cb0;
+  color: white;
 }
 
 .avatar-palette-8 {
-  background: #6eb5ff;
-  color: #218eff;
+  background: #7d685a;
+  color: white;
 }
 
 .avatar-palette-9 {
-  background: #bffccb;
-  color: #70ff8c;
+  background: #2c3532;
+  color: white;
 }
 
 .avatar-palette-10 {
-  background: #ffabab;
-  color: #ff5e5e;
+  background: #16e9e0;
+  color: white;
 }
 
 .avatar-palette-11 {
-  background: #ffcbc1;
-  color: #ff8b74;
+  background: #618931;
+  color: white;
 }
 
 .avatar-palette-12 {
-  background: #fff58a;
-  color: #ffee3d;
+  background: #9a786f;
+  color: white;
 }
 
 .toast {
@@ -5402,10 +5402,8 @@ button.ui.link:focus {
 }
 
 .toggle.buttons .ui.button.active div {
-  background: #4c4b5f;
-  color: #c8c9cd;
-  -webkit-transition: all 0.35s;
-  transition: all 0.35s;
+  background: #eceef2;
+  color: #4b495c;
 }
 
 .toggle.buttons .ui.button:first-child {
@@ -17577,7 +17575,7 @@ ol.ui.horizontal.list li:before,
   height: 100%;
   display: inline-block;
   padding: 0.8em 0.5em;
-  text-indent: 22px;
+  text-indent: 17px;
   width: 100%;
 }
 
@@ -18207,7 +18205,7 @@ ol.ui.horizontal.list li:before,
 .ui.inverted.placeholder .image.header:after,
 .ui.inverted.placeholder .line,
 .ui.inverted.placeholder .line:after {
-  background-color: #273544;
+  background-color: #2b2b3a;
 }
 
 /* Contrast Content Loader */
@@ -19787,26 +19785,6 @@ ol.ui.horizontal.list li:before,
   padding: 10px;
 }
 
-.ui.segment.gradient {
-  background: -webkit-gradient(linear, left top, left bottom, from(#9600e8), to(#f70597));
-  background: -webkit-linear-gradient(top, #9600e8 0%, #f70597 100%);
-  background: linear-gradient(to bottom, #9600e8 0%, #f70597 100%);
-  border-radius: 15px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  height: 170px;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-bottom: 1.1rem;
-  padding: 22px 25px;
-}
-
 .ui.segment.select:before {
   background: #f6f9fb;
   content: '';
@@ -19815,6 +19793,33 @@ ol.ui.horizontal.list li:before,
   position: absolute;
   top: 0;
   width: 62px;
+}
+
+/*******************************
+         Masonry Segment
+*******************************/
+
+.masonry .ui.segment {
+  background: transparent;
+  border-radius: 1.6em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 220px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  padding: 0;
+}
+
+.masonry .ui.segment:hover {
+  -webkit-box-shadow: 0 0 0 0.5em #48486180;
+  box-shadow: 0 0 0 0.5em #48486180;
 }
 
 /*******************************
@@ -25762,7 +25767,7 @@ Floated Menu / Item
 
 .ui.inverted.menu {
   border: 0px solid transparent;
-  background: #212C3A;
+  background: #2b2b3a;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -26533,8 +26538,8 @@ Floated Menu / Item
 .ui.huge.inverted.vertical.menu {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  -webkit-box-shadow: 0 20px 30px #00000029;
-  box-shadow: 0 20px 30px #00000029;
+  -webkit-box-shadow: 0.25em 2.1em 2em #0000007a;
+  box-shadow: 0.25em 2.1em 2em #0000007a;
 }
 
 .ui.huge.inverted.vertical.menu .item {

@@ -16,6 +16,10 @@ limitations under the License.
 
 #next-signup-container {
   align-items: center;
+  background-attachment: fixed;
+  background-color: white;
+  background-image: url('../../images/landing-background.svg');
+  background-size: cover;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -113,7 +117,6 @@ limitations under the License.
 }
 
 #next-username-prefix {
-  background: white;
   color: var(--magenta);
   font-size: 1.4em;
   font-weight: 500;

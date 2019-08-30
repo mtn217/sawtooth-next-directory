@@ -61,6 +61,10 @@ limitations under the License.
 
 .next-nav-list-label {
   position: relative;
-  right: 2px;
+  right: 2em;
   top: 1px;
+}
+
+.next-nav-list-label .ui.label {
+  padding: 0 !important;
 }

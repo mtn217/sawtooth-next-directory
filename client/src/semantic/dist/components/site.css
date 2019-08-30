@@ -207,7 +207,7 @@ body,
   cursor: pointer;
 }
 .dark {
-  background: #273544;
+  background: #2b2b3a;
 }
 .contrast {
   background: #fbfcfd;
@@ -241,52 +241,52 @@ body,
   opacity: 1;
 }
 .avatar-palette-1 {
-  background: #ffb5e8;
-  color: #ff69d0;
+  background: #b41e8d;
+  color: white;
 }
 .avatar-palette-2 {
-  background: #ff9cee;
-  color: #ff50e1;
+  background: #ed174b;
+  color: white;
 }
 .avatar-palette-3 {
-  background: #b28dff;
-  color: #7e41ff;
+  background: #4f1b1e;
+  color: white;
 }
 .avatar-palette-4 {
-  background: #d5aaff;
-  color: #af5dff;
+  background: #650052;
+  color: white;
 }
 .avatar-palette-5 {
-  background: #ebe4ff;
-  color: #b298ff;
+  background: #702b8f;
+  color: white;
 }
 .avatar-palette-6 {
-  background: #aff8db;
-  color: #5efcbd;
+  background: #f14e24;
+  color: white;
 }
 .avatar-palette-7 {
-  background: #85e3ff;
-  color: #38d1ff;
+  background: #007cb0;
+  color: white;
 }
 .avatar-palette-8 {
-  background: #6eb5ff;
-  color: #218eff;
+  background: #7d685a;
+  color: white;
 }
 .avatar-palette-9 {
-  background: #bffccb;
-  color: #70ff8c;
+  background: #2c3532;
+  color: white;
 }
 .avatar-palette-10 {
-  background: #ffabab;
-  color: #ff5e5e;
+  background: #16e9e0;
+  color: white;
 }
 .avatar-palette-11 {
-  background: #ffcbc1;
-  color: #ff8b74;
+  background: #618931;
+  color: white;
 }
 .avatar-palette-12 {
-  background: #fff58a;
-  color: #ffee3d;
+  background: #9a786f;
+  color: white;
 }
 .toast {
   border-radius: 1em !important;

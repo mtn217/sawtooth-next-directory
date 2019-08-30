@@ -32,7 +32,7 @@ export function * searchBrowse (api, action) {
     const res = yield call(api.search, query);
 
     res.ok ?
-      yield put(SearchActions.searchBrowseSuccess(res.data.data)) :
+      yield put(SearchActions.searchBrowseSuccess(res.data)) :
       yield put(SearchActions.searchBrowseFailure(res.data));
   } catch (err) {
     console.error(err);
@@ -53,7 +53,7 @@ export function * searchPeople (api, action) {
     const res = yield call(api.search, query);
 
     res.ok ?
-      yield put(SearchActions.searchPeopleSuccess(res.data.data)) :
+      yield put(SearchActions.searchPeopleSuccess(res.data)) :
       yield put(SearchActions.searchPeopleFailure(res.data));
   } catch (err) {
     console.error(err);

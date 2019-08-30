@@ -14,14 +14,6 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-.ui.segment.gradient.browse-tile-expanded {
-  background: #fff;
-  height: 356px;
-  justify-content: start;
-  overflow: hidden;
-  padding: 0;
-}
-
 .browse-tile-description {
   color: black;
   margin-top: 10%;
@@ -30,30 +22,38 @@ limitations under the License.
   padding: 22px;
 }
 
-.browse-tile-expanded .browse-tile-title-container {
-  background: linear-gradient(to bottom, #9600e8 0%,#fb009a 100%);
-  padding: 22px 22px 12px 22px;
+.browse-tile-title-container {
+  background: linear-gradient(to bottom, #5d4c79 0%,#4c5b79 100%);
+  border-top-left-radius: 1.6em;
+  border-top-right-radius: 1.6em;
+  height: 7em;
   overflow: hidden;
-  width: calc(100% + 10px);
+  padding: 17px;
 }
 
-.browse-tile-expanded .browse-tile-title-container:after {
-  background: repeat-x url('../../images/next-tile-wave.png');
-  background-size: 75%;
+.browse-tile-title-container h3 {
+  margin-bottom: 0 !important;
+}
+
+.browse-tile-title-container:after {
+  background: repeat-x url('../../images/next-tile-wave-alt.png');
+  background-size: 108%;
   content: '';
-  height: 55px;
+  height: 5em;
   left: 0;
   position: absolute;
-  top: 74px;
+  top: 7em;
   width: 100%;
 }
 
-.ui.segment .browse-tile-title-container .ui.header {
+.browse-tile-title-container h3 {
+  color: var(--text-dark);
   display: block;
+  font-size: 1.1em !important;
   word-break: break-word;
 }
 
-.ui.segment .browse-tile-title-container .ui.header .sub.header {
+.browse-tile-title-container .ui.header .sub.header {
   color: #f8c1ffb8;
 }
 
@@ -63,8 +63,23 @@ limitations under the License.
   transform: rotate(45deg);
 }
 
-.next-browse-tile-owners-container {
-  color: white;
+.next-browse-tile-details-container {
+  background: white;
+  background-image: url('../../images/tile-texture.svg');
+  border-bottom-left-radius: 1.6em;
+  border-bottom-right-radius: 1.6em;
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 7em);
+  justify-content: flex-end;
+  padding: 1em;
+}
+
+.next-browse-tile.ui.segment:not(.tall) .next-browse-tile-details-container p {
+  line-height: 1.7em;
+  margin-top: 2.6em;
+  overflow: hidden;
 }
 
 .next-browse-tile-owners {
@@ -87,7 +102,34 @@ limitations under the License.
   word-break: break-word;
 }
 
+.next-browse-tile-owner-label .ui.label {
+  font-size: .75em !important;
+}
+
+.next-browse-tile-owner-label span {
+  margin-right: .5em;
+}
+
 .next-browse-tile-owner-label div:first-child {
   font-size: 1.2em;
   font-weight: 500;
+}
+
+
+.next-browse-tile.ui.segment.tall {
+  height: 356px;
+}
+
+.next-browse-tile-type {
+  color: #e0d0ff57;
+  font-size: .8em;
+  font-weight: 500;
+}
+
+.next-browse-tile-type span {
+  margin-left: .3em;
+}
+
+.next-browse-description-placeholder {
+  opacity: .3;
 }

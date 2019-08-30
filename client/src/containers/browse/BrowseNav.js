@@ -16,10 +16,8 @@ limitations under the License.
 
 import React, { Component } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
-
-
-import Search from 'components/search/Search';
 import './BrowseNav.css';
+import PropTypes from 'prop-types';
 
 
 /**
@@ -32,37 +30,35 @@ import './BrowseNav.css';
  */
 class BrowseNav extends Component {
 
+  static propTypes = {
+    searchInput: PropTypes.string,
+  };
+
+
   /**
    * Render entrypoint
    * @returns {JSX}
    */
   render () {
-    const {
-      fetchingSearchResults,
-      searchInput,
-      searchLimit,
-      searchTypes,
-      setSearchInput,
-      setSearchStart } = this.props;
+    const { searchInput } = this.props;
     return (
       <div id='next-browse-nav'>
         <Container fluid>
           <Grid stackable columns={4}>
             <Grid.Column width={11} only='computer tablet'>
+              { searchInput &&
+                <h1>
+                  Results for:&nbsp;
+                  <strong>
+                    {searchInput}
+                  </strong>
+                </h1>
+              }
+              { !searchInput &&
               <h1>
                 Browse
               </h1>
-            </Grid.Column>
-            <Grid.Column width={5}>
-              <Search
-                fetchingSearchResults={fetchingSearchResults}
-                searchInput={searchInput}
-                searchLimit={searchLimit}
-                searchTypes={searchTypes}
-                setSearchInput={setSearchInput}
-                setSearchStart={setSearchStart}
-                type='browse'
-                {...this.props}/>
+              }
             </Grid.Column>
           </Grid>
         </Container>

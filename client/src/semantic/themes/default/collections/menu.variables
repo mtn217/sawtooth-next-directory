@@ -19,7 +19,6 @@
 @boxShadow: none;
 @borderRadius: @defaultBorderRadius;
 @minHeight: (@itemVerticalPadding * 2) + 1em;
-@sidebarBackgroundColor: #212C3A;
 
 /* Menu Item */
 @itemVerticalPadding: @relativeSmall;
@@ -377,7 +376,7 @@
 ---------------*/
 
 /* Inverted */
-@invertedBackground: @sidebarBackgroundColor;
+@invertedBackground: @darkBackground;
 @invertedBoxShadow: none;
 @invertedBorder: 0px solid transparent;
 @invertedHeaderBackground: transparent;

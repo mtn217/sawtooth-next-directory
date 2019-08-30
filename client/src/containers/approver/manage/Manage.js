@@ -20,7 +20,6 @@ import { Card, Grid } from 'semantic-ui-react';
 
 
 import './Manage.css';
-
 import People from 'containers/approver/people/People';
 import TrackHeader from 'components/layouts/TrackHeader';
 

@@ -144,7 +144,7 @@ class Waves extends Component {
                     2 -250 37 2 37 C 250 37 250 2 500 2 C 750
                     2 750 37 1000 37`}
                 stroke='#ca0de8'
-                strokeWidth='0.4'>
+                strokeWidth='0'>
                 <animateTransform
                   attributeName='transform'
                   type='translate'

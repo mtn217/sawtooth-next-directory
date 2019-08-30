@@ -41,6 +41,7 @@ export default Creators;
 
 export const INITIAL_STATE = Immutable({
   error:                   null,
+  fetching:                null,
   people:                  null,
   packs:                   null,
   roles:                   null,

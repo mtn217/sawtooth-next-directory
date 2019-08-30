@@ -93,6 +93,7 @@ export const appState = (state) => ({
   roleSearchData:      SearchSelectors.roles(state),
   searchInput:         SearchSelectors.searchInput(state),
   searchLimit:         SearchSelectors.searchLimit(state),
+  searchStart:         SearchSelectors.searchStart(state),
   searchTypes:         SearchSelectors.searchTypes(state),
   showSearch:          SearchSelectors.showSearch(state),
   totalSearchPages:    SearchSelectors.totalPages(state),

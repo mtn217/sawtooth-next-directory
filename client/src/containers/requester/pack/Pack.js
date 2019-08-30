@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 import { RequesterActions, RequesterSelectors } from 'state';
 
 
+import Browse from 'containers/browse/Browse';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
 import PackApproval from './PackApproval';
@@ -95,7 +96,14 @@ export class Pack extends Component {
       packId,
       packFromId,
       proposalsFromIds,
-      proposalIds } = this.props;
+      proposalIds,
+      showSearch } = this.props;
+
+    if (showSearch) {
+      return (
+        <Browse {...this.props}/>
+      );
+    }
 
     if (error) {
       return (

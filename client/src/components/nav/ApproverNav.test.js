@@ -26,14 +26,16 @@ import ApproverNav from './ApproverNav';
 
 const store = customStore.create();
 
-const props = {
-  setSearchInput: () => {},
-  setSearchTypes: () => {},
-  setShowSearch:  () => {},
-};
-
 
 describe('ApproverNav component', () => {
+
+  const props = {
+    setSearchInput: () => {},
+    setSearchTypes: () => {},
+    setShowSearch:  () => {},
+  };
+
+
   it('renders without crashing', () => {
     const div = document.createElement('div');
 
@@ -47,4 +49,5 @@ describe('ApproverNav component', () => {
 
     ReactDOM.unmountComponentAtNode(div);
   });
+
 });

@@ -45,7 +45,7 @@ class Snapshot extends Component {
   };
 
 
-  themes = ['dark', 'gradient'];
+  themes = ['dark', 'pattern'];
 
 
   /**

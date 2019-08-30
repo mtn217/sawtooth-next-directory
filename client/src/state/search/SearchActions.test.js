@@ -21,7 +21,7 @@ import { SearchReducer as reducer } from './SearchReducer';
 test('searchBrowseSuccess', () => {
   const state = reducer(
     INITIAL_STATE,
-    Actions.searchBrowseSuccess([])
+    Actions.searchBrowseSuccess({ data: {} })
   );
   expect(state.fetching).toBe(false);
   expect(state.error).toBeNull();
@@ -42,7 +42,7 @@ test('searchBrowseFailure', () => {
 test('searchPeopleSuccess', () => {
   const state = reducer(
     INITIAL_STATE,
-    Actions.searchPeopleSuccess([])
+    Actions.searchPeopleSuccess({ data: {} })
   );
   expect(state.fetching).toBe(false);
   expect(state.error).toBeNull();

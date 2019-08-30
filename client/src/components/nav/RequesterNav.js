@@ -15,15 +15,19 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Input, Container, Search } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import {
+  Button,
+  Container,
+  Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
 import './RequesterNav.css';
 import roleGlyph from 'images/glyph-role-white.png';
+import Search from 'components/search/Search';
 import NavList from './NavList';
-import * as utils from '../../services/Utils';
 
 
 /**
@@ -63,9 +67,9 @@ class RequesterNav extends Component {
    * @returns {undefined}
    */
   componentDidUpdate (prevProps) {
-    const { recommendedPacks } = this.props;
-    if (!utils.arraysEqual(prevProps.recommendedPacks, recommendedPacks))
-      this.init();
+    // const { recommendedPacks } = this.props;
+    // if (!utils.arraysEqual(prevProps.recommendedPacks, recommendedPacks))
+    //   this.init();
   }
 
 
@@ -77,7 +81,10 @@ class RequesterNav extends Component {
     const {
       getPacks,
       packs,
-      recommendedPacks } = this.props;
+      recommendedPacks,
+      setSearchInput,
+      setSearchTypes,
+      setShowSearch } = this.props;
 
     let diff;
     packs && recommendedPacks ?
@@ -86,7 +93,22 @@ class RequesterNav extends Component {
       diff = recommendedPacks;
 
     diff && diff.length > 0 && getPacks(diff);
+
+    setSearchInput('');
+    setSearchTypes(['role', 'pack']);
+    setShowSearch(false);
   }
+
+
+  /**
+   * Determine if nav item is active
+   * @param {object} name Nav item name
+   * @returns {boolean}
+   */
+  isItemActive = (name) => {
+    const { location } = this.props;
+    return location.pathname.includes(`/${name}`);
+  };
 
 
   /**
@@ -142,25 +164,77 @@ class RequesterNav extends Component {
    * @returns {JSX}
    */
   render () {
+    const {
+      fetchingSearchResults,
+      searchInput,
+      searchLimit,
+      searchTypes,
+      showSearch } = this.props;
+
     return (
-      <Container>
+      <Container id='next-requester-nav-search'>
         <Search
-          input={() => <Input
-            maxLength='255'
-            icon='search'
-            placeholder='Search roles and packs...'/>}
-          className='next-requester-nav-search'
-          category
-          loading={false}/>
-        <Link to='/browse' id='next-requester-nav-browse'>
-          <Button primary fluid>
-            <Button.Content visible>
-              BROWSE
-              <Icon name='arrow right'/>
-            </Button.Content>
-          </Button>
-        </Link>
-        { this.renderLists() }
+          fetchingSearchResults={fetchingSearchResults}
+          placeholder='Search roles and packs...'
+          searchInput={searchInput}
+          searchLimit={searchLimit}
+          searchTypes={searchTypes}
+          type='browse'
+          {...this.props}/>
+        { !showSearch && !this.isItemActive('browse') &&
+          <Link to='/browse' id='next-requester-nav-browse'>
+            <Button primary fluid>
+              <Button.Content visible>
+                BROWSE
+                <Icon name='arrow right'/>
+              </Button.Content>
+            </Button>
+          </Link>
+        }
+        { this.isItemActive('browse') &&
+          <Link
+            to='/home'
+            id='next-requester-nav-primary-button'>
+            <Button primary fluid>
+              <Button.Content visible>
+                <Icon name='arrow left'/>
+                <span>
+                  BACK
+                </span>
+              </Button.Content>
+            </Button>
+          </Link>
+        }
+        { showSearch && !this.isItemActive('browse') &&
+          <div id='next-requester-nav-primary-button'>
+            <Button primary fluid onClick={() => this.init()}>
+              <Button.Content visible>
+                <Icon name='arrow left'/>
+                <span>
+                  BACK
+                </span>
+              </Button.Content>
+            </Button>
+          </div>
+        }
+        { !showSearch && !this.isItemActive('browse') &&
+          this.renderLists()
+        }
+        { (showSearch || this.isItemActive('browse')) &&
+          <div id='next-requester-panel-nav-text'>
+            <p>
+              Type in the search box above to search for
+              roles and packs within your organization.
+            </p>
+            <p>
+              Click&nbsp;
+              <strong>
+                Back
+              </strong>
+              &nbsp;to return to the previous view.
+            </p>
+          </div>
+        }
       </Container>
     );
   }
@@ -168,4 +242,16 @@ class RequesterNav extends Component {
 }
 
 
-export default RequesterNav;
+const mapStateToProps = (state) => {
+  return {
+    fetchingSearchResults: state.search.fetching,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(RequesterNav)
+);

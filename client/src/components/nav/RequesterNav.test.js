@@ -15,41 +15,57 @@ limitations under the License.
 
 
 import React from 'react';
-
-
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
 
+import * as customStore from 'customStore';
 import RequesterNav from './RequesterNav';
 
 
+const store = customStore.create();
+
+
 describe('RequesterNav component', () => {
+
   const props = {
-    activeRole: null,
-    getBase: () => {},
-    getRole: (id) => {},
-    isAuthenticated: true,
-    requests: null,
-    routes: () => {},
-    recommendedPacks: ['packId'],
-    recommendedRoles: [],
-    packs: [{id: 'newPackId'}],
-    getPacks: () => {},
+    activeRole:           null,
+    getBase:              () => {},
+    getRole:              (id) => {},
+    isAuthenticated:      true,
+    location:             { pathname: '' },
+    requests:             null,
+    routes:               () => {},
+    recommendedPacks:     ['packId'],
+    recommendedRoles:     [],
+    setSearchInput:       () => {},
+    setSearchTypes:       () => {},
+    setShowSearch:        () => {},
+    packs:                [{ id: 'newPackId' }],
+    getPacks:             () => {},
   };
-  const wrapper = shallow(<RequesterNav {...props}/>);
+
+
+  const wrapper = shallow(
+    <RequesterNav.WrappedComponent {...props} store={store}/>
+  );
+
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
 
     ReactDOM.render(
-      <BrowserRouter>
-        <RequesterNav {...props}/>
-      </BrowserRouter>, div
+      <Provider store={store}>
+        <BrowserRouter>
+          <RequesterNav {...props}/>
+        </BrowserRouter>
+      </Provider>, div
     );
 
     ReactDOM.unmountComponentAtNode(div);
   });
   wrapper.instance().componentDidUpdate(props);
+
 });

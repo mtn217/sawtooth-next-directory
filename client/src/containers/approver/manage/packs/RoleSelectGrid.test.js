@@ -30,8 +30,10 @@ const store = customStore.create();
 
 describe('RoleSelectGrid component', () => {
   const props = {
-    clearSearchData: () => {},
-    getAllRoles: () => {},
+    clearSearchData:      () => {},
+    getAllRoles:          () => {},
+    searchInput:          '',
+    setSearchTypes:       () => {},
   };
 
   it('renders without crashing', () => {

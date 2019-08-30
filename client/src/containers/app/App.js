@@ -26,7 +26,6 @@ import PropTypes from 'prop-types';
 
 
 import './App.css';
-import Browse from 'containers/browse/Browse';
 import Landing from 'containers/landing/Landing';
 import Login from 'containers/login/Login';
 import Signup from 'containers/signup/Signup';
@@ -239,16 +238,20 @@ class App extends Component {
         <div id='next-global-container'>
           { isAuthenticated && <Header {...this.props}/> }
           <Switch>
+
+            {/*
+              Unprotected routes
+            */}
             <Route exact path='/' component={Landing}/>
             <Route exact path='/login' component={Login}/>
             { process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' &&
               <Route exact path='/signup' component={Signup}/>
             }
             { !isAuthenticated && <Redirect to='/'/> }
-            <Route
-              exact
-              path='/browse'
-              render={() => <Browse {...this.props}/>}/>
+
+            {/*
+              Protected routes
+            */}
             { this.routes &&
               this.routes.map((route, index) => (
                 <Route

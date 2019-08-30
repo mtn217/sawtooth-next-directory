@@ -14,6 +14,15 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
+#next-about-modal-container {
+  background-color: var(--header-bg-color);
+  background-image: url('../../images/landing-billboard-background-2.svg');
+  background-size: cover;
+  border-radius: 2em;
+  height: 60%;
+  overflow: hidden;
+}
+
 #next-about-modal-header {
   background: #e0e1e2;
   border: 0;
@@ -25,10 +34,11 @@ limitations under the License.
 }
 
 #next-about-modal-content {
-  color: gray;
-  font-size: 1.1em;
-  min-height: 150px;
-  padding-top: 60px;
+  padding: 6em !important;
+}
+
+#next-about-modal-content span {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
 }
 
 #next-about-modal-content h3 {
@@ -38,4 +48,7 @@ limitations under the License.
 #next-about-modal-actions {
   background: none;
   border: 0;
+  position: absolute;
+  right: .5em;
+  top: .5em;
 }

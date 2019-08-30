@@ -16,7 +16,7 @@ limitations under the License.
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Segment } from 'semantic-ui-react';
+import { Header, Icon, Label, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
@@ -49,6 +49,13 @@ class BrowseCard extends Component {
   }
 
 
+  handleClick = () => {
+    const { setSearchInput, setShowSearch } = this.props;
+    setSearchInput('');
+    setShowSearch(false);
+  }
+
+
   /**
    * Render role owner(s) info
    * @returns {JSX}
@@ -66,10 +73,20 @@ class BrowseCard extends Component {
             {...this.props}/>
           <div className='next-browse-tile-owner-label'>
             <div>
-              {user && user.name}
+              { user &&
+                <span>
+                  {user.name}
+                </span>
+              }
+              { user &&
+                <Label horizontal color='blue' size='mini'>
+                  OWNER
+                </Label>
+              }
             </div>
             { resource.members &&
               <div>
+                <Icon name='users' size='small'/>
                 {utils.countLabel(resource.members.length, 'member')}
               </div>
             }
@@ -93,36 +110,49 @@ class BrowseCard extends Component {
    * @returns {JSX}
    */
   render () {
-    const { resource } = this.props;
+    const { isTall, resource } = this.props;
 
     return (
       <Segment
         as={Link}
-        to={`/${resource.roles ? 'packs' : 'roles'}/${resource.id}`}
-        className={`gradient ${resource.roles ? 'browse-tile-expanded' : ''}`}>
+        onClick={() => this.handleClick()}
+        className={`next-browse-tile ${isTall ?
+          'tall' :
+          ''}`}
+        to={`/${resource.roles ?
+          'packs' :
+          'roles'}/${resource.id}`}>
         <div className='browse-tile-title-container'>
           <Header inverted as='h3'>
             {resource.name}
-            { resource.roles &&
-              <Header.Subheader>
-                { resource.roles &&
-                  utils.countLabel(resource.roles.length, 'role')
-                }
-              </Header.Subheader>
-            }
           </Header>
+          { !resource.roles &&
+            <span className='next-browse-tile-type'>
+              ROLE
+            </span>
+          }
+          { resource.roles &&
+            <span className='next-browse-tile-type'>
+              PACK&bull;
+              <span>
+                {utils.countLabel(resource.roles.length, 'role')}
+              </span>
+            </span>
+          }
           {/* <Icon
             className='browse-tile-pinned-icon'
             disabled={!isPinned}
             onClick={this.togglePinned}
             inverted name='pin' size='small'/> */}
         </div>
-        { resource.roles &&
-        <div className='browse-tile-description'>
-          {resource.description || 'No description available.'}
-        </div>
-        }
-        <div className='next-browse-tile-owners-container'>
+        <div className='next-browse-tile-details-container'>
+          <p>
+            { resource.description ||
+              <span className='next-browse-description-placeholder'>
+                No description available.
+              </span>
+            }
+          </p>
           { !resource.roles &&
             this.renderOwners()
           }

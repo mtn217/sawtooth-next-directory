@@ -5,7 +5,7 @@
 .ui.huge.inverted.vertical.menu {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  box-shadow: 0 20px 30px #00000029;
+  box-shadow: 0.25em 2.1em 2em #0000007a;
 }
 
 .ui.huge.inverted.vertical.menu .item {

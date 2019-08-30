@@ -89,7 +89,7 @@ class TrackHeader extends Component {
                   </Breadcrumb.Section>
                   { title && title !== breadcrumb[1].name &&
                     <div>
-                      <Breadcrumb.Divider icon='right arrow'/>
+                      <Breadcrumb.Divider icon='right chevron'/>
                       <Breadcrumb.Section active>
                         {title}
                       </Breadcrumb.Section>

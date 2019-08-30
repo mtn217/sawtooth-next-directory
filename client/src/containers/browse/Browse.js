@@ -52,7 +52,7 @@ class Browse extends Component {
 
   state = {
     start:          0,
-    limit:          100,
+    limit:          50,
   };
 
 
@@ -61,13 +61,6 @@ class Browse extends Component {
    * component. On load, get roles
    */
   componentDidMount () {
-    const {
-      setSearchInput,
-      setSearchTypes } = this.props;
-
-    setSearchInput('');
-    setSearchTypes(['role', 'pack']);
-
     theme.apply(this.themes);
     this.loadNext(0);
     this.init();
@@ -160,13 +153,19 @@ class Browse extends Component {
 
   /**
    * Render columns
-   * @param {array} column Array of resources to display within
-   *                       a column subsection
+   * @param {array}    column Array of resources to display
+   *                          within a column subsection
+   * @param {number} rowIndex Index with respect to x-axis
+   *                          used to calculate card height
    * @returns {JSX}
    */
-  renderColumns = (column) => {
-    return column.map((item, index) => (
-      <BrowseCard key={index} resource={item} {...this.props}/>
+  renderColumns = (column, rowIndex) => {
+    return column.map((item, columnIndex) => (
+      <BrowseCard
+        isTall={(columnIndex + rowIndex) % 2}
+        key={columnIndex}
+        resource={item}
+        {...this.props}/>
     ));
   }
 
@@ -230,11 +229,7 @@ class Browse extends Component {
       fetchingSearchResults,
       rolesTotalCount,
       searchInput,
-      searchLimit,
       searchStart,
-      searchTypes,
-      setSearchInput,
-      setSearchStart,
       totalSearchPages } = this.props;
     const { limit } = this.state;
 
@@ -249,22 +244,18 @@ class Browse extends Component {
       <div>
         <BrowseNav
           fetchingSearchResults={fetchingSearchResults}
-          searchInput={searchInput}
-          searchLimit={searchLimit}
-          searchTypes={searchTypes}
-          setSearchInput={setSearchInput}
-          setSearchStart={setSearchStart}
           {...this.props}/>
         <div id='next-browse-wrapper'>
           <Container fluid id='next-browse-container'>
             <Grid
               stackable
               columns={4}
+              className='masonry'
               id='next-browse-grid'>
               { showSearchData &&
                 browseSearchData.map((column, index) => (
                   <Grid.Column key={index}>
-                    {this.renderColumns(column)}
+                    {this.renderColumns(column, index)}
                   </Grid.Column>
                 ))
               }
@@ -272,7 +263,7 @@ class Browse extends Component {
                 !showSearchData &&
                 browseData.map((column, index) => (
                   <Grid.Column key={index}>
-                    {this.renderColumns(column)}
+                    {this.renderColumns(column, index)}
                   </Grid.Column>
                 ))
               }

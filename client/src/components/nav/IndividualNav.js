@@ -19,9 +19,7 @@ import {
   Button,
   Checkbox,
   Dropdown,
-  Menu,
-  Input,
-  Search } from 'semantic-ui-react';
+  Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import './IndividualNav.css';
 
@@ -57,7 +55,7 @@ class IndividualNav extends Component {
 
     return (
       <div id='next-individual-nav'>
-        <Menu compact>
+        <Menu fluid inverted secondary>
           <Menu.Item
             name='roles'
             id='next-individual-nav-roles-click'
@@ -95,7 +93,7 @@ class IndividualNav extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <Search
+        {/* <Search
           fluid
           input={() => <Input
             fluid
@@ -105,7 +103,7 @@ class IndividualNav extends Component {
             placeholder='Search...'/>}
           className='next-individual-search'
           category
-          loading={false}/>
+          loading={false}/> */}
       </div>
     );
   }

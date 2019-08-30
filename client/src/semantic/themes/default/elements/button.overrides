@@ -109,9 +109,8 @@ button.ui.link:focus {
 }
 
 .toggle.buttons .ui.button.active div {
-  background: #4c4b5f;
-  color: #c8c9cd;
-  transition: all .35s;
+  background: #eceef2;
+  color: #4b495c;
 }
 
 .toggle.buttons .ui.button:first-child {

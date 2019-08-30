@@ -14,9 +14,9 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-.next-approver-nav-search,
-.next-approver-nav-search input,
-.next-approver-nav-search .ui {
+#next-approver-nav-search,
+#next-approver-nav-search input,
+#next-approver-nav-search .ui {
   width: 100%;
 }
 
@@ -45,16 +45,21 @@ limitations under the License.
 
 #next-approver-nav-search .ui.input input {
   background: #2b2b3a;
-  color: white;
   border: none;
   border-radius: 0;
-  font-size: 1em;
+  color: white;
+  font-size: .9em;
   height: 36px;
   padding-left: var(--nav-list-padding);
 }
 
 #next-approver-nav-search .ui.input input::placeholder {
   color: #62626d;
+}
+
+#next-approver-nav-search .ui.input input:focus {
+  background: white;
+  color: var(--text-dark);
 }
 
 #next-approver-switch-container {

@@ -17,7 +17,10 @@ limitations under the License.
 import React, { Component } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+
+
 import './RequesterHome.css';
+import Browse from 'containers/browse/Browse';
 import * as utils from 'services/Utils';
 
 
@@ -60,14 +63,21 @@ class RequesterHome extends Component {
    * @returns {JSX}
    */
   render () {
+    const { showSearch } = this.props;
     return (
-      <Grid id='next-requester-grid'>
-        <Grid.Column
-          id='next-requester-grid-track-column'
-          width={16}>
-          <Container fluid id='next-requester-landing-container'></Container>
-        </Grid.Column>
-      </Grid>
+      <div id='next-requester-container'>
+        { showSearch && <Browse {...this.props}/> }
+        { !showSearch &&
+          <Grid id='next-requester-grid'>
+            <Grid.Column
+              id='next-requester-grid-track-column'
+              width={16}>
+              <Container fluid id='next-requester-landing-container'>
+              </Container>
+            </Grid.Column>
+          </Grid>
+        }
+      </div>
     );
   }
 

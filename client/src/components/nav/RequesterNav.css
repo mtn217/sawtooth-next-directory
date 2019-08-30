@@ -14,23 +14,29 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-.next-requester-nav-search,
-.next-requester-nav-search input,
-.next-requester-nav-search .ui {
+#next-requester-nav-search,
+#next-requester-nav-search input,
+#next-requester-nav-search .ui {
   width: 100%;
 }
 
-.next-requester-nav-search {
-  /* padding: 14px var(--nav-list-padding); */
+#next-requester-nav-primary-button {
+  display: block;
+  padding-bottom: 0;
 }
 
-.next-requester-nav-search .ui.input input {
-  background: #2b2b3a;
-  border: none;
+#next-requester-nav-primary-button button {
+  background: #353547;
   border-radius: 0;
-  font-size: 1em;
-  height: 36px;
-  padding-left: var(--nav-list-padding);
+  padding: 33px;
+}
+
+#next-requester-nav-primary-button button:hover {
+  background: var(--magenta);
+}
+
+#next-requester-nav-primary-button span {
+  margin: 0 10px;
 }
 
 #next-requester-nav-browse {
@@ -53,8 +59,23 @@ limitations under the License.
   margin-left: 10px;
 }
 
-.next-requester-nav-search .ui.input input::placeholder {
+#next-requester-nav-search .ui.input input {
+  background: #2b2b3a;
+  border: none;
+  border-radius: 0;
+  color: white;
+  font-size: .9em;
+  height: 36px;
+  padding-left: var(--nav-list-padding);
+}
+
+#next-requester-nav-search .ui.input input::placeholder {
   color: #62626d;
+}
+
+#next-requester-nav-search .ui.input input:focus {
+  background: white;
+  color: var(--text-dark);
 }
 
 #next-requester-nav-lists-container {
@@ -78,4 +99,13 @@ limitations under the License.
 
 #next-requester-switch-container a {
   color: var(--nav-heading-color);
+}
+
+#next-requester-panel-nav-text {
+  padding: 1em;
+  font-size: .9em;
+}
+
+#next-requester-panel-nav-text p {
+  margin-bottom: 2em;
 }

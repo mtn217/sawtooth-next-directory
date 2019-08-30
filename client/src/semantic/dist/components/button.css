@@ -3929,10 +3929,8 @@ button.ui.link:focus {
   padding: 0.25em 1.45em;
 }
 .toggle.buttons .ui.button.active div {
-  background: #4c4b5f;
-  color: #c8c9cd;
-  -webkit-transition: all 0.35s;
-  transition: all 0.35s;
+  background: #eceef2;
+  color: #4b495c;
 }
 .toggle.buttons .ui.button:first-child {
   border-top-left-radius: 4em;

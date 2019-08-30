@@ -34,24 +34,15 @@ class RoleSelectGridNav extends Component {
    * @returns {JSX}
    */
   render () {
-    const {
-      fetchingSearchResults,
-      searchInput,
-      searchLimit,
-      searchTypes,
-      setSearchInput,
-      setSearchStart } = this.props;
+    const { fetchingSearchResults } = this.props;
     return (
       <div id='next-role-select-grid-nav'>
         <div id='next-role-select-grid-search'>
           <Search
             fetchingSearchResults={fetchingSearchResults}
-            searchInput={searchInput}
-            searchLimit={searchLimit}
-            searchTypes={searchTypes}
-            setSearchInput={setSearchInput}
-            setSearchStart={setSearchStart}
+            placeholder='Search roles...'
             type='browse'
+            isLocal={true}
             {...this.props}/>
         </div>
       </div>

@@ -51,10 +51,6 @@ class RoleSelectGrid extends Component {
 
 
   state = {
-    searchInput:    '',
-    searchStart:    1,
-    searchLimit:    20,
-    searchTypes:    ['role'],
     start:          0,
     limit:          25,
   };
@@ -65,8 +61,10 @@ class RoleSelectGrid extends Component {
    * component.
    */
   componentDidMount () {
+    const { setSearchTypes } = this.props;
     this.loadNext(0);
     this.init();
+    setSearchTypes(['role']);
   }
 
 
@@ -130,12 +128,13 @@ class RoleSelectGrid extends Component {
    * @param {number} start Loading start index
    */
   loadNextSearch = () => {
-    const { search } = this.props;
     const {
+      search,
       searchInput,
       searchLimit,
       searchStart,
-      searchTypes } = this.state;
+      searchTypes,
+      setSearchStart } = this.props;
 
     const query = {
       query: {
@@ -146,26 +145,8 @@ class RoleSelectGrid extends Component {
       },
     };
 
-    this.setState({ searchStart: searchStart + 1 });
+    setSearchStart(searchStart + 1);
     search('browse', query);
-  }
-
-
-  /**
-   * Set search input state
-   * @param {string} searchInput Search input value
-   */
-  setSearchInput = (searchInput) => {
-    this.setState({ searchInput });
-  }
-
-
-  /**
-   * Set search start state
-   * @param {string} searchStart Search start value
-   */
-  setSearchStart = (searchStart) => {
-    this.setState({ searchStart });
   }
 
 
@@ -256,13 +237,10 @@ class RoleSelectGrid extends Component {
       roles,
       roleSearchData,
       rolesTotalCount,
-      totalSearchPages } = this.props;
-    const {
-      limit,
       searchInput,
-      searchLimit,
       searchStart,
-      searchTypes } = this.state;
+      totalSearchPages } = this.props;
+    const { limit } = this.state;
 
     const showSearchData = !utils.isWhitespace(searchInput);
 
@@ -270,11 +248,6 @@ class RoleSelectGrid extends Component {
       <div id='next-role-select-grid-container'>
         <RoleSelectGridNav
           fetchingSearchResults={fetchingSearchResults}
-          searchInput={searchInput}
-          searchLimit={searchLimit}
-          searchTypes={searchTypes}
-          setSearchInput={this.setSearchInput}
-          setSearchStart={this.setSearchStart}
           {...this.props}/>
         <Grid centered columns={3} id='next-role-select-grid'>
           { showSearchData && roleSearchData &&
@@ -333,7 +306,8 @@ class RoleSelectGrid extends Component {
             </Button>
           </Container>
         }
-        { roles && (roles.length < rolesTotalCount) &&
+        { !showSearchData &&
+          roles && (roles.length < rolesTotalCount) &&
           <Container
             id='next-role-select-grid-load-next-button'
             textAlign='center'>

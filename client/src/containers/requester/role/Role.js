@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 import { RequesterActions, RequesterSelectors } from 'state';
 
 
+import Browse from 'containers/browse/Browse';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
 import RoleApproval from './RoleApproval';
@@ -104,7 +105,14 @@ export class Role extends Component {
       proposalFromId,
       proposalId,
       roleId,
-      roleFromId } = this.props;
+      roleFromId,
+      showSearch } = this.props;
+
+    if (showSearch) {
+      return (
+        <Browse {...this.props}/>
+      );
+    }
 
     if (error && error.code === 404) {
       return (

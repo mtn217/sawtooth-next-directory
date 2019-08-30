@@ -33,9 +33,9 @@ limitations under the License.
 
 #next-track-header .ui.breadcrumb {
   display: flex;
-  left: 13px;
+  left: -.5em;
   position: relative;
-  top: 86px;
+  top: 6em;
 }
 
 #next-track-header .ui.breadcrumb .active {
@@ -43,7 +43,8 @@ limitations under the License.
 }
 
 #next-track-header .ui.breadcrumb a {
-  color: #aaa;
+  color: var(--text-light);
+  font-weight: 500;
 }
 
 .dark.minimal #next-track-header {

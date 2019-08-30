@@ -17,7 +17,7 @@ limitations under the License.
 #next-browse-nav {
   background: var(--component-nav-bg);
   display: flex;
-  padding: var(--page-content-padding) 5%;
+  padding: var(--page-content-padding) 4% 5em 4%;
   position: fixed;
   top: var(--header-height);
   width: 100%;
@@ -26,11 +26,10 @@ limitations under the License.
 
 #next-browse-nav .ui.grid .column > h1 {
   color: white;
-  margin: 5px 0 0 -5px;
 }
 
 .dark #next-browse-nav {
-  background: var(--dark-bg);
+  background: linear-gradient(var(--dark-bg), transparent);
 }
 
 #next-browse-nav .next-search-input .ui.large.fluid.icon.input {

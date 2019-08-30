@@ -42,7 +42,7 @@ test('browse: success path', () => {
 
   const stepRes = step(res);
   expect(stepRes).toEqual(
-    put(SearchActions.searchBrowseSuccess(res.data.data))
+    put(SearchActions.searchBrowseSuccess(res.data))
   );
 });
 
@@ -86,7 +86,7 @@ test('people: success path', () => {
 
   const stepRes = step(res);
   expect(stepRes).toEqual(
-    put(SearchActions.searchPeopleSuccess(res.data.data))
+    put(SearchActions.searchPeopleSuccess(res.data))
   );
 });
 
