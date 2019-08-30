@@ -67,18 +67,8 @@ class Header extends Component {
    * component. Add event listener to handle click outside menu.
    */
   componentDidMount () {
-    const {
-      history,
-      id,
-      isSocketOpen,
-      sendSocket } = this.props;
-
-    if (history.location.pathname.includes('/approval') ||
-        history.location.pathname.includes('/snapshot'))
-      this.setState({ approverViewEnabled: true });
-    else
-      this.setState({ approverViewEnabled: false });
-
+    const { id, isSocketOpen, sendSocket } = this.props;
+    this.setView();
     document.addEventListener(
       'mousedown', this.handleClickOutside
     );
@@ -102,13 +92,8 @@ class Header extends Component {
       isSocketOpen,
       sendSocket } = this.props;
 
-    if (history.location.pathname !== prevProps.history.location.pathname) {
-      if (history.location.pathname.includes('/approval') ||
-          history.location.pathname.includes('/snapshot'))
-        this.setState({ approverViewEnabled: true });
-      else
-        this.setState({ approverViewEnabled: false });
-    }
+    if (history.location.pathname !== prevProps.history.location.pathname)
+      this.setView();
     if (prevProps.isAuthenticated !== isAuthenticated) {
       this.setState({
         globalMenuVisible: false,
@@ -130,6 +115,18 @@ class Header extends Component {
     document.removeEventListener(
       'mousedown', this.handleClickOutside
     );
+  }
+
+
+  setView = () => {
+    const { history, setView } = this.props;
+    if (history.location.pathname.includes('/login')) {
+      setView(parseInt(storage.getViewState()));
+      return;
+    }
+    history.location.pathname.includes('/approval') ?
+      setView(1) :
+      setView(0);
   }
 
 
@@ -191,24 +188,23 @@ class Header extends Component {
 
 
   /**
-   * Toggle approver view. When enabled, add setting to
+   * Toggle view. When enabled, add setting to
    * browser storage and navigate to view.
    * @param {number} index Index of view
    */
-  toggleApproverView = (index) => {
+  navigateToView = (index) => {
     const {
       history,
       recommendedPacks,
       recommendedRoles,
-      startAnimation } = this.props;
+      startAnimation,
+      setView } = this.props;
 
     if (index === 1) {
-      storage.setViewState(1);
-      this.setState({ approverViewEnabled: true });
+      setView(index);
       history.push('/approval/pending/individual');
     } else {
-      storage.removeViewState();
-      this.setState({ approverViewEnabled: false });
+      setView(index);
       startAnimation();
       history.push(
         utils.createHomeLink(recommendedPacks, recommendedRoles)
@@ -224,6 +220,13 @@ class Header extends Component {
     const { logout } = this.props;
     this.toggleGlobalMenu();
     logout();
+  }
+
+
+  handleManageClick = () => {
+    const { currentView, setView } = this.props;
+    currentView !== 1 && setView(1);
+    this.toggleGlobalMenu();
   }
 
 
@@ -245,11 +248,11 @@ class Header extends Component {
   }
 
   /**
-   * Render aprrover view button
+   * Render view toggle
    * @returns {JSX}
    */
-  renderApprover = () => {
-    const { approverViewEnabled } = this.state;
+  renderViewToggle = () => {
+    const { currentView } = this.props;
 
     return (
       <Button.Group
@@ -257,15 +260,15 @@ class Header extends Component {
         id='next-header-global-menu-view-toggle'
         size='tiny'>
         <Button
-          onClick={() => this.toggleApproverView(0)}
-          active={!approverViewEnabled}>
+          onClick={() => this.navigateToView(0)}
+          active={currentView === 0}>
           <div>
             Requester View
           </div>
         </Button>
         <Button
-          onClick={() => this.toggleApproverView(1)}
-          active={approverViewEnabled}>
+          onClick={() => this.navigateToView(1)}
+          active={currentView === 1}>
           <div>
             Approver View
           </div>
@@ -280,7 +283,7 @@ class Header extends Component {
    * @returns {JSX}
    */
   renderGlobalMenu () {
-    const { id, me } = this.props;
+    const { currentView, id, me } = this.props;
 
     return (
       <div id='next-header-global-menu'>
@@ -297,16 +300,18 @@ class Header extends Component {
               </MenuHeader>
             </Menu.Item>
           }
-          <Menu.Item
-            as={Link} to='/approval/manage'
-            onClick={this.toggleGlobalMenu}>
-            <MenuHeader as='h5'>
-              <Icon name='setting' inverted/>
-              <MenuHeader.Content>
-                Manage
-              </MenuHeader.Content>
-            </MenuHeader>
-          </Menu.Item>
+          { currentView === 0 &&
+            <Menu.Item
+              as={Link} to='/approval/manage'
+              onClick={this.handleManageClick}>
+              <MenuHeader as='h5'>
+                <Icon name='setting' inverted/>
+                <MenuHeader.Content>
+                  Manage
+                </MenuHeader.Content>
+              </MenuHeader>
+            </Menu.Item>
+          }
           <Menu.Item
             onClick={this.toggleAboutModal}>
             <MenuHeader as='h5'>
@@ -374,7 +379,7 @@ class Header extends Component {
         </div>
         { me &&
         <div className='next-render-approver'>
-          {this.renderApprover()}
+          {this.renderViewToggle()}
         </div>
 
         }

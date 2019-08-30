@@ -289,11 +289,15 @@ body,
   color: white;
 }
 .toast {
-  border-radius: 1em !important;
-  padding: 20px !important;
+  border-radius: 0.8em !important;
+  font-size: 0.9em;
+  padding: 0.7em 1.3em 0.8em 1.3em !important;
 }
 .toast.Toastify__toast--warning {
   color: #1d1e27;
+}
+.Toastify__toast-container--top-right {
+  top: 4em !important;
 }
 @-webkit-keyframes flux {
   0% {

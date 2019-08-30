@@ -16,6 +16,7 @@ limitations under the License.
 
 import { createReducer } from 'reduxsauce';
 import { INITIAL_STATE, AppTypes as Types } from './AppActions';
+import * as storage from 'services/Storage';
 
 
 export const animationBegin = (state) =>
@@ -78,6 +79,12 @@ export const refreshOnNextSocketReceive = (state, { flag }) =>
   state.merge({ shouldRefreshOnNextSocketReceive: flag });
 
 
+export const setView = (state, { view }) => {
+  storage.setViewState(view);
+  return state.merge({ currentView: view });
+};
+
+
 export const AppReducer = createReducer(INITIAL_STATE, {
   [Types.ANIMATION_BEGIN]:                animationBegin,
   [Types.ANIMATION_END]:                  animationEnd,
@@ -95,4 +102,5 @@ export const AppReducer = createReducer(INITIAL_STATE, {
   [Types.SOCKET_CLOSE_SUCCESS]:           socketCloseSuccess,
   [Types.SOCKET_MAX_ATTEMPTS_REACHED]:    socketMaxAttemptsReached,
   [Types.REFRESH_ON_NEXT_SOCKET_RECEIVE]: refreshOnNextSocketReceive,
+  [Types.SET_VIEW]:                       setView,
 });

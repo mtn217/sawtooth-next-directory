@@ -41,9 +41,11 @@ describe('Header component', () => {
       },
       openProposalsCount: 5,
       renderMenu: () => {  },
-      logout: () => { },
+      setView: () => {},
+      logout: () => {},
       users: [],
     };
+
     ReactDOM.render(
       <Provider store={store}>
         <BrowserRouter>
@@ -66,8 +68,9 @@ describe('Header component', () => {
         pathname: '',
       },
       openProposalsCount: 5,
-      renderMenu: () => {  },
-      logout: () => { },
+      renderMenu: () => {},
+      setView: () => {},
+      logout: () => {},
     };
 
     const wrapper = shallow(

@@ -127,7 +127,7 @@ class PeopleChat extends Component {
    * @returns {JSX}
    */
   renderUserRole (roleId) {
-    const { roleFromId } = this.props;
+    const { roleFromId, setView } = this.props;
     const role = roleFromId(roleId);
     return (
       role &&
@@ -135,6 +135,7 @@ class PeopleChat extends Component {
         <Card
           fluid
           as={Link}
+          onClick={() => setView(0)}
           to={`/roles/${roleId}`}
           className='minimal small'>
           <Header as='h4'>

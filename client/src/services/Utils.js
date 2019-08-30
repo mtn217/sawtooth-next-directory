@@ -65,6 +65,12 @@ export const createHomeLink = (packs = [], roles = []) => {
 };
 
 
+/**
+ * Group object array by key
+ * @param {array} array Array to group
+ * @param {string} key Key to group by
+ * @returns {object}
+ */
 export const groupBy = (array, key) => {
   return array && array.reduce((prev, curr) => {
     prev[curr[key]] = prev[curr[key]] || [];
@@ -72,6 +78,7 @@ export const groupBy = (array, key) => {
     return prev;
   }, Object.create(null));
 };
+
 
 export const filterBy = (array, key, me) => {
   return array && array.filter(
@@ -114,6 +121,12 @@ export const merge = (array1, array2, key = 'id') => {
 };
 
 
+/**
+ * Compare equality of two given object arrays
+ * @param {array} array1 Array 1
+ * @param {array} array2 Array 2
+ * @returns {boolean}
+ */
 export const arraysEqual = (array1, array2) => {
   if (array1 === array2) return true;
   if (array1 == null || array2 == null) return false;
@@ -126,10 +139,21 @@ export const arraysEqual = (array1, array2) => {
 };
 
 
-export const nearestMinute = (seconds = 1000 * 60) =>
-  new Date(Math.round(new Date().getTime() / seconds) * seconds).getTime();
+/**
+ * Return a rounded timestamp n milliseconds from now
+ * @param {number} ms Number (n) of milliseconds
+ * @returns {number}
+ */
+export const nearestMinute = (ms = 1000 * 60) =>
+  new Date(Math.round(new Date().getTime() / ms) * ms).getTime();
 
 
+/**
+ * Sort a given object array by key
+ * @param {array} array Array to sort
+ * @param {string}  key String within sub-object to sort against
+ * @returns {array}
+ */
 export const sort = (array, key) =>
   array.sort((a, b) => {
     if (a[key] < b[key]) return -1;

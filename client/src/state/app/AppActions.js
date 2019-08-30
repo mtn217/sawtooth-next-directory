@@ -37,6 +37,7 @@ const { Types, Creators } = createActions({
 
   refreshOnNextSocketReceive:        ['flag'],
   feedReceive:                       ['payload'],
+  setView:                           ['view'],
 });
 
 
@@ -45,6 +46,7 @@ export default Creators;
 
 
 export const INITIAL_STATE = Immutable({
+  currentView:                       0,
   error:                             null,
   socketError:                       null,
   socketMaxAttemptsReached:          null,

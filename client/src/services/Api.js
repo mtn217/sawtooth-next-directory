@@ -57,6 +57,9 @@ const create = (baseURL =
   });
 
 
+  let activeToastId = null;
+
+
   // Transforms
   api.addRequestTransform(req => {
     req.headers.Authorization = `Bearer ${storage.getToken()}`;
@@ -64,20 +67,24 @@ const create = (baseURL =
 
 
   api.addResponseTransform(res => {
+    activeToastId = utils.nearestMinute(8e3);
     switch (res.problem) {
       case 'TIMEOUT_ERROR':
+        if (toast.isActive(activeToastId)) return;
         toast.error('Server is not responding. Please try again later.', {
-          toastId: utils.nearestMinute(1000),
+          toastId: activeToastId,
         });
         return;
       case 'NETWORK_ERROR':
+        if (toast.isActive(activeToastId)) return;
         toast.error('Network error encountered. Please try again later.', {
-          toastId: utils.nearestMinute(1000),
+          toastId: activeToastId,
         });
         return;
       case 'CONNECTION_ERROR':
+        if (toast.isActive(activeToastId)) return;
         toast.error('Connection error encounterd. Please try again later.', {
-          toastId: utils.nearestMinute(1000),
+          toastId: activeToastId,
         });
         return;
       default:

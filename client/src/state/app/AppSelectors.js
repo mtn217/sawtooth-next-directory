@@ -15,6 +15,7 @@ limitations under the License.
 
 
 export const AppSelectors = {
+  currentView:     (state) => state.app.currentView,
   isAnimating:     (state) => state.app.isAnimating,
   isRefreshing:    (state) => state.app.isRefreshing,
   isSocketOpen:    (state, endpoint) => {

@@ -33,6 +33,11 @@ limitations under the License.
   font-weight: 500 !important;
 }
 
+.next-nav-list-container .active a,
+.next-nav-list-container a.active {
+  pointer-events: none;
+}
+
 .next-list-item-disabled {
   text-indent: var(--nav-list-padding);
 }

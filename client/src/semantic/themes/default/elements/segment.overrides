@@ -23,7 +23,7 @@
 }
 
 .ui.segment .ui.header .sub.header {
-  color: @magenta;
+  color: #7e7e7e;
   margin-top: 5px;
 }
 

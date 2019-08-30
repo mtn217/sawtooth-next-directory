@@ -15,7 +15,7 @@ limitations under the License.
 
 
 const tokenKey = 'RBAC_AUTH_TOKEN';
-const viewKey = 'RBAC_APPROVER_VIEW_ENABLED';
+const viewKey = 'RBAC_VIEW';
 const userIdKey = 'next_id';
 
 

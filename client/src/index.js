@@ -40,11 +40,10 @@ ReactDOM.render(
       <App routes={routes}/>
     </Provider>
     <ToastContainer
-      autoClose={2500}
+      autoClose={2.5e3}
       toastClassName='toast'
-      closeButton={false}
       hideProgressBar
-      position='bottom-left'
+      position='top-right'
       transition={Slide}/>
   </div>,
   document.getElementById('root')

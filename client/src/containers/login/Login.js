@@ -96,7 +96,7 @@ class Login extends Component {
       recommendedPacks,
       recommendedRoles } = this.props;
     isAuthenticated && history.push(
-      storage.getViewState() ?
+      parseInt(storage.getViewState()) ?
         '/approval/pending/individual' :
         utils.createHomeLink(recommendedPacks, recommendedRoles)
     );

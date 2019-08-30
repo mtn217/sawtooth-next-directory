@@ -35,6 +35,7 @@ import {
 export const appState = (state) => ({
 
   // App
+  currentView:         AppSelectors.currentView(state),
   isAnimating:         AppSelectors.isAnimating(state),
   isRefreshing:        AppSelectors.isRefreshing(state),
   isSocketOpen:        (endpoint) =>
@@ -115,6 +116,7 @@ export const appState = (state) => ({
 export const appDispatch = (dispatch) => ({
 
   // App
+  setView:          (view) => dispatch(App.setView(view)),
   startAnimation:       () => dispatch(App.animationBegin()),
   stopAnimation:        () => dispatch(App.animationEnd()),
   startRefresh:         () => dispatch(App.refreshBegin()),
