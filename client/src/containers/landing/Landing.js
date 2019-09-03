@@ -18,12 +18,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Container, Header, Image } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 
 import './Landing.css';
 import logo from 'images/next-logo-billboard.svg';
 import tmobileLogo from 'images/tmobile-logo.svg';
 import cloud from 'images/cloud.svg';
+import { AuthSelectors } from 'state';
+
+
+import * as storage from 'services/Storage';
+import * as utils from 'services/Utils';
 
 
 /**
@@ -34,6 +40,49 @@ import cloud from 'images/cloud.svg';
  *
  */
 class Landing extends Component {
+
+  static propTypes = {
+    history:                PropTypes.object,
+    isAuthenticated:        PropTypes.bool,
+    recommendedPacks:       PropTypes.array,
+    recommendedRoles:       PropTypes.array,
+  };
+
+
+  /**
+   * Entry point to perform tasks required to render
+   * component
+   */
+  componentDidMount () {
+    this.init();
+  }
+
+
+  /**
+   * Called whenever Redux state changes.
+   * @returns {undefined}
+   */
+  componentDidUpdate () {
+    this.init();
+  }
+
+
+  /**
+   * If authenticated, determine home URL and redirect
+   */
+  init () {
+    const {
+      history,
+      isAuthenticated,
+      recommendedPacks,
+      recommendedRoles } = this.props;
+    isAuthenticated && history.push(
+      parseInt(storage.getViewState()) ?
+        '/approval/pending/individual' :
+        utils.createHomeLink(recommendedPacks, recommendedRoles)
+    );
+  }
+
 
   /**
    * Render entrypoint
@@ -102,7 +151,9 @@ class Landing extends Component {
 
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    isAuthenticated: AuthSelectors.isAuthenticated(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

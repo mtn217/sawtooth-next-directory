@@ -28,7 +28,7 @@ const { Types, Creators } = createActions({
   createPackFailure:          ['error'],
 
   deletePackRequest:          ['id'],
-  deletePackSuccess:          ['pack'],
+  deletePackSuccess:          ['id'],
   deletePackFailure:          ['error'],
 
   delegationsRequest:         ['id'],

@@ -14,10 +14,6 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-#next-pack-approval-container {
-  padding: 100px 40px 40px 40px;
-}
-
 #next-pack-approval-container .ui.card {
   background: none;
 }
@@ -31,22 +27,15 @@ limitations under the License.
   font-weight: 100;
 }
 
-#next-pack-approval-approver,
 #next-pack-approval-date,
 #next-pack-approval-request-id {
   color: black;
-  font-weight: 500;
+  margin-top: 12px;
 }
 
 #next-pack-approval-request-info {
-  color: #949495;
+  color: #767676;
   display: flex;
   flex-direction: column;
-  font-size: .9em;
-  justify-content: center;
   text-align: left;
-}
-
-#next-pack-approval-request-info div:first-child {
-  margin-bottom: 12px;
 }

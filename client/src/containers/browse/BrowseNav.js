@@ -45,7 +45,7 @@ class BrowseNav extends Component {
       <div id='next-browse-nav'>
         <Container fluid>
           <Grid stackable columns={4}>
-            <Grid.Column width={11} only='computer tablet'>
+            <Grid.Column width={11}>
               { searchInput &&
                 <h1>
                   Results for:&nbsp;

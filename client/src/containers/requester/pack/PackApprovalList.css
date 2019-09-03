@@ -15,7 +15,7 @@ limitations under the License.
 
 
 #next-pack-approval-list-container {
-  margin: 40px 0;
+  overflow: hidden;
 }
 
 #next-pack-approval-list-container .ui.segment {
@@ -42,13 +42,16 @@ limitations under the License.
   display: flex;
 }
 
+.next-pack-approval-list-status span {
+  margin-left: 1em;
+}
+
 .next-pack-approval-list-status-emoji {
-  font-size: 3em;
-  margin-left: 18px;
+  font-size: 2em;
 }
 
 .next-pack-approval-list-approvers {
-  margin-right: 20px;
+  display: flex;
 }
 
 .next-pack-approval-list-approvers div:first-child {
@@ -56,10 +59,9 @@ limitations under the License.
 }
 
 .next-pack-approval-list-name-subheader {
-  color: #00000099 !important;
-  margin-bottom: 7px !important;
+  font-weight: 500 !important;
 }
 
-.next-pack-approval-list-status {
-  justify-content: flex-end;
+.next-pack-approval-list-approvers .sub.header {
+  color: #7e7e7e !important;
 }

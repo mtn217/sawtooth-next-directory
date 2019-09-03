@@ -106,13 +106,17 @@ class RoleApproval extends Component {
           <Card.Content extra id='next-role-approval-details'>
             <Grid columns={3} padded='vertically'>
               <Grid.Column>
-                Request ID
+                <strong>
+                  Request ID
+                </strong>
                 <div id='next-role-approval-request-id'>
                   {proposal.id.slice(0, 7)}
                 </div>
               </Grid.Column>
               <Grid.Column>
-                Request Date
+                <strong>
+                  Request Date
+                </strong>
                 <div id='next-role-approval-date'>
                   { proposal.created_date &&
                     utils.formatDate(
@@ -123,7 +127,9 @@ class RoleApproval extends Component {
                 </div>
               </Grid.Column>
               <Grid.Column>
-                Approver(s)
+                <strong>
+                  Approver(s)
+                </strong>
                 { proposal.approvers &&
                   proposal.approvers.map((approver) => (
                     this.renderApprover(approver)

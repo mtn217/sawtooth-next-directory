@@ -107,7 +107,7 @@ class ManageRoles extends Component {
    * @returns {JSX}
    */
   renderRoleCard (roleId) {
-    const { roleFromId } = this.props;
+    const { roleFromId, setView } = this.props;
     const role = roleFromId(roleId);
 
     if (!role) {
@@ -131,6 +131,7 @@ class ManageRoles extends Component {
         <Card
           fluid
           as={Link}
+          onClick={() => setView(0)}
           to={`/roles/${roleId}`}
           className='minimal medium'>
           <Header as='h3'>

@@ -149,9 +149,6 @@ class OrganizationList extends Component {
   renderPersonSegment (person) {
     const { handleUserSelect, id } = this.props;
 
-    if (!person.name)
-      return null;
-
     return (
       <Segment
         onClick={() => handleUserSelect(person.id)}
@@ -162,7 +159,7 @@ class OrganizationList extends Component {
           </div>
           <div>
             <strong>
-              {utils.toTitleCase(person.name)}
+              {utils.toTitleCase(person.name || person.username)}
             </strong>
             { person.id === id &&
               <Label size='small' basic>

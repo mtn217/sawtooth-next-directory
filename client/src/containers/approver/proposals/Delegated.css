@@ -19,7 +19,7 @@ limitations under the License.
   overflow: auto;
   padding-bottom: var(--container-scroll-padding-bottom);
   position: relative;
-  width: calc(100% - 61px) !important;
+  width: calc(100% - 53px) !important;
 }
 
 #next-approver-delegated-pending h5 {

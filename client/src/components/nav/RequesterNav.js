@@ -25,7 +25,9 @@ import PropTypes from 'prop-types';
 
 
 import './RequesterNav.css';
+import requestGlyph from 'images/glyph-request-white.png';
 import roleGlyph from 'images/glyph-role-white.png';
+import packGlyph from 'images/glyph-pack-white.png';
 import Search from 'components/search/Search';
 import NavList from './NavList';
 
@@ -141,9 +143,11 @@ class RequesterNav extends Component {
           listTitle='Your Roles'
           list={memberOf}/>
         <NavList
+          glyph={packGlyph}
           listTitle='Your Packs'
           list={memberOfPacks}/>
         <NavList
+          glyph={requestGlyph}
           listTitle='Your Requests'
           list={requests}/>
         {/* <NavList

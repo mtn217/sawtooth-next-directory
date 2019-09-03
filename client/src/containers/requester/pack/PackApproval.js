@@ -109,7 +109,9 @@ class PackApproval extends Component {
             <Grid columns={4} padded='vertically'>
               <Grid.Column id='next-pack-approval-request-info'>
                 <div>
-                  Request Date
+                  <strong>
+                    Request Date
+                  </strong>
                   <div id='next-pack-approval-date'>
                     { proposals[0].created_date &&
                       utils.formatDate(

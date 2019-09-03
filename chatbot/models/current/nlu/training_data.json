@@ -42,6 +42,14 @@
         "text": "/pending"
       },
       {
+        "intent": "identical",
+        "text": "/identical"
+      },
+      {
+        "intent": "identical",
+        "text": "/identical"
+      },
+      {
         "intent": "update",
         "text": "/update"
       },

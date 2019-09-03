@@ -37,3 +37,9 @@
 .ui.list.striped > div:nth-child(even) {
   background-color: rgba(0, 0, 50, 0.02);
 }
+
+.nav-list .active a,
+.nav-list a.active,
+.ui.link.list a.active {
+  pointer-events: none;
+}

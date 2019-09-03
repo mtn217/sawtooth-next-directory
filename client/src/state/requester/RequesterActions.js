@@ -51,6 +51,8 @@ const { Types, Creators } = createActions({
   roleAccessSuccess:    null,
   roleAccessFailure:    null,
 
+  deletePackSuccess:    ['id'],
+
   resetAll:             null,
   resetErrors:          null,
   feedReceive:          ['payload'],

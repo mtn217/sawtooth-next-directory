@@ -74,3 +74,10 @@ limitations under the License.
   70%  { opacity: 1; margin-left: 0; }
   100% { opacity: 1; margin-left: var(--sidebar-width); }
 }
+
+@media only screen and (max-width: 767px) {
+  #next-outer-grid-nav .ui.container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}

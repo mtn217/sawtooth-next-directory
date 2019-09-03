@@ -49,19 +49,22 @@ class RequesterChat extends Component {
       activePack,
       activeRole,
       isSocketOpen,
-      recommendedPacks,
-      recommendedRoles } = this.props;
+      me,
+      requests } = this.props;
 
     if (prevProps.isSocketOpen('chatbot') !== isSocketOpen('chatbot'))
       this.init();
 
-    if (!utils.arraysEqual(prevProps.recommendedRoles, recommendedRoles))
+    if (!utils.arraysEqual(prevProps.requests, requests)) {
+      if (prevProps.requests) return;
+      this.init();
+    }
+
+    if (prevProps.me !== me)
       this.init();
 
-    if ((activeRole && recommendedRoles &&
-          prevProps.activeRole.id !== activeRole.id) ||
-        (activePack && recommendedPacks &&
-          prevProps.activePack.id !== activePack.id))
+    if ((activeRole && prevProps.activeRole.id !== activeRole.id) ||
+        (activePack && prevProps.activePack.id !== activePack.id))
       this.init();
   }
 
@@ -81,15 +84,17 @@ class RequesterChat extends Component {
       me,
       messagesCountById,
       memberOf,
+      memberOfPacks,
       ownerOf,
       recommendedPacks,
       recommendedRoles,
+      requests,
       sendMessage } = this.props;
 
     const resource = activePack || activeRole;
-    if (!resource) return;
+    if (!resource || !me) return;
 
-    if ((recommendedPacks || recommendedRoles) && isSocketOpen('chatbot')) {
+    if (isSocketOpen('chatbot')) {
       const payload = {
         resource_id: resource.id,
         next_id: id,
@@ -97,8 +102,10 @@ class RequesterChat extends Component {
       const slots = {
         resource_name: resource.name,
         resource_type: activePack ? 'PACK' : 'ROLE',
+        user_full_name: me.name,
       };
       const update = messagesCountById(resource.id) > 0 && 'update';
+      const proposalResourceKey = activePack ? 'pack_id' : 'object_id';
 
       if (activeRole) payload.approver_id = activeRole.owners[0];
       if (expired && expired.includes(resource.id)) {
@@ -108,8 +115,9 @@ class RequesterChat extends Component {
         payload.text = `/${update || 'expired'}${JSON.stringify(
           {...slots, member_status: 'NOT_MEMBER'})}`;
 
-      } else if (memberOf && memberOf.find(
-        item => item.id === resource.id)
+      } else if (
+        (memberOf && memberOf.find(item => (item.id === resource.id))) ||
+        (memberOfPacks && memberOfPacks.find(item => item.id === resource.id))
       ) {
 
         // Construct intent message given user is a member
@@ -121,7 +129,6 @@ class RequesterChat extends Component {
 
         // Construct intent message given user is an owner
         // of the current pack or role
-
         if (memberOf && memberOf.find(
           item => item.id === resource.id)
         ) {
@@ -133,7 +140,7 @@ class RequesterChat extends Component {
         }
 
       } else if (me && me.proposals.find(
-        proposal => proposal.object_id === resource.id &&
+        proposal => proposal[proposalResourceKey] === resource.id &&
           proposal.status === 'OPEN')
       ) {
 
@@ -141,6 +148,17 @@ class RequesterChat extends Component {
         // requested access to the current pack or role
         payload.text = `/${update || 'pending'}${JSON.stringify(
           {...slots, member_status: 'PENDING'})}`;
+
+      } else if (activePack && (requests && resource.roles.every(
+        role => requests.some(
+          request => (request.roles && request.roles.includes(role))) ||
+            (memberOf && memberOf.some(item => item.id === role))
+      ))) {
+
+        // Construct intent message given user has previously
+        // requested access to a pack with identical roles
+        payload.text = `/${update || 'identical'}${JSON.stringify(
+          {...slots, member_status: 'IDENTICAL'})}`;
 
       } else if ([
         ...(recommendedPacks || []),

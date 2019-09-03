@@ -19,7 +19,7 @@ limitations under the License.
   overflow: auto;
   padding-bottom: 100px;
   position: relative;
-  width: calc(100% - 61px) !important;
+  width: calc(100% - 53px) !important;
 }
 
 .next-approver-rejected-table-user {

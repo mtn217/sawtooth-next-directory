@@ -121,12 +121,12 @@ export const success = {
     }),
 
 
-  deletePack: (state, { packId }) =>
+  deletePack: (state, { id }) =>
     state.merge({
       fetching: false,
       deletingPack: false,
       createdPacks: state.createdPacks ?
-        state.createdPacks.filter(pack => pack.id !== packId) :
+        state.createdPacks.filter(pack => pack.pack_id !== id) :
         state.createdPacks,
     }),
 

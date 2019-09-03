@@ -25,6 +25,7 @@ intents:
   - feeling
   - greet
   - help
+  - identical
   - insult
   - laugh
   - member
@@ -53,6 +54,7 @@ entities:
   - resource_name
   - resource_type
   - token
+  - user_full_name
 
 forms: []
 
@@ -89,9 +91,12 @@ slots:
     - ROLE
   token:
     type: unfeaturized
+  user_full_name:
+    type: unfeaturized
 
 actions:
   - action_request_access
+  - utter_access_identical
   - utter_access_member
   - utter_access_pending
   - utter_ask_request_access
@@ -107,6 +112,7 @@ actions:
   - utter_generic
   - utter_greet
   - utter_help
+  - utter_identical_pack
   - utter_insult
   - utter_laugh
   - utter_member
@@ -182,6 +188,15 @@ templates:
 
   utter_access_pending:
     - text: You've already requested access to this resource.
+
+  utter_access_identical:
+    - text: >-
+        I'm sorry, {user_full_name}. I'm afraid I can't do that.
+
+  utter_identical_pack:
+    - text: >-
+        You already have access to every role in this pack.
+        I don't think requesting access will help you. 😇
 
   utter_standby:
     - text: Feel free to ping me anytime.

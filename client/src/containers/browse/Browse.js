@@ -248,6 +248,7 @@ class Browse extends Component {
         <div id='next-browse-wrapper'>
           <Container fluid id='next-browse-container'>
             <Grid
+              doubling
               stackable
               columns={4}
               className='masonry'

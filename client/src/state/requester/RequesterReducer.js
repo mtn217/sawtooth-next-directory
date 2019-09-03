@@ -103,6 +103,12 @@ export const success = {
       fetching: false,
       requests: utils.merge(state.requests || [], [proposal]),
     }),
+
+
+  deletePack: (state, { id }) =>
+    state.merge({
+      packs: state.packs.filter(pack => pack.id !== id),
+    }),
 };
 
 
@@ -139,6 +145,7 @@ export const RequesterReducer = createReducer(INITIAL_STATE, {
   [Types.PACK_ACCESS_REQUEST]:    request.temp,
   [Types.PACK_ACCESS_SUCCESS]:    success.access,
   [Types.PACK_ACCESS_FAILURE]:    failure,
+  [Types.DELETE_PACK_SUCCESS]:    success.deletePack,
 
   // Proposals
   [Types.PROPOSALS_REQUEST]:      request.temp,

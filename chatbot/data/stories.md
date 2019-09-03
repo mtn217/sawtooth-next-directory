@@ -42,6 +42,10 @@
 * pending{"member_status": "PENDING", "resource_type": "PACK", "resource_id": "123", "resource_name": "abc"}
   - utter_pending_pack
 
+## story_identical_pack
+* identical{"member_status": "IDENTICAL", "resource_type": "PACK", "resource_id": "123", "resource_name": "abc"}
+  - utter_identical_pack
+
 ## story_recommend
 * recommend{"member_status": "NOT_MEMBER", "resource_id": "123", "resource_name": "abc"}
   - utter_recommendation
@@ -66,6 +70,11 @@
 * access
   - slot{"member_status": "PENDING"}
   - utter_access_pending
+
+## story_access_identical
+* access
+  - slot{"member_status": "IDENTICAL"}
+  - utter_access_identical
 
 ## story_affirm_member
 * affirm

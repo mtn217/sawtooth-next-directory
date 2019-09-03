@@ -17,6 +17,10 @@
 ## intent:pending
 - /pending
 - /pending
+-
+## intent:identical
+- /identical
+- /identical
 
 ## intent:update
 - /update

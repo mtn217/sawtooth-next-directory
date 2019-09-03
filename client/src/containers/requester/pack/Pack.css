@@ -17,8 +17,13 @@ limitations under the License.
 #next-requester-packs-content {
   padding-bottom: 100px;
   position: relative;
-  top: 120px;
-  width: calc(100% - 61px) !important;
+  top: 200px;
+  width: calc(100% - 53px) !important;
+}
+
+#next-requester-packs-status-container {
+  border-bottom: 1px solid var(--hr-light-color);
+  padding: 40px;
 }
 
 #next-requester-packs-description-container {
@@ -33,6 +38,11 @@ limitations under the License.
 
 #next-requester-packs-description {
   padding: 20px 10px;
+}
+
+#next-requester-packs-content h3 {
+  font-size: 1.3em;
+  margin-bottom: 1em;
 }
 
 #next-requester-packs-content h5 {

@@ -133,3 +133,9 @@ limitations under the License.
 .next-browse-description-placeholder {
   opacity: .3;
 }
+
+@media only screen and (max-width: 767px) {
+  .next-browse-tile.ui.segment {
+    height: 356px !important;
+  }
+}

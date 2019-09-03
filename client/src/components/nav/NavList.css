@@ -19,10 +19,10 @@ limitations under the License.
 }
 
 .next-nav-list-container img {
-  height: 1.6em !important;
-  margin: .12em 0 0 1.2em !important;
+  height: 1.55em !important;
+  margin: .14em 0 0 1.2em !important;
   opacity: .2;
-  width: 1.6em !important;
+  width: 1.7em !important;
 }
 
 .next-nav-list-container .active img {
@@ -31,11 +31,6 @@ limitations under the License.
 
 .next-nav-list-container .active .header {
   font-weight: 500 !important;
-}
-
-.next-nav-list-container .active a,
-.next-nav-list-container a.active {
-  pointer-events: none;
 }
 
 .next-list-item-disabled {

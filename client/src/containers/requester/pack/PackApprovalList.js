@@ -15,7 +15,7 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Header, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
@@ -105,6 +105,14 @@ class PackApprovalList extends Component {
     return (
       <div>
         <div className='next-pack-approval-list-status'>
+          <div
+            className='next-pack-approval-list-status-emoji'
+            role='img'
+            aria-label=''>
+            { status === 'CONFIRMED' && '👍' }
+            { status === 'OPEN' && '🙇' }
+            { status === 'REJECTED' && '😩' }
+          </div>
           { status === 'CONFIRMED' && <span>
             Approved
           </span> }
@@ -114,14 +122,6 @@ class PackApprovalList extends Component {
           { status === 'REJECTED' && <span>
             Rejected
           </span> }
-          <span
-            className='next-pack-approval-list-status-emoji'
-            role='img'
-            aria-label=''>
-            { status === 'CONFIRMED' && '👍' }
-            { status === 'OPEN' && '🙇' }
-            { status === 'REJECTED' && '😩' }
-          </span>
         </div>
       </div>
     );
@@ -133,44 +133,37 @@ class PackApprovalList extends Component {
    * @param {object} proposal Proposal
    * @returns {JSX}
    */
-  renderProposalSegment (proposal) {
+  renderProposalRow (proposal) {
     const { roles } = this.props;
     if (!roles) return null;
     const role = roles.find(role => role.id === proposal.object);
 
     return (
-      <Segment key={proposal.object}>
-        <Grid columns={3} padded='vertically' id='next-pack-approval-list-grid'>
-          <Grid.Column width={5}>
-            <h5>
-              {role && role.name}
-            </h5>
-          </Grid.Column>
-          <Grid.Column width={7}>
-            { proposal.approvers && proposal.approvers.map(approver => (
-              <Header
-                key={approver}
-                as='h4'
-                className='next-pack-approval-list-approvers'>
-                <div>
-                  <Avatar
-                    userId={approver}
-                    size='small'
-                    {...this.props}/>
-                </div>
-                <div>
-                  {this.renderUserInfo(approver)}
-                </div>
-              </Header>
-            ))}
-          </Grid.Column>
-          <Grid.Column
-            width={4}
-            className='next-pack-approval-list-status'>
-            {this.renderStatus(proposal.status)}
-          </Grid.Column>
-        </Grid>
-      </Segment>
+      <Table.Row key={proposal.object}>
+        <Table.Cell>
+          {role && role.name}
+        </Table.Cell>
+        <Table.Cell>
+          { proposal.assigned_approver &&
+            <Header
+              as='h4'
+              className='next-pack-approval-list-approvers'>
+              <div>
+                <Avatar
+                  userId={proposal.assigned_approver[0]}
+                  size='small'
+                  {...this.props}/>
+              </div>
+              <div>
+                {this.renderUserInfo(proposal.assigned_approver[0])}
+              </div>
+            </Header>
+          }
+        </Table.Cell>
+        <Table.Cell>
+          {this.renderStatus(proposal.status)}
+        </Table.Cell>
+      </Table.Row>
     );
   }
 
@@ -185,9 +178,26 @@ class PackApprovalList extends Component {
 
     return (
       <div id='next-pack-approval-list-container'>
-        { proposals.map(proposal => (
-          this.renderProposalSegment(proposal)
-        ))}
+        <Table basic='very'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                Role Name
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Approver
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Status
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            { proposals.map(proposal => (
+              this.renderProposalRow(proposal)
+            ))}
+          </Table.Body>
+        </Table>
       </div>
     );
   }

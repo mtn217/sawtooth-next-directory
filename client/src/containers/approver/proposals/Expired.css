@@ -17,7 +17,7 @@ limitations under the License.
 #next-approver-expired-content {
   margin-top: 253px;
   position: relative;
-  width: calc(100% - 61px) !important;
+  width: calc(100% - 53px) !important;
   padding-bottom: var(--container-scroll-padding-bottom);
 }
 

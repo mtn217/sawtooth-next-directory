@@ -15,7 +15,7 @@ limitations under the License.
 
 
 #next-browse-grid > .column {
-  padding: 0.6rem;
+  padding: 0 0.6em;
 }
 
 #next-browse-grid .column > .ui.placeholder {

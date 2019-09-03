@@ -2,92 +2,110 @@
   "action_fingerprints": {
     "action_listen": {
       "slots": [
-        "owner_status",
-        "resource_type",
-        "member_status",
         "resource_name",
         "reason",
+        "resource_type",
+        "owner_status",
+        "member_status",
         "resource_id"
       ]
+    },
+    "utter_standby": {
+      "slots": []
     },
     "action_request_access": {
       "slots": [
         "batch_status"
       ]
     },
-    "utter_send_failure_unknown": {
-      "slots": []
-    },
-    "utter_noop": {
-      "slots": []
-    },
-    "utter_pending_pack": {
-      "slots": []
-    },
-    "utter_fanfare_sent": {
-      "slots": []
-    },
-    "utter_offer": {
-      "slots": []
-    },
-    "utter_access_pending": {
-      "slots": []
-    },
-    "utter_owner": {
-      "slots": []
-    },
     "utter_send_failure_invalid": {
-      "slots": []
-    },
-    "utter_send_failure_pending": {
-      "slots": []
-    },
-    "utter_current_draft_pack": {
-      "slots": []
-    },
-    "utter_thank": {
-      "slots": []
-    },
-    "utter_insult": {
-      "slots": []
-    },
-    "utter_standby": {
       "slots": []
     },
     "utter_recommended_draft_pack": {
       "slots": []
     },
+    "utter_feeling": {
+      "slots": []
+    },
+    "utter_awe": {
+      "slots": []
+    },
+    "utter_noop": {
+      "slots": []
+    },
     "utter_name": {
       "slots": []
     },
-    "utter_owner_not_member": {
-      "slots": []
-    },
-    "utter_greet": {
-      "slots": []
-    },
-    "utter_recommended_draft_role": {
-      "slots": []
-    },
-    "utter_generic": {
-      "slots": []
-    },
-    "utter_laugh": {
+    "utter_identical_pack": {
       "slots": []
     },
     "utter_help": {
       "slots": []
     },
-    "utter_expired": {
+    "utter_offer": {
       "slots": []
     },
     "utter_pending_role": {
       "slots": []
     },
-    "utter_feeling": {
+    "utter_owner": {
+      "slots": []
+    },
+    "utter_send_failure_pending": {
+      "slots": []
+    },
+    "utter_expired": {
+      "slots": []
+    },
+    "utter_generic": {
+      "slots": []
+    },
+    "utter_fanfare_sent": {
+      "slots": []
+    },
+    "utter_access_pending": {
       "slots": []
     },
     "utter_whoami": {
+      "slots": []
+    },
+    "utter_owner_not_member": {
+      "slots": []
+    },
+    "utter_laugh": {
+      "slots": []
+    },
+    "utter_ask_request_access": {
+      "slots": []
+    },
+    "utter_no_owner": {
+      "slots": []
+    },
+    "utter_recommended_draft_role": {
+      "slots": []
+    },
+    "utter_thank": {
+      "slots": []
+    },
+    "utter_current_draft_pack": {
+      "slots": []
+    },
+    "utter_bye": {
+      "slots": []
+    },
+    "utter_access_identical": {
+      "slots": []
+    },
+    "utter_insult": {
+      "slots": []
+    },
+    "utter_access_member": {
+      "slots": []
+    },
+    "utter_current_draft_role": {
+      "slots": []
+    },
+    "utter_greet": {
       "slots": []
     }
   },
@@ -104,5 +122,5 @@
     "rasa_core.policies.keras_policy.KerasPolicy",
     "rasa_core.policies.fallback.FallbackPolicy"
   ],
-  "trained_at": "20190816-081814"
+  "trained_at": "20190903-025407"
 }

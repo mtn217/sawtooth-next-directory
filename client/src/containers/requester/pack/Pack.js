@@ -148,38 +148,43 @@ export class Pack extends Component {
             {...this.props}/>
           <div id='next-requester-packs-content'>
             { showApprovalCard &&
-              <div>
+              <div id='next-requester-packs-status-container'>
+                <h3>
+                  Approval Status
+                </h3>
                 <PackApproval
                   proposals={this.proposals}
                   {...this.props}/>
+                <h3>
+                  Roles
+                </h3>
                 <PackApprovalList
                   proposals={this.proposals}
                   {...this.props}/>
               </div>
             }
             <Container
-              className={showApprovalCard ? '' : 'next-margin-1'}
               id='next-requester-packs-description-container'>
               <div id='next-requester-packs-description'>
-                <h5>
-                  DESCRIPTION
-                </h5>
+                <h3>
+                  Description
+                </h3>
                 {this.pack.description || 'No description available.'}
               </div>
             </Container>
             <Container id='next-requester-packs-owner-list-container'>
-              <h5>
-                OWNERS
+              <h3>
+                Owners
                 {this.pack.owners.length === 0 && ' (0)'}
-              </h5>
+              </h3>
               <MemberList {...this.props}
                 isOwner
                 members={this.pack.owners}/>
             </Container>
             <Container id='next-requester-packs-roles-list-container'>
-              <h5>
-                ROLES
-              </h5>
+              <h3>
+                Roles
+              </h3>
               <RolesList activePack={this.pack} {...this.props}/>
             </Container>
           </div>
