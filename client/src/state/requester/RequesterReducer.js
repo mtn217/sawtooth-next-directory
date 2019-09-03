@@ -38,17 +38,20 @@ export const resetAll = () =>
   INITIAL_STATE;
 
 
-export const feedReceive = (state, { payload }) =>
-  payload.user_proposal ?
-    state.merge({
-      requests: utils.merge(
-        (state.requests || []).filter(
-          request => request.id !== payload.user_proposal.id
-        ),
-        [payload.user_proposal]
-      ),
-    }) :
-    state.merge({});
+export const feedReceive = (state, { payload }) => {
+  if (payload.user_proposal) {
+    const requests = [...(state.requests || [])].filter(
+      request => request.object !== payload.user_proposal.object &&
+      request.id !== payload.user_proposal.id
+    );
+
+    return state.merge({
+      requests: utils.merge(requests, [payload.user_proposal]),
+    });
+  }
+
+  return state.merge({});
+};
 
 
 export const success = {

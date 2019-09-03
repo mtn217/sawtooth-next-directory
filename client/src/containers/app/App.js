@@ -162,7 +162,7 @@ class App extends Component {
       ...user.proposals,
       ...user.memberOf,
     ].map(item =>
-      typeof item  === 'object' ?
+      typeof item === 'object' ?
         item.object_id :
         item);
 
@@ -186,7 +186,7 @@ class App extends Component {
     // Fetch roles, packs, and proposals
     getProposals(proposalIds);
     getPacks([...new Set(packIds)]);
-    getRoles(roleIds);
+    getRoles([...new Set(roleIds)]);
   }
 
 

@@ -32,7 +32,8 @@ describe('RequesterChat component', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     const props = {
-      resetChat: () => {},
+      match:        { params: {} },
+      resetChat:    () => {},
     };
 
     ReactDOM.render(

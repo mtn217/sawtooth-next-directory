@@ -62,7 +62,7 @@ class Waves extends Component {
   componentDidUpdate (prevProps) {
     const { isAnimating, location, stopAnimation } = this.props;
 
-    if (this.props.location !== prevProps.location) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
       const waves = location && !location.pathname.startsWith('/approval');
 
       isAnimating && stopAnimation();

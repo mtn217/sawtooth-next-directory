@@ -50,6 +50,14 @@
         "text": "/identical"
       },
       {
+        "intent": "rejected",
+        "text": "/rejected"
+      },
+      {
+        "intent": "rejected",
+        "text": "/rejected"
+      },
+      {
         "intent": "update",
         "text": "/update"
       },

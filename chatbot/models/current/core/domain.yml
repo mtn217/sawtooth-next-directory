@@ -20,6 +20,7 @@ actions:
 - utter_help
 - utter_identical_pack
 - utter_insult
+- utter_rejected_pack
 - utter_laugh
 - utter_member
 - utter_name
@@ -95,6 +96,8 @@ intents:
     use_entities: true
 - recommend:
     use_entities: true
+- rejected:
+    use_entities: true
 - request_access:
     use_entities: true
 - thank:
@@ -122,9 +125,11 @@ slots:
     initial_value: null
     type: rasa_core.slots.CategoricalSlot
     values:
+    - identical
     - pending
     - member
     - not_member
+    - rejected
   owner_status:
     auto_fill: true
     initial_value: null
@@ -316,6 +321,10 @@ templates:
     text: So you'd like to request access to <strong>{resource_name}</strong>? Great.
       All you need to do is draft a note for <strong>{approver_name}</strong> and
       I'll take care of the rest.
+  utter_rejected_pack:
+  - text: Wow, can you sense the antipathy? I promise I had nothing to do with this,
+      but it seems that your request has been unjustly declined. Just say the word,
+      and I'll gladly request again.
   utter_send_failure_invalid:
   - text: Hmmm.... Small hiccup. Something about your request isn't going through
       our validators. Not sure what the problem is exactly. Try again later.

@@ -56,7 +56,6 @@ class Header extends Component {
 
 
   state = {
-    approverViewEnabled:     false,
     globalMenuVisible:       false,
     notificationMenuVisible: false,
   };
@@ -348,10 +347,10 @@ class Header extends Component {
       me,
       recommendedPacks,
       recommendedRoles,
+      setView,
       startAnimation } = this.props;
     const {
       aboutModalVisible,
-      approverViewEnabled,
       globalMenuVisible,
       notificationMenuVisible } = this.state;
 
@@ -369,11 +368,12 @@ class Header extends Component {
           { showLogo &&
             <Image
               as={Link}
-              to={approverViewEnabled ?
-                '/approval/pending/individual' :
-                utils.createHomeLink(recommendedPacks, recommendedRoles)}
+              to={utils.createHomeLink(recommendedPacks, recommendedRoles)}
               src={logo}
-              onClick={startAnimation}
+              onClick={() => {
+                startAnimation();
+                setView(0);
+              }}
               size='tiny'/>
           }
         </div>

@@ -158,7 +158,9 @@ class MemberList extends Component {
               <Avatar userId={userId} size='medium' {...this.props}/>
             </div>
             <div>
-              {(user && user.name) || 'Unnamed'}
+              <strong>
+                {(user && user.name) || 'Unnamed'}
+              </strong>
               <Header.Subheader>
                 {user && user.email}
               </Header.Subheader>

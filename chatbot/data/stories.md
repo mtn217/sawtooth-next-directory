@@ -46,6 +46,10 @@
 * identical{"member_status": "IDENTICAL", "resource_type": "PACK", "resource_id": "123", "resource_name": "abc"}
   - utter_identical_pack
 
+## story_rejected_pack
+* rejected{"member_status": "REJECTED", "resource_type": "PACK", "resource_id": "123", "resource_name": "abc"}
+  - utter_rejected_pack
+
 ## story_recommend
 * recommend{"member_status": "NOT_MEMBER", "resource_id": "123", "resource_name": "abc"}
   - utter_recommendation
@@ -59,6 +63,11 @@
 ## story_access_not_member_pack
 * access
   - slot{"member_status": "NOT_MEMBER", "resource_type": "PACK"}
+  - utter_current_draft_pack
+
+## story_access_rejected_pack
+* access
+  - slot{"member_status": "REJECTED", "resource_type": "PACK"}
   - utter_current_draft_pack
 
 ## story_access_not_member_role
@@ -102,6 +111,11 @@
 
 ## story_request_access_pack
 * request_access{"reason": "I need access.", "resource_id": "1234", "resource_type": "PACK"}
+  - action_request_access
+  - utter_fanfare_sent
+
+## story_request_access_rejected_pack
+* request_access{"reason": "I need access.", "resource_id": "1234", "resource_type": "PACK", "member_status": "REJECTED"}
   - action_request_access
   - utter_fanfare_sent
 

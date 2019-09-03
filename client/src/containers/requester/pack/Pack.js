@@ -129,7 +129,7 @@ export class Pack extends Component {
     if (!this.pack) return null;
     this.proposals = proposalsFromIds(proposalIds);
 
-    const showApprovalCard = this.proposals && this.proposals.length &&
+    const isRequest = this.proposals && this.proposals.length &&
       this.proposals.some(proposal => proposal.status !== 'CONFIRMED');
 
     return (
@@ -147,7 +147,7 @@ export class Pack extends Component {
             title={this.pack.name}
             {...this.props}/>
           <div id='next-requester-packs-content'>
-            { showApprovalCard &&
+            { !!isRequest &&
               <div id='next-requester-packs-status-container'>
                 <h3>
                   Approval Status
@@ -194,6 +194,7 @@ export class Pack extends Component {
           width={4}>
           <Chat
             type='REQUESTER'
+            isRequest={isRequest}
             title={this.pack.name + ' Conversations'}
             activePack={this.pack} {...this.props}/>
         </Grid.Column>

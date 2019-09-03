@@ -15,12 +15,16 @@ limitations under the License.
 
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Header } from 'semantic-ui-react';
+
+
+import { RequesterSelectors } from 'state';
 
 
 import './RequesterChat.css';
 import ChatTranscript from './ChatTranscript';
-import * as utils from 'services/Utils';
+import * as helper from './ChatHelper';
 
 
 /**
@@ -55,10 +59,9 @@ class RequesterChat extends Component {
     if (prevProps.isSocketOpen('chatbot') !== isSocketOpen('chatbot'))
       this.init();
 
-    if (!utils.arraysEqual(prevProps.requests, requests)) {
-      if (prevProps.requests) return;
+    if (prevProps.requests && requests &&
+        prevProps.requests.length !== requests.length)
       this.init();
-    }
 
     if (prevProps.me !== me)
       this.init();
@@ -80,114 +83,105 @@ class RequesterChat extends Component {
       activeRole,
       expired,
       id,
+      isRequest,
       isSocketOpen,
       me,
       messagesCountById,
       memberOf,
       memberOfPacks,
       ownerOf,
+      proposalIds,
       recommendedPacks,
       recommendedRoles,
       requests,
       sendMessage } = this.props;
 
-    const resource = activePack || activeRole;
-    if (!resource || !me) return;
+    if ((!activePack && !activeRole) || !me || !isSocketOpen('chatbot'))
+      return;
 
-    if (isSocketOpen('chatbot')) {
-      const payload = {
-        resource_id: resource.id,
-        next_id: id,
-      };
-      const slots = {
-        resource_name: resource.name,
-        resource_type: activePack ? 'PACK' : 'ROLE',
-        user_full_name: me.name,
-      };
-      const update = messagesCountById(resource.id) > 0 && 'update';
-      const proposalResourceKey = activePack ? 'pack_id' : 'object_id';
+    // Determine if the requests array is populated
+    const activeProposals = [
+      ...new Set(me.proposals
+        .filter(proposal => proposal.status !== 'CONFIRMED')
+        .map(proposal => proposal.pack_id || proposal.object_id)),
+    ];
 
-      if (activeRole) payload.approver_id = activeRole.owners[0];
-      if (expired && expired.includes(resource.id)) {
-
-        // Construct intent message given role membership
-        // is expired
-        payload.text = `/${update || 'expired'}${JSON.stringify(
-          {...slots, member_status: 'NOT_MEMBER'})}`;
-
-      } else if (
-        (memberOf && memberOf.find(item => (item.id === resource.id))) ||
-        (memberOfPacks && memberOfPacks.find(item => item.id === resource.id))
-      ) {
-
-        // Construct intent message given user is a member
-        // of the current pack or role
-        payload.text = `/${update || 'member'}${JSON.stringify(
-          {...slots, member_status: 'MEMBER'})}`;
-
-      } else if (ownerOf.includes(resource.id)) {
-
-        // Construct intent message given user is an owner
-        // of the current pack or role
-        if (memberOf && memberOf.find(
-          item => item.id === resource.id)
-        ) {
-          payload.text = `/${update || 'owner'}${JSON.stringify(
-            {...slots, owner_status: 'OWNER'})}`;
-        } else {
-          payload.text = `/${update || 'owner'}${JSON.stringify(
-            {...slots, owner_status: 'OWNER', member_status: 'NOT_MEMBER'})}`;
-        }
-
-      } else if (me && me.proposals.find(
-        proposal => proposal[proposalResourceKey] === resource.id &&
-          proposal.status === 'OPEN')
-      ) {
-
-        // Construct intent message given user has previously
-        // requested access to the current pack or role
-        payload.text = `/${update || 'pending'}${JSON.stringify(
-          {...slots, member_status: 'PENDING'})}`;
-
-      } else if (activePack && (requests && resource.roles.every(
-        role => requests.some(
-          request => (request.roles && request.roles.includes(role))) ||
-            (memberOf && memberOf.some(item => item.id === role))
-      ))) {
-
-        // Construct intent message given user has previously
-        // requested access to a pack with identical roles
-        payload.text = `/${update || 'identical'}${JSON.stringify(
-          {...slots, member_status: 'IDENTICAL'})}`;
-
-      } else if ([
-        ...(recommendedPacks || []),
-        ...(recommendedRoles || [])]
-        .map(item => item.id || item).includes(resource.id)
-      ) {
-
-        // Construct intent message given user is not a member
-        // of the current recommended role or pack
-        payload.text = `/${update || 'recommend'}${JSON.stringify(
-          {...slots, member_status: 'NOT_MEMBER'})}`;
-
-      } else if (resource.owners && resource.owners.length === 0) {
-
-        // Construct intent message given role has no owner(s)
-        if (update) return;
-        payload.text = '/no_owner';
-
-      } else {
-
-        // Construct intent message given user is not a member
-        // of the current role or pack
-        slots.member_status = 'NOT_MEMBER';
-        payload.text = `/${update || 'offer'}${JSON.stringify(
-          {...slots, member_status: 'NOT_MEMBER'})}`;
-
-      }
-      sendMessage(payload);
+    // Return if still populating
+    if (activePack && activeProposals.length) {
+      if (isRequest === null || requests.length !== activeProposals.length)
+        return;
     }
+
+    const resource = activePack || activeRole;
+    const payload = { resource_id: resource.id, next_id: id };
+    const proposalResourceKey = activePack ? 'pack_id' : 'object_id';
+
+    // Instruct the chatbot to only send a message if there are
+    // no messages in the client for a given resource
+    const update = messagesCountById(resource.id) > 0 && 'update';
+
+    const slots = {
+      resource_name: resource.name,
+      resource_type: activePack ? 'PACK' : 'ROLE',
+      user_full_name: me.name,
+    };
+
+    if (activeRole) payload.approver_id = activeRole.owners[0];
+
+    // Construct intent payload to send to chatbot
+    if (helper.isExpired(expired, resource)) {
+      payload.text = `/${update || 'expired'}${JSON.stringify(
+        {...slots, member_status: 'NOT_MEMBER'})}`;
+    } else if (helper.isMemberOnly(memberOf, memberOfPacks, resource)) {
+      payload.text = `/${update || 'member'}${JSON.stringify(
+        {...slots, member_status: 'MEMBER'})}`;
+    } else if (helper.isOwnerAndMember(ownerOf, memberOf, resource)) {
+      payload.text = `/${update || 'owner'}${JSON.stringify(
+        {...slots, owner_status: 'OWNER'})}`;
+    } else if (helper.isOwnerOnly(ownerOf, memberOf, resource)) {
+      payload.text = `/${update || 'owner'}${JSON.stringify(
+        {...slots, owner_status: 'OWNER', member_status: 'NOT_MEMBER'})}`;
+    } else if (helper.isPending(me, proposalResourceKey, resource)) {
+      payload.text = `/${update || 'pending'}${JSON.stringify(
+        {...slots, member_status: 'PENDING'})}`;
+    } else if (
+      helper.isRejected(
+        activePack,
+        requests,
+        memberOf,
+        me,
+        proposalIds,
+        resource)
+    ) {
+      payload.text = `/${update || 'rejected'}${JSON.stringify(
+        {...slots, member_status: 'REJECTED'})}`;
+    } else if (
+      helper.isIdentical(
+        activePack,
+        requests,
+        memberOf,
+        resource)
+    ) {
+      payload.text = `/${update || 'identical'}${JSON.stringify(
+        {...slots, member_status: 'IDENTICAL'})}`;
+    } else if (
+      helper.isRecommend(
+        recommendedPacks,
+        recommendedRoles,
+        resource)
+    ) {
+      payload.text = `/${update || 'recommend'}${JSON.stringify(
+        {...slots, member_status: 'NOT_MEMBER'})}`;
+    } else if (helper.hasNoOwner(me, proposalResourceKey, resource)) {
+      if (update) return;
+      payload.text = '/no_owner';
+    } else {
+      slots.member_status = 'NOT_MEMBER';
+      payload.text = `/${update || 'offer'}${JSON.stringify(
+        {...slots, member_status: 'NOT_MEMBER'})}`;
+    }
+
+    sendMessage(payload);
   }
 
 
@@ -215,4 +209,17 @@ class RequesterChat extends Component {
 }
 
 
-export default RequesterChat;
+const mapStateToProps = (state, ownProps) => {
+  const { id } = ownProps.match.params;
+
+  return {
+    proposalIds: RequesterSelectors.packProposalIds(state, id),
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequesterChat);

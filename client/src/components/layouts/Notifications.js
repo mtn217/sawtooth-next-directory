@@ -116,6 +116,7 @@ class Notifications extends Component {
       expired,
       openProposalsByUser,
       roleFromId,
+      setView,
       toggleMenu,
       userFromId } = this.props;
 
@@ -141,7 +142,10 @@ class Notifications extends Component {
                       as={Link}
                       to='/approval/pending/individual'
                       className='medium'
-                      onClick={toggleMenu}>
+                      onClick={() => {
+                        toggleMenu();
+                        setView(1);
+                      }}>
                       <MenuHeader as='h5'>
                         <div>
                           <Avatar

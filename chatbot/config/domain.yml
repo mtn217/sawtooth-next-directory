@@ -36,6 +36,7 @@ intents:
   - pending
   - reason
   - recommend
+  - rejected
   - request_access
   - thank
   - update
@@ -71,9 +72,11 @@ slots:
   member_status:
     type: categorical
     values:
+      - IDENTICAL
       - PENDING
       - MEMBER
       - NOT_MEMBER
+      - REJECTED
   owner_status:
     type: categorical
     values:
@@ -114,6 +117,7 @@ actions:
   - utter_help
   - utter_identical_pack
   - utter_insult
+  - utter_rejected_pack
   - utter_laugh
   - utter_member
   - utter_name
@@ -388,3 +392,9 @@ templates:
     - text: I'm just hanging around.
     - text: Eh. Could be better I guess.
     - text: Do you actually care?
+
+  utter_rejected_pack:
+    - text: >-
+        Wow, can you sense the antipathy? I promise I had nothing to do
+        with this, but it seems that your request has been unjustly declined.
+        Just say the word, and I'll gladly request again.

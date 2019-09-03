@@ -17,10 +17,14 @@
 ## intent:pending
 - /pending
 - /pending
--
+
 ## intent:identical
 - /identical
 - /identical
+
+## intent:rejected
+- /rejected
+- /rejected
 
 ## intent:update
 - /update

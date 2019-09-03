@@ -93,17 +93,6 @@ class IndividualNav extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        {/* <Search
-          fluid
-          input={() => <Input
-            fluid
-            maxLength='255'
-            size='large'
-            icon='search'
-            placeholder='Search...'/>}
-          className='next-individual-search'
-          category
-          loading={false}/> */}
       </div>
     );
   }
