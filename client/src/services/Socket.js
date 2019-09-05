@@ -30,8 +30,9 @@ let attempt = 0;
 const create = (endpoint) =>
   sockets[endpoint] = new WebSocket(
     (process.env.REACT_APP_WS_PROTOCOL || 'ws://') +
-    (process.env.REACT_APP_SERVER_HOST || 'localhost') + ':' +
-    (process.env.REACT_APP_SERVER_PORT || '8000') + `/api/${endpoint}`
+    (process.env.REACT_APP_SERVER_HOST || 'localhost') +
+    (process.env.REACT_APP_SERVER_PORT ?
+      `:${process.env.REACT_APP_SERVER_PORT}` : '') + `/api/${endpoint}`
   );
 
 
