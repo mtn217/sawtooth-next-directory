@@ -55,7 +55,7 @@ class IndividualNav extends Component {
 
     return (
       <div id='next-individual-nav'>
-        <Menu fluid inverted secondary>
+        <Menu fluid secondary>
           <Menu.Item
             name='roles'
             id='next-individual-nav-roles-click'

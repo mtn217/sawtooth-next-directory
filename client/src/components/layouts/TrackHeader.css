@@ -35,16 +35,16 @@ limitations under the License.
   display: flex;
   left: -.5em;
   position: relative;
-  top: 6em;
+  top: 2em;
 }
 
 #next-track-header .ui.breadcrumb .active {
   color: var(--magenta);
+  font-weight: 500
 }
 
 #next-track-header .ui.breadcrumb a {
-  color: var(--text-light);
-  font-weight: 500;
+  color: var(--text-dark);
 }
 
 .dark.minimal #next-track-header {
@@ -69,11 +69,14 @@ limitations under the License.
 
 #next-track-header .ui.header {
   align-items: end;
-  color: #ffffffba;
   display: flex;
   position: absolute;
   top: 25px;
   width: 500px;
+}
+
+#next-track-header .ui.header.inverted {
+  color: #ffffffba;
 }
 
 #next-track-header .ui.header .content {

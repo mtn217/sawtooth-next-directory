@@ -123,6 +123,11 @@ class App extends Component {
   }
 
 
+  isApproverView = () => {
+    return window.location.href.includes('/approval');
+  }
+
+
   /**
    * Update user, recommended resources, and open requests
    */
@@ -215,9 +220,7 @@ class App extends Component {
           { nav(props) }
         </Grid.Column>
         <Grid.Column
-          id='next-inner-grid-main'
-          className={transition ? 'main-animate' : 'main-no-animate'}>
-          <Waves {...this.props}/>
+          id='next-inner-grid-main'>
           { main(props) }
         </Grid.Column>
       </Grid>
@@ -231,12 +234,21 @@ class App extends Component {
    */
   render () {
     const { isAuthenticated, routes } = this.props;
+    const { transition } = this.state;
     this.routes = routes(this.props);
 
     return (
       <Router>
-        <div id='next-global-container'>
+        <div id='next-global-container'
+          className={this.isApproverView() ? 'approver' : 'requester'}>
           { isAuthenticated && <Header {...this.props}/> }
+          { isAuthenticated &&
+            <div id='next-waves' className={transition ?
+              'main-animate' :
+              'main-no-animate'}>
+              <Waves {...this.props}/>
+            </div>
+          }
           <Switch>
 
             {/*

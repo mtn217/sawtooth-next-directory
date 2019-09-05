@@ -149,13 +149,13 @@ const create = (baseURL =
 
 
   const getConfirmedProposals = (id = storage.get('next_id')) =>
-    api.get(`users/${id}/proposals/confirmed`);
+    api.get(`users/${id}/proposals/confirmed?limit=1000`);
   const getOpenProposals = (id = storage.get('next_id')) =>
-    api.get(`users/${id}/proposals/open`);
+    api.get(`users/${id}/proposals/open?limit=1000`);
   const getRecommended = (id = storage.get('next_id')) =>
     api.get(`users/${id}/roles/recommended`);
   const getRejectedProposals = (id = storage.get('next_id')) =>
-    api.get(`users/${id}/proposals/rejected`);
+    api.get(`users/${id}/proposals/rejected?limit=1000`);
   const expire = (id) =>
     api.patch(`users/${storage.get('next_id')}/roles/expired`, id);
 

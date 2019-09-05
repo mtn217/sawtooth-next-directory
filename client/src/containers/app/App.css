@@ -31,27 +31,31 @@ limitations under the License.
   height: 100%;
   overflow: auto;
   padding: var(--header-height) 0 15px 0;
-  position: fixed;
   width: 0;
-  opacity: .75;
+  z-index: 10;
 }
 
 #next-inner-grid-main {
   flex: 1;
   margin-left: 0;
   min-width: 0;
-  opacity: .5;
   padding: 0;
 }
 
 .nav-animate {
   animation: nav-slide-right .75s forwards;
   animation-delay: 1.75s;
+  opacity: .75;
 }
 
 .nav-no-animate {
   opacity: 1 !important;
   width: var(--sidebar-width) !important;
+}
+
+#next-waves {
+  opacity: .5;
+  z-index: 9;
 }
 
 .main-animate {

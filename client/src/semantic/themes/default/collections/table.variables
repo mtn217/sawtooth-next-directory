@@ -183,14 +183,14 @@
 @sortableIconDescending: '\f0d7';
 @sortableDisabledColor: @disabledTextColor;
 
-@sortableHoverBackground: @transparentBlack;
+@sortableHoverBackground: transparent;
 @sortableHoverColor: @hoveredTextColor;
 
-@sortableActiveBackground: @transparentBlack;
-@sortableActiveColor: @selectedTextColor;
+@sortableActiveBackground: transparent;
+@sortableActiveColor: @magenta;
 
-@sortableActiveHoverBackground: @transparentBlack;
-@sortableActiveHoverColor: @selectedTextColor;
+@sortableActiveHoverBackground: transparent;
+@sortableActiveHoverColor: @magenta;
 
 @sortableInvertedBorderColor: transparent;
 @sortableInvertedHoverBackground: @transparentWhite @subtleGradient;

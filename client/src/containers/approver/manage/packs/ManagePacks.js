@@ -41,7 +41,7 @@ import * as utils from 'services/Utils';
  */
 class ManagePacks extends Component {
 
-  themes = ['contrast', 'magenta'];
+  themes = ['magenta'];
 
 
   state = {
@@ -224,7 +224,6 @@ class ManagePacks extends Component {
           id='next-approver-grid-track-column'
           width={16}>
           <TrackHeader
-            inverted
             title='Packs'
             breadcrumb={[
               {name: 'Manage', slug: '/approval/manage'},

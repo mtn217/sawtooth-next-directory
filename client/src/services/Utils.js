@@ -151,13 +151,14 @@ export const nearestMinute = (ms = 1000 * 60) =>
 /**
  * Sort a given object array by key
  * @param {array} array Array to sort
- * @param {string}  key String within sub-object to sort against
+ * @param {string} key String within sub-object to sort against
+ * @param {string} direction Sort order
  * @returns {array}
  */
-export const sort = (array, key) =>
+export const sort = (array, key, direction = 'ascending') =>
   array.sort((a, b) => {
-    if (a[key] < b[key]) return -1;
-    if (a[key] > b[key]) return 1;
+    if (a[key] < b[key]) return direction === 'ascending' ? -1 : 1;
+    if (a[key] > b[key]) return direction === 'ascending' ? 1 : -1;
     return 0;
   });
 

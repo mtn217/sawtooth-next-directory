@@ -44,11 +44,9 @@ class Waves extends Component {
    * component. Configure animation update on route change.
    */
   componentDidMount () {
-    const { location } = this.props;
-
-    const waves = location && !location.pathname.startsWith('/approval');
-    const transition = waves ? 'next-waves-animate-up' :
-      'next-waves-animate-down';
+    const transition = this.isApproverView() ?
+      'next-waves-animate-down' :
+      'next-waves-animate-up';
     this.setState({ transition });
   }
 
@@ -60,18 +58,26 @@ class Waves extends Component {
    * @returns {undefined}
    */
   componentDidUpdate (prevProps) {
-    const { isAnimating, location, stopAnimation } = this.props;
+    const { isAnimating, stopAnimation } = this.props;
 
     if (this.props.location.pathname !== prevProps.location.pathname) {
-      const waves = location && !location.pathname.startsWith('/approval');
-
       isAnimating && stopAnimation();
       const transition = isAnimating ?
-        (waves ? 'next-waves-animate-up' : 'next-waves-animate-down') :
-        (waves ? 'next-waves' : 'next-static');
+        (this.isApproverView() ?
+          'next-waves-animate-down' :
+          'next-waves-animate-up') :
+        (this.isApproverView() ?
+          'next-static' :
+          'next-waves');
 
       this.setState({ transition });
     }
+  }
+
+
+  isApproverView = () => {
+    const { location } = this.props;
+    return location && location.pathname.startsWith('/approval');
   }
 
 

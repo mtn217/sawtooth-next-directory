@@ -158,9 +158,7 @@ class OrganizationList extends Component {
             <Avatar userId={person.id} size='medium' {...this.props}/>
           </div>
           <div>
-            <strong>
-              {utils.toTitleCase(person.name || person.username)}
-            </strong>
+            {utils.toTitleCase(person.name || person.username)}
             { person.id === id &&
               <Label size='small' basic>
                 You

@@ -238,7 +238,6 @@ class Individual extends Component {
           <Grid id='next-approver-grid'>
             <Grid.Column id='next-approver-grid-track-column' width={12}>
               <TrackHeader
-                inverted
                 glyph={glyph}
                 title='Individual Requests'
                 {...this.props}/>

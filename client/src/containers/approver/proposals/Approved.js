@@ -19,7 +19,6 @@ import { connect } from 'react-redux';
 import {
   Grid,
   Header,
-  Icon,
   Placeholder,
   Table } from 'semantic-ui-react';
 
@@ -43,7 +42,12 @@ import * as utils from 'services/Utils';
  */
 class Approved extends Component {
 
-  state = { column: null, direction: null, selectedProposal: {} };
+  state = {
+    column:             null,
+    direction:          null,
+    selectedProposal:   {},
+    table:              [],
+  };
 
 
   /**
@@ -63,8 +67,14 @@ class Approved extends Component {
    * @returns {undefined}
    */
   componentDidUpdate (prevProps) {
-    const { confirmedProposals } = this.props;
+    const { confirmedProposals, roles, users } = this.props;
     if (prevProps.confirmedProposals !== confirmedProposals) this.init();
+    if (prevProps.roles && prevProps.users &&
+        (prevProps.roles.length !== roles.length ||
+          prevProps.users.length !== users.length)) {
+      if (!confirmedProposals || !confirmedProposals.length) return;
+      this.hydrate();
+    }
   }
 
 
@@ -104,6 +114,32 @@ class Approved extends Component {
     diff && diff.length > 0 && getRoles(diff);
     diff2 && diff2.length > 0 && getUsers([...new Set(diff2)], true);
     diff3 && diff3.length > 0 && getUsers([...new Set(diff3)], true);
+
+    this.hydrate(true);
+  }
+
+
+  /**
+   * Hydrate table data
+   * @param {boolean} shouldSort Sort table on hydrate
+   */
+  hydrate = (shouldSort) => {
+    const { confirmedProposals } = this.props;
+    const table = confirmedProposals.map(proposal => {
+      return {
+        ...proposal,
+        closer_name:    this.userName(proposal.closer),
+        opener_email:   this.userEmail(proposal.opener),
+        opener_name:    this.userName(proposal.opener),
+        role_name:      this.roleName(proposal.object),
+      };
+    });
+
+    this.setState(
+      { table },
+      shouldSort ?
+        () => this.handleSort('closed_date', 'descending') : undefined,
+    );
   }
 
 
@@ -143,13 +179,41 @@ class Approved extends Component {
   };
 
 
+  /**
+   * Sort table
+   * @param {string} selectedColumn Column to sort by
+   * @param {string} directionOverride Specify a custom direction
+   */
+  handleSort = (selectedColumn, directionOverride) => {
+    const { column, direction, table } = this.state;
+    // const dir = directionOverride || direction;
+
+    if (column !== selectedColumn) {
+      this.setSort(selectedColumn, table, directionOverride);
+    } else if (direction === 'descending' && column !== 'closed_date') {
+      this.setSort('closed_date', table, 'descending');
+    } else {
+      this.setState({
+        direction:    direction === 'ascending' ? 'descending' : 'ascending',
+        table:        [...table].reverse(),
+      });
+    }
+  }
+
 
   /**
-   * Sort
+   * Set sort
+   * @param {string} column Column to sort by
+   * @param {array} table Table data
+   * @param {direction} direction Sort order
    */
-  handleSort = () => {
-    // Not yet implemented
-  };
+  setSort = (column, table, direction = 'ascending') => {
+    this.setState({
+      column,
+      direction,
+      table: utils.sort([...table], column, direction),
+    });
+  }
 
 
   /**
@@ -168,7 +232,7 @@ class Approved extends Component {
   renderPlaceholder = () => {
     return (
       <div id='next-approver-approved-placeholder'>
-        { Array(2).fill(0).map((item, index) => (
+        { Array(3).fill(0).map((item, index) => (
           <Placeholder fluid key={index}>
             <Placeholder.Header>
               <Placeholder.Line length='full'/>
@@ -186,53 +250,54 @@ class Approved extends Component {
    * @returns {JSX}
    */
   renderTable () {
-    const { confirmedProposals } = this.props;
-    const { column, direction } = this.state;
+    const { column, direction, table } = this.state;
 
     return (
       <Table
         sortable
         selectable
-        singleLine
         striped
-        padded='very'
+        padded
         className='cursor-pointer'>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
+              sorted={column === 'closed_date' ? direction : null}
+              onClick={() => this.handleSort('closed_date')}>
+              Approval Date
+            </Table.HeaderCell>
+            <Table.HeaderCell
               sorted={column === 'role_name' ? direction : null}
-              onClick={this.handleSort('role_name')}>
+              onClick={() => this.handleSort('role_name')}>
               Role Name
             </Table.HeaderCell>
             <Table.HeaderCell
-              sorted={column === 'requester' ? direction : null}
-              onClick={this.handleSort('requester')}>
+              sorted={column === 'opener_name' ? direction : null}
+              onClick={() => this.handleSort('opener_name')}>
               Requester
             </Table.HeaderCell>
             <Table.HeaderCell
-              sorted={column === 'requester_email' ? direction : null}
-              onClick={this.handleSort('requester_email')}>
+              sorted={column === 'opener_email' ? direction : null}
+              onClick={() => this.handleSort('opener_email')}>
               Requester Email
             </Table.HeaderCell>
             <Table.HeaderCell
-              sorted={column === 'approved_date' ? direction : null}
-              onClick={this.handleSort('approved_date')}>
-              Approved On
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              sorted={column === 'closer' ? direction : null}
-              onClick={this.handleSort('closer')}>
+              sorted={column === 'closer_name' ? direction : null}
+              onClick={() => this.handleSort('closer_name')}>
               Approved By
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          { confirmedProposals && confirmedProposals.map(proposal => (
+          { table && table.map(proposal => (
             <Table.Row
               key={proposal.id}
               onClick={() => this.setSelectedProposal(proposal)}>
               <Table.Cell>
-                {this.roleName(proposal.object)}
+                {utils.formatDate(proposal.closed_date)}
+              </Table.Cell>
+              <Table.Cell>
+                {proposal.role_name}
               </Table.Cell>
               <Table.Cell>
                 <Header as='h4' className='next-approver-approved-table-user'>
@@ -241,16 +306,12 @@ class Approved extends Component {
                     size='small'
                     {...this.props}/>
                   <Header.Content>
-                    {this.userName(proposal.opener)}
+                    {proposal.opener_name}
                   </Header.Content>
                 </Header>
               </Table.Cell>
               <Table.Cell className='next-approver-approved-table-email'>
-                {this.userEmail(proposal.opener)}
-                <Icon name='info circle' color='grey'/>
-              </Table.Cell>
-              <Table.Cell>
-                {utils.formatDate(proposal.closed_date)}
+                {proposal.opener_email}
               </Table.Cell>
               <Table.Cell>
                 <Header as='h4' className='next-approver-approved-table-user'>
@@ -259,7 +320,7 @@ class Approved extends Component {
                     size='small'
                     {...this.props}/>
                   <Header.Content>
-                    {this.userName(proposal.closer)}
+                    {proposal.closer_name}
                   </Header.Content>
                 </Header>
               </Table.Cell>
@@ -288,7 +349,6 @@ class Approved extends Component {
             id='next-approver-grid-track-column'
             width={12}>
             <TrackHeader
-              inverted
               glyph={glyph}
               title='Approved Requests'
               {...this.props}/>
@@ -302,7 +362,7 @@ class Approved extends Component {
               { confirmedProposals && confirmedProposals.length === 0 &&
               <Header as='h3' textAlign='center' color='grey'>
                 <Header.Content>
-                      You haven&#39;t approved any items
+                  You haven&#39;t approved any items
                 </Header.Content>
               </Header>
               }

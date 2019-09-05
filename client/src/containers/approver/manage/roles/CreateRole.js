@@ -141,7 +141,6 @@ class CreateRole extends Component {
           id='next-approver-grid-track-column'
           width={16}>
           <TrackHeader
-            inverted
             title='Create Role'
             breadcrumb={[
               {name: 'Manage', slug: '/approval/manage'},

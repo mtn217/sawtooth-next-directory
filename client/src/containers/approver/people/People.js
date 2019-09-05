@@ -89,7 +89,6 @@ class People extends Component {
           id='next-approver-grid-track-column'
           width={12}>
           <TrackHeader
-            inverted
             title='People'
             subtitle='Browse all of the people within your organization'
             {...this.props}/>

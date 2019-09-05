@@ -98,7 +98,7 @@ class ApproverChat extends Component {
               size='medium'
               className='pull-left'
               {...this.props}/>
-            <Header as='h3' inverted>
+            <Header as='h3'>
               {title}
               <Header.Subheader>
                 {subtitle}

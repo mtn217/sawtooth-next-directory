@@ -32,6 +32,10 @@ limitations under the License.
   background: none;
 }
 
+.approver #next-chat-container {
+  background: linear-gradient(to bottom, white 4%, transparent 15%);
+}
+
 #next-chat-conversation-dock {
   padding: 1.3rem;
   text-align: center;
@@ -49,6 +53,12 @@ limitations under the License.
   flex: 0 0 146px;
   margin-bottom: 7px;
   padding-left: 5%;
+}
+
+#next-chat-selection-heading-container h3 {
+  margin-left: 1em;
+  margin-top: 0;
+  top: -40px;
 }
 
 #next-chat-selection-heading-container h3 .ui.subheader {

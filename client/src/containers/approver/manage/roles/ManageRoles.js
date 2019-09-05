@@ -41,7 +41,7 @@ import * as utils from 'services/Utils';
  */
 class ManageRoles extends Component {
 
-  themes = ['contrast', 'magenta'];
+  themes = ['magenta'];
 
 
   state = {
@@ -191,7 +191,6 @@ class ManageRoles extends Component {
           id='next-approver-grid-track-column'
           width={16}>
           <TrackHeader
-            inverted
             title='Roles'
             breadcrumb={[
               {name: 'Manage', slug: '/approval/manage'},

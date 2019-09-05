@@ -28295,15 +28295,15 @@ Floated Menu / Item
 }
 
 .ui.sortable.table thead th:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: transparent;
   color: rgba(0, 0, 0, 0.8);
 }
 
 /* Sorted */
 
 .ui.sortable.table thead th.sorted {
-  background: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.95);
+  background: transparent;
+  color: #E40073;
 }
 
 .ui.sortable.table thead th.sorted:after {
@@ -28313,8 +28313,8 @@ Floated Menu / Item
 /* Sorted Hover */
 
 .ui.sortable.table thead th.sorted:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.95);
+  background: transparent;
+  color: #E40073;
 }
 
 /* Inverted */

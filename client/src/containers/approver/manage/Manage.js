@@ -122,7 +122,6 @@ class Manage extends Component {
               id='next-approver-grid-track-column'
               width={16}>
               <TrackHeader
-                inverted
                 title='Manage'
                 subtitle='Manage roles, packs, and other preferences'
                 {...this.props}/>

@@ -44,6 +44,10 @@ limitations under the License.
   z-index: 99;
 }
 
+.approver #next-wave-container {
+  background: linear-gradient(to bottom, #ffffff 0%,#e0e5e8 100%)
+}
+
 .dark #next-wave-container {
   display: none;
 }
@@ -53,13 +57,13 @@ limitations under the License.
 }
 
 .next-waves-animate-down {
-  animation: waves-down 0s ease-in forwards;
-  transform-origin: center;
+  animation: waves-down 2s ease-in forwards;
+  transform-origin: bottom;
 }
 
 @keyframes waves-down {
-  0% { transform: scale(1, 1); opacity: 1; }
-  25%, 100% { transform: scale(1, 0); opacity: 0; }
+  0% { transform: scale(1, 0); }
+  25%, 100% { transform: scale(1, 1); }
 }
 
 .next-waves-animate-up {
