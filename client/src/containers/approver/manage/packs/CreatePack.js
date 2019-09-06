@@ -46,7 +46,7 @@ class CreatePack extends Component {
   };
 
 
-  themes = ['contrast', 'magenta'];
+  themes = ['magenta'];
 
 
   /**
@@ -170,7 +170,6 @@ class CreatePack extends Component {
           id='next-approver-grid-track-column'
           width={16}>
           <TrackHeader
-            inverted
             title='Create Pack'
             breadcrumb={[
               {name: 'Manage', slug: '/approval/manage'},

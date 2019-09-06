@@ -31,7 +31,7 @@ import { syncAll } from './IndividualHelper';
 
 
 import './Individual.css';
-import glyph from 'images/glyph-individual.png';
+import glyph from 'images/glyph-individual-inverted.png';
 
 
 /**
@@ -170,6 +170,7 @@ class Individual extends Component {
         <div id='next-approver-individual-pending'>
           <h5>
             { openProposals && me &&
+              openProposals.length > 0 &&
               openProposals.filter(
                 proposal => proposal.opener !== me.id
               ).length + ' PENDING'

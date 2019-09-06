@@ -59,10 +59,10 @@ export const feedReceive = (state, { payload }) => {
 
   if (payload.user_proposal.closer === payload.user_proposal.opener ||
       payload.user_proposal.status === 'CONFIRMED') {
-    me.memberOf = [
+    me.memberOf = [...new Set([
       ...(me.memberOf || []),
       payload.user_proposal.object,
-    ];
+    ])];
   }
 
   if (me.proposals.find(

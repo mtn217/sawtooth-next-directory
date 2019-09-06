@@ -12,3 +12,49 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ----------------------------------------------------------------------------- */
+
+
+#next-approver-individual-table-content {
+  font-size: .96em;
+  overflow: auto;
+  padding-bottom: 100px;
+}
+
+#next-approver-individual-table-content h4 {
+  font-size: 1em;
+}
+
+#next-approver-individual-table-content table tbody tr {
+  height: 70px;
+}
+
+#next-approver-individual-table-content::-webkit-scrollbar {
+  display: none;
+}
+
+#next-approver-individual-table-content:after {
+  background: linear-gradient(90deg, transparent, white);
+  content: '';
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 60px;
+}
+
+.next-approver-individual-table-user {
+  align-items: center;
+  display: flex;
+}
+
+.next-approver-individual-table-user div:first-child {
+  margin-right: 10px;
+}
+
+.next-approver-individual-table-email {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  top: 3px;
+}

@@ -70,6 +70,12 @@
   - slot{"member_status": "REJECTED", "resource_type": "PACK"}
   - utter_current_draft_pack
 
+## story_access_owner_not_member_role
+* access
+  - slot{"owner_status": "OWNER", "member_status": "NOT_MEMBER", "resource_type": "ROLE"}
+  - action_request_access
+  - utter_fanfare_sent
+
 ## story_access_not_member_role
 * access
   - slot{"member_status": "NOT_MEMBER", "resource_type": "ROLE"}
@@ -90,6 +96,11 @@
   - slot{"member_status": "MEMBER"}
   - utter_generic
 
+## story_affirm_owner_not_member
+* affirm
+  - slot{"owner_status": "OWNER", "member_status": "NOT_MEMBER"}
+  - utter_generic
+
 ## story_affirm_pending
 * affirm
   - slot{"member_status": "PENDING"}
@@ -108,6 +119,11 @@
 ## story_deny
 * deny
   - utter_standby
+
+## story_request_access_owner_not_member
+* owner_request_access{"reason": "I need access.", "resource_id": "1234"}
+  - action_request_access
+  - utter_fanfare_sent
 
 ## story_request_access_pack
 * request_access{"reason": "I need access.", "resource_id": "1234", "resource_type": "PACK"}

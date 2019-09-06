@@ -54,6 +54,7 @@ class Landing extends Component {
    * component
    */
   componentDidMount () {
+    window.scrollTo(0, 0);
     this.init();
   }
 

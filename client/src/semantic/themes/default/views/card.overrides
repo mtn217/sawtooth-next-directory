@@ -56,7 +56,7 @@
 .ui.stackable.grid .column .ui.card.minimal {
   background: white;
   border: 1px solid #eee;
-  box-shadow: 0 3px 13px #98989814;
+  box-shadow: 0 10px 9px #98989814;
 }
 
 .dark .ui.stackable.grid .column .ui.card.minimal {

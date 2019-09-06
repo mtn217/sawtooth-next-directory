@@ -131,6 +131,14 @@ class RequesterChat extends Component {
     };
 
     if (activeRole) payload.approver_id = activeRole.owners[0];
+    if (activePack) {
+      const packs = [...new Set(me.proposals
+        .map(proposal => proposal.status === 'CONFIRMED' &&
+          proposal.pack_id !== '' && proposal.pack_id)
+        .filter(proposal => proposal)
+      )];
+      if (memberOfPacks.length !== packs.length) return;
+    }
 
     // Construct intent payload to send to chatbot
     if (helper.isExpired(expired, resource)) {
@@ -164,6 +172,7 @@ class RequesterChat extends Component {
       helper.isIdentical(
         activePack,
         requests,
+        me,
         memberOf,
         resource)
     ) {
@@ -201,7 +210,6 @@ class RequesterChat extends Component {
         { title &&
           <Header id='next-chat-header' size='small' inverted>
             {title}
-            {/* <Icon link name='pin' size='mini' className='pull-right'/> */}
           </Header>
         }
         <div id='next-requester-chat-transcript-container'>

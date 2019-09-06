@@ -155,6 +155,7 @@ slots:
     values:
     - pack
     - role
+    - none
   token:
     auto_fill: true
     initial_value: null
@@ -188,7 +189,7 @@ templates:
   utter_current_draft_pack:
   - buttons:
     - payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type":
-        "-"}'
+        "NONE"}'
       title: Send request
     - payload: Nevermind.
       title: Nevermind
@@ -197,7 +198,7 @@ templates:
   utter_current_draft_role:
   - buttons:
     - payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type":
-        "-"}'
+        "NONE"}'
       title: Send request
     - payload: Nevermind.
       title: Actually...
@@ -247,8 +248,8 @@ templates:
     text: For English, <strong>press 1</strong>. Para Español, <strong>marque número
       2</strong>.
   utter_identical_pack:
-  - text: You already have access to every role in this pack. I don't think requesting
-      access will help you. 😇
+  - text: You either already have access to or have pending requests for every role
+      in this pack. I don't think requesting access will help you. 😇
   utter_insult:
   - text: I'm trying my best to be helpful. Please let me know more clearly how I
       can help you.
@@ -285,7 +286,8 @@ templates:
   - text: Congratulations, you are an owner of this resource.
   utter_owner_not_member:
   - buttons:
-    - payload: Yes, please.
+    - payload: '/owner_request_access{"reason": "-", "resource_id": "-", "resource_type":
+        "NONE"}'
       title: Yes, please
     - payload: No, thanks.
       title: No, thanks
@@ -304,7 +306,7 @@ templates:
   utter_recommended_draft_pack:
   - buttons:
     - payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type":
-        "-"}'
+        "NONE"}'
       title: Send request
     - payload: Nevermind.
       title: Actually...
@@ -314,7 +316,7 @@ templates:
   utter_recommended_draft_role:
   - buttons:
     - payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type":
-        "-"}'
+        "NONE"}'
       title: Send request
     - payload: Nevermind.
       title: Nevermind

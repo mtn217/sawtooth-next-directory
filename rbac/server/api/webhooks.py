@@ -69,7 +69,7 @@ async def chatbot_webhook(request):
 async def execute_action_add_member(request):
     """"Webhook action to create a new proposal given slot data
     collected by the chatbot engine through dialog with a user"""
-    required_fields = ["reason", "resource_id"]
+    required_fields = ["resource_id"]
     utils.validate_fields(required_fields, request.json["tracker"].get("slots"))
 
     request.json["id"] = escape_user_input(request.json.get("sender_id"))

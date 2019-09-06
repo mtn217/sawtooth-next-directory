@@ -10,12 +10,36 @@
         "text": "/recommend"
       },
       {
+        "intent": "recommend",
+        "text": "/recommend"
+      },
+      {
+        "intent": "recommend",
+        "text": "/recommend"
+      },
+      {
         "intent": "offer",
         "text": "/offer"
       },
       {
         "intent": "offer",
         "text": "/offer"
+      },
+      {
+        "intent": "offer",
+        "text": "/offer"
+      },
+      {
+        "intent": "offer",
+        "text": "/offer"
+      },
+      {
+        "intent": "member",
+        "text": "/member"
+      },
+      {
+        "intent": "member",
+        "text": "/member"
       },
       {
         "intent": "member",
@@ -34,12 +58,36 @@
         "text": "/owner"
       },
       {
+        "intent": "owner",
+        "text": "/owner"
+      },
+      {
+        "intent": "owner",
+        "text": "/owner"
+      },
+      {
         "intent": "pending",
         "text": "/pending"
       },
       {
         "intent": "pending",
         "text": "/pending"
+      },
+      {
+        "intent": "pending",
+        "text": "/pending"
+      },
+      {
+        "intent": "pending",
+        "text": "/pending"
+      },
+      {
+        "intent": "identical",
+        "text": "/identical"
+      },
+      {
+        "intent": "identical",
+        "text": "/identical"
       },
       {
         "intent": "identical",
@@ -58,6 +106,22 @@
         "text": "/rejected"
       },
       {
+        "intent": "rejected",
+        "text": "/rejected"
+      },
+      {
+        "intent": "rejected",
+        "text": "/rejected"
+      },
+      {
+        "intent": "update",
+        "text": "/update"
+      },
+      {
+        "intent": "update",
+        "text": "/update"
+      },
+      {
         "intent": "update",
         "text": "/update"
       },
@@ -74,12 +138,52 @@
         "text": "/request_access"
       },
       {
+        "intent": "request_access",
+        "text": "/request_access"
+      },
+      {
+        "intent": "request_access",
+        "text": "/request_access"
+      },
+      {
+        "intent": "owner_request_access",
+        "text": "/owner_request_access"
+      },
+      {
+        "intent": "owner_request_access",
+        "text": "/owner_request_access"
+      },
+      {
+        "intent": "owner_request_access",
+        "text": "/owner_request_access"
+      },
+      {
+        "intent": "owner_request_access",
+        "text": "/owner_request_access"
+      },
+      {
         "intent": "no_owner",
         "text": "/no_owner"
       },
       {
         "intent": "no_owner",
         "text": "/no_owner"
+      },
+      {
+        "intent": "no_owner",
+        "text": "/no_owner"
+      },
+      {
+        "intent": "no_owner",
+        "text": "/no_owner"
+      },
+      {
+        "intent": "expired",
+        "text": "/expired"
+      },
+      {
+        "intent": "expired",
+        "text": "/expired"
       },
       {
         "intent": "expired",

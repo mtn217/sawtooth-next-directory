@@ -80,14 +80,26 @@ export const isRejected = (
 export const isIdentical = (
   activePack,
   requests,
+  me,
   memberOf,
   resource
-) =>
-  activePack && (requests && resource.roles.every(
-    role => requests.some(
-      request => (request.roles && request.roles.includes(role))) ||
-        (memberOf && memberOf.some(item => item.id === role))
-  ));
+) => {
+  if (activePack && requests && resource.roles.every(
+    role => [...(requests || [])].some(
+      request => request.roles && request.roles.includes(role)
+    )))
+    return true;
+
+  if (activePack && resource.roles.every(
+    role => me.memberOf.includes(role)))
+    return true;
+
+  if (activePack && memberOf && resource.roles.every(
+    role => memberOf.some(item => item.id === role)))
+    return true;
+
+  return false;
+};
 
 
 export const isRecommend = (recommendedPacks, recommendedRoles, resource) =>

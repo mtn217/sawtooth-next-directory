@@ -112,7 +112,7 @@ class ApproverChat extends Component {
               visible={selectedUsers.length > 0}
               animation='fade left'
               duration={{hide: 0, show: 300}}>
-              <Header as='h3' inverted>
+              <Header as='h3'>
                 {selectedUsers.length === 1 && title}
                 <Header.Subheader>
                   {subtitle}
@@ -174,7 +174,7 @@ class ApproverChat extends Component {
           <div id='next-approver-chat-transcript-container'>
             <ChatTranscript {...this.props}
               messages={[{
-                text: selectedProposal.open_reason,
+                text: selectedProposal.open_reason || 'No reason available.',
                 from: selectedProposal.opener,
               }]}/>
           </div>

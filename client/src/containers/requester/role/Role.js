@@ -203,7 +203,7 @@ export class Role extends Component {
           width={4}>
           <Chat
             type='REQUESTER'
-            title={this.role.name + ' Conversations'}
+            title='Conversations'
             activeRole={this.role} {...this.props}/>
         </Grid.Column>
       </Grid>

@@ -72,6 +72,10 @@ async def update_tracker(request, recv):
         await create_event(
             request, next_id, "token", escape_user_input(recv.get("token"))
         )
+        LOGGER.info("[Chatbot] %s: Updating tracker resource ID", next_id)
+        await create_event(
+            request, next_id, "resource_id", escape_user_input(recv.get("resource_id"))
+        )
 
 
 async def create_event(request, next_id, name, value):

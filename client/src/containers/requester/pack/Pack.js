@@ -195,7 +195,7 @@ export class Pack extends Component {
           <Chat
             type='REQUESTER'
             isRequest={isRequest}
-            title={this.pack.name + ' Conversations'}
+            title='Conversations'
             activePack={this.pack} {...this.props}/>
         </Grid.Column>
       </Grid>

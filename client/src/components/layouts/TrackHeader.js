@@ -64,7 +64,9 @@ class TrackHeader extends Component {
                     <Image size='medium' src={glyph}/>
                   }
                   <Header.Content>
-                    {title}
+                    <span>
+                      {title}
+                    </span>
                     <Header.Subheader id='next-track-header-subheader'>
                       {subtitle}
                     </Header.Subheader>

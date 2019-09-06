@@ -43,9 +43,9 @@ export const feedReceive = (state, { payload }) => {
     return state.merge({});
 
   let requests = [];
-  if (payload.user_proposal.status === 'CONFIRMED' ||
-      state.requests.find(
-        request => request.object === payload.user_proposal.object)
+  if ((payload.user_proposal.status === 'CONFIRMED') ||
+      (state.requests && state.requests.find(
+        request => request.object === payload.user_proposal.object))
   ) {
     requests = [...(state.requests || [])].filter(
       request => request.object !== payload.user_proposal.object &&

@@ -210,11 +210,8 @@ class ChatForm extends Component {
       parsed.resource_type = (activePack && 'PACK') ||
         (activeRole && 'ROLE');
     }
-    if (parsed.reason) {
-      parsed.reason = message;
-      return payload.substring(0, demarcation) + JSON.stringify(parsed);
-    }
-    return payload;
+    if (parsed.reason) parsed.reason = message;
+    return payload.substring(0, demarcation) + JSON.stringify(parsed);
   }
 
 

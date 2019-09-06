@@ -120,7 +120,7 @@ class Header extends Component {
   setView = () => {
     const { history, setView } = this.props;
     if (history.location.pathname.includes('/login')) {
-      setView(parseInt(storage.getViewState()));
+      setView(parseInt(storage.getViewState() || 0));
       return;
     }
     history.location.pathname.includes('/approval') ?

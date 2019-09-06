@@ -27,7 +27,7 @@ import './Rejected.css';
 import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
-import glyph from 'images/glyph-individual.png';
+import glyph from 'images/glyph-individual-inverted.png';
 import Avatar from 'components/layouts/Avatar';
 
 
@@ -186,7 +186,6 @@ class Rejected extends Component {
    */
   handleSort = (selectedColumn, directionOverride) => {
     const { column, direction, table } = this.state;
-    // const dir = directionOverride || direction;
 
     if (column !== selectedColumn) {
       this.setSort(selectedColumn, table, directionOverride);

@@ -84,3 +84,7 @@ limitations under the License.
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+#next-track-header .ui.header .content span:first-child {
+  font-size: .8em;
+}

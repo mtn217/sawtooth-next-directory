@@ -92,6 +92,7 @@ slots:
     values:
     - PACK
     - ROLE
+    - NONE
   token:
     type: unfeaturized
   user_full_name:
@@ -183,7 +184,7 @@ templates:
         Would you also like to become a member of your resource?
       buttons:
       - title: Yes, please
-        payload: Yes, please.
+        payload: '/owner_request_access{"reason": "-", "resource_id": "-", "resource_type": "NONE"}'
       - title: No, thanks
         payload: No, thanks.
 
@@ -199,8 +200,8 @@ templates:
 
   utter_identical_pack:
     - text: >-
-        You already have access to every role in this pack.
-        I don't think requesting access will help you. 😇
+        You either already have access to or have pending requests for
+        every role in this pack. I don't think requesting access will help you. 😇
 
   utter_standby:
     - text: Feel free to ping me anytime.
@@ -283,7 +284,7 @@ templates:
         and I'll take care of the rest.
       buttons:
         - title: Send request
-          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "-"}'
+          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "NONE"}'
         - title: Nevermind
           payload: Nevermind.
 
@@ -294,7 +295,7 @@ templates:
         and then move this pack to your pending requests!
       buttons:
         - title: Send request
-          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "-"}'
+          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "NONE"}'
         - title: Actually...
           payload: Nevermind.
 
@@ -305,7 +306,7 @@ templates:
         and I'll get on it.
       buttons:
         - title: Send request
-          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "-"}'
+          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "NONE"}'
         - title: Actually...
           payload: Nevermind.
 
@@ -315,7 +316,7 @@ templates:
         If you would, draft a note and I'll make sure each approver gets your request.
       buttons:
         - title: Send request
-          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "-"}'
+          payload: '/request_access{"reason": "-", "resource_id": "-", "resource_type": "NONE"}'
         - title: Nevermind
           payload: Nevermind.
 

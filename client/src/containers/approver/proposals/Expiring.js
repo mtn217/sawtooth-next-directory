@@ -31,7 +31,7 @@ import { syncAll } from './IndividualHelper';
 
 
 import './Expiring.css';
-import glyph from 'images/glyph-individual.png';
+import glyph from 'images/glyph-individual-inverted.png';
 
 
 /**
@@ -168,7 +168,9 @@ class Expiring extends Component {
           setFlow={this.setFlow}/>
         <div id='next-approver-expiring-pending'>
           <h5>
-            {openProposals && openProposals.length + ' PENDING'}
+            { openProposals &&
+              openProposals.length > 0 &&
+              openProposals.length + ' PENDING'}
           </h5>
         </div>
         { openProposals && openProposals.length !== 0 &&

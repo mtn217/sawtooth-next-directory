@@ -261,75 +261,77 @@ class TableList extends Component {
     const { column, direction } = this.state;
 
     return (
-      <Table
-        sortable
-        selectable
-        singleLine
-        striped
-        padded='very'
-        className='cursor-pointer'>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell/>
-            <Table.HeaderCell
-              sorted={column === 'role_name' ? direction : null}
-              onClick={this.handleSort('role_name')}>
-              Role Name
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              sorted={column === 'requester' ? direction : null}
-              onClick={this.handleSort('requester')}>
-              Requester
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              sorted={column === 'requester_email' ? direction : null}
-              onClick={this.handleSort('requester_email')}>
-              Requester Email
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              sorted={column === 'created_date' ? direction : null}
-              onClick={this.handleSort('created_date')}>
-              Opened On
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          { openProposals && openProposals.map(proposal => (
-            <Table.Row
-              key={proposal.id}
-              onClick={() => this.handleRowClick(proposal)}>
-              <Table.Cell collapsing>
-                <Checkbox
-                  checked={this.isProposalChecked(proposal)}
-                  proposal={proposal.id}
-                  user={proposal.opener}
-                  onChange={handleChange}/>
-              </Table.Cell>
-              <Table.Cell>
-                {this.roleName(proposal.object)}
-              </Table.Cell>
-              <Table.Cell>
-                <Header as='h4' className='next-approver-approved-table-opener'>
-                  <Avatar
-                    userId={proposal.opener}
-                    size='small'
-                    {...this.props}/>
-                  <Header.Content>
-                    {this.userName(proposal.opener)}
-                  </Header.Content>
-                </Header>
-              </Table.Cell>
-              <Table.Cell className='next-approver-approved-table-email'>
-                {this.userEmail(proposal.opener)}
-                <Icon name='info circle' color='grey'/>
-              </Table.Cell>
-              <Table.Cell>
-                {utils.formatDate(proposal.created_date)}
-              </Table.Cell>
+      <div id='next-approver-individual-table-content'>
+        <Table
+          sortable
+          selectable
+          striped
+          padded
+          className='cursor-pointer'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell/>
+              <Table.HeaderCell
+                sorted={column === 'role_name' ? direction : null}
+                onClick={this.handleSort('role_name')}>
+                Role Name
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'requester' ? direction : null}
+                onClick={this.handleSort('requester')}>
+                Requester
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'requester_email' ? direction : null}
+                onClick={this.handleSort('requester_email')}>
+                Requester Email
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'created_date' ? direction : null}
+                onClick={this.handleSort('created_date')}>
+                Opened On
+              </Table.HeaderCell>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+          </Table.Header>
+          <Table.Body>
+            { openProposals && openProposals.map(proposal => (
+              <Table.Row
+                key={proposal.id}
+                onClick={() => this.handleRowClick(proposal)}>
+                <Table.Cell collapsing>
+                  <Checkbox
+                    checked={this.isProposalChecked(proposal)}
+                    proposal={proposal.id}
+                    user={proposal.opener}
+                    onChange={handleChange}/>
+                </Table.Cell>
+                <Table.Cell>
+                  {this.roleName(proposal.object)}
+                </Table.Cell>
+                <Table.Cell>
+                  <Header
+                    as='h4'
+                    className='next-approver-individual-table-user'>
+                    <Avatar
+                      userId={proposal.opener}
+                      size='small'
+                      {...this.props}/>
+                    <Header.Content>
+                      {this.userName(proposal.opener)}
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell className='next-approver-individual-table-email'>
+                  {this.userEmail(proposal.opener)}
+                </Table.Cell>
+                <Table.Cell>
+                  {utils.formatDate(proposal.created_date)}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
     );
 
   }

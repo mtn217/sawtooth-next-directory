@@ -31,13 +31,14 @@ limitations under the License.
   height: 100%;
   overflow: auto;
   padding: var(--header-height) 0 15px 0;
+  position: fixed;
   width: 0;
   z-index: 10;
 }
 
 #next-inner-grid-main {
   flex: 1;
-  margin-left: 0;
+  margin-left: var(--sidebar-width);
   min-width: 0;
   padding: 0;
 }

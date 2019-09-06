@@ -26,14 +26,13 @@ limitations under the License.
 }
 
 #next-approver-manage-exit-button {
-  background: url('../../../images/glyph-cancel.png') center 0px / 30px no-repeat;
-  color: white;
+  background: url('../../../images/glyph-cancel-inverted.png') center 0px / 30px no-repeat;
   font-size: 1em;
   font-weight: 500;
   padding: 42px 0 0 0;
   position: fixed;
   right: 3em;
-  top: 6.5em;
+  top: 5.4em;
   width: 50px;
 }
 

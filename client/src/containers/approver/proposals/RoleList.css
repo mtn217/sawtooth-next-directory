@@ -15,7 +15,7 @@ limitations under the License.
 
 
 #next-roles-list-container {
-  padding: 0 var(--page-content-padding);
+  padding: 0 10%;
 }
 
 .next-role-list-item {

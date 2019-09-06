@@ -1,44 +1,72 @@
 ## intent:recommend
 - /recommend
 - /recommend
+- /recommend
+- /recommend
 
 ## intent:offer
+- /offer
+- /offer
 - /offer
 - /offer
 
 ## intent:member
 - /member
 - /member
+- /member
+- /member
 
 ## intent:owner
+- /owner
+- /owner
 - /owner
 - /owner
 
 ## intent:pending
 - /pending
 - /pending
+- /pending
+- /pending
 
 ## intent:identical
+- /identical
+- /identical
 - /identical
 - /identical
 
 ## intent:rejected
 - /rejected
 - /rejected
+- /rejected
+- /rejected
 
 ## intent:update
+- /update
+- /update
 - /update
 - /update
 
 ## intent:request_access
 - /request_access
 - /request_access
+- /request_access
+- /request_access
+
+## intent:owner_request_access
+- /owner_request_access
+- /owner_request_access
+- /owner_request_access
+- /owner_request_access
 
 ## intent:no_owner
 - /no_owner
 - /no_owner
+- /no_owner
+- /no_owner
 
 ## intent:expired
+- /expired
+- /expired
 - /expired
 - /expired
 

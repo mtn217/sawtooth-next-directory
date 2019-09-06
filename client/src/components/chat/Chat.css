@@ -73,8 +73,10 @@ limitations under the License.
 }
 
 #next-chat-header {
-  padding: 2rem;
   flex: 0 0 136px;
+  font-weight: 500;
+  opacity: .5;
+  padding: 2rem;
 }
 
 #next-chat-organization-heading {

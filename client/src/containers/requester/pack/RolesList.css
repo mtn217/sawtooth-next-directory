@@ -38,7 +38,6 @@ h4.ui.header.next-roles-list-role-info div:nth-child(2) {
 .ui.header .sub.header.next-roles-list-email-subheader {
   color: #7e7e7e;
   margin-top: 4px;
-  word-break: break-word;
 }
 
 .next-roles-list-owner {
