@@ -52,16 +52,33 @@ export const success = {
 
 
 export const feedReceive = (state, { payload }) => {
-  if (payload.user_proposal &&
-      payload.user_proposal.closer === payload.user_proposal.opener) {
-    const me = {...state.me};
+  if (!payload.user_proposal)
+    return state.merge({});
+
+  const me = {...state.me};
+
+  if (payload.user_proposal.closer === payload.user_proposal.opener ||
+      payload.user_proposal.status === 'CONFIRMED') {
     me.memberOf = [
       ...(me.memberOf || []),
       payload.user_proposal.object,
     ];
-    return state.merge({ me });
   }
-  return state.merge({});
+
+  if (me.proposals.find(
+    proposal => proposal.object_id === payload.user_proposal.object
+  )) {
+    me.proposals = [...me.proposals.filter(
+      proposal => proposal.object_id !== payload.user_proposal.object
+    ), {
+      object_id:      payload.user_proposal.object,
+      pack_id:        payload.user_proposal.pack_id,
+      proposal_id:    payload.user_proposal.id,
+      status:         payload.user_proposal.status,
+    }];
+  }
+
+  return state.merge({ me });
 };
 
 

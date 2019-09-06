@@ -41,12 +41,15 @@ export const isPending = (me, proposalResourceKey, resource) =>
 
 export const isRejected = (
   activePack,
+  activeRole,
   requests,
   memberOf,
   me,
   proposalIds,
   resource
 ) => {
+
+  // Pack rejected
   if (activePack && (requests && resource.roles.every(
     role => requests.some(
       request => (request.roles && request.roles.includes(role))) ||
@@ -58,7 +61,16 @@ export const isRejected = (
     );
 
     return rejected.length > 0 &&
-      rejected.length === proposalIds.length;
+      rejected.length >= proposalIds.length;
+
+  // Role rejected
+  } else if (activeRole) {
+    const rejected = me.proposals.find(
+      proposal => proposal.object_id === resource.id &&
+        proposal.status === 'REJECTED'
+    );
+
+    return rejected;
   }
 
   return false;

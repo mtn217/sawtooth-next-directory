@@ -64,5 +64,5 @@ async def proposal_feed(web_socket, recv):
             and next_id in proposal_resource["approvers"]
         ):
             await web_socket.send(json.dumps({"open_proposal": proposal_resource}))
-        elif next_id == proposal_resource["opener"]:
+        if next_id == proposal_resource["opener"]:
             await web_socket.send(json.dumps({"user_proposal": proposal_resource}))

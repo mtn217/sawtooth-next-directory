@@ -52,6 +52,7 @@ class RequesterChat extends Component {
     const {
       activePack,
       activeRole,
+      isRequest,
       isSocketOpen,
       me,
       requests } = this.props;
@@ -64,6 +65,9 @@ class RequesterChat extends Component {
       this.init();
 
     if (prevProps.me !== me)
+      this.init();
+
+    if (prevProps.isRequest !== isRequest)
       this.init();
 
     if ((activeRole && prevProps.activeRole.id !== activeRole.id) ||
@@ -147,6 +151,7 @@ class RequesterChat extends Component {
     } else if (
       helper.isRejected(
         activePack,
+        activeRole,
         requests,
         memberOf,
         me,
