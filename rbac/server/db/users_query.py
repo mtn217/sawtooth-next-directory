@@ -14,6 +14,7 @@
 # ------------------------------------------------------------------------------
 """Queries for getting user data."""
 
+from environs import Env
 import rethinkdb as r
 
 from rbac.common.logs import get_default_logger
@@ -22,6 +23,7 @@ from rbac.server.db.proposals_query import fetch_proposal_ids_by_opener
 from rbac.server.db.relationships_query import fetch_relationships_by_id
 from rbac.server.db.roles_query import fetch_expired_roles
 
+ENV = Env()
 LOGGER = get_default_logger(__name__)
 
 
@@ -69,6 +71,9 @@ async def fetch_user_resource(conn, next_id):
         )
         .map(
             lambda user: (user["metadata"] == "").branch(user.without("metadata"), user)
+        )
+        .filter(
+            lambda user: (~user["username"].match(ENV("BLACKLISTED_USER_REGEX", "^$")))
         )
         .without("next_id", "manager_id", "start_block_num", "end_block_num")
         .coerce_to("array")
@@ -147,6 +152,9 @@ async def fetch_all_user_resources(conn, start, limit):
         )
         .map(
             lambda user: (user["metadata"] == "").branch(user.without("metadata"), user)
+        )
+        .filter(
+            lambda user: (~user["username"].match(ENV("BLACKLISTED_USER_REGEX", "^$")))
         )
         .without("next_id", "manager_id", "start_block_num", "end_block_num")
         .coerce_to("array")
@@ -336,6 +344,9 @@ def users_search_name(search_query):
     resource = (
         r.table("users")
         .filter(lambda doc: (doc["name"].match("(?i)" + search_query["search_input"])))
+        .filter(
+            lambda user: (~user["username"].match(ENV("BLACKLISTED_USER_REGEX", "^$")))
+        )
         .order_by("name")
         .coerce_to("array")
     )
@@ -348,6 +359,9 @@ def users_search_email(search_query):
     resource = (
         r.table("users")
         .filter(lambda doc: (doc["email"].match("(?i)" + search_query["search_input"])))
+        .filter(
+            lambda user: (~user["username"].match(ENV("BLACKLISTED_USER_REGEX", "^$")))
+        )
         .order_by("name")
         .coerce_to("array")
     )

@@ -32,6 +32,7 @@ services:
       - validator
     environment:
       - AES_KEY=${AES_KEY}
+      - BLACKLISTED_USER_REGEX=${BLACKLISTED_USER_REGEX}
       - DB_HOST=${DB_HOST:-rethink}
       - DB_PORT=${DB_PORT:-28015}
       - DB_NAME=${DB_NAME:-rbac}

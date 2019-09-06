@@ -167,6 +167,11 @@ async def authorize(request):
     password = escape_user_input(request.json.get("password"))
     env = Env()
 
+    blacklisted_user_regex = str(env("BLACKLISTED_USER_REGEX", ""))
+    if blacklisted_user_regex:
+        if re.match(blacklisted_user_regex, username, re.IGNORECASE):
+            raise ApiUnauthorized(LDAP_ERR_MESSAGES["default"])
+
     if username == "" or password == "":
         raise ApiBadRequest(LDAP_ERR_MESSAGES["default"])
     user = await get_user_by_username(request)
