@@ -16,11 +16,12 @@ limitations under the License.
 
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, Header, Icon } from 'semantic-ui-react';
+import { Button, Header, Icon, Image } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
 import './NotFound.css';
+import logo from 'images/next-logo-billboard.svg';
 import * as theme from 'services/Theme';
 import * as utils from 'services/Utils';
 
@@ -41,7 +42,7 @@ class NotFound extends Component {
   }
 
 
-  themes = ['dark'];
+  themes = ['not-found'];
 
 
   /**
@@ -89,16 +90,23 @@ class NotFound extends Component {
 
     return (
       <div id='next-not-found-container'>
+        <Image id='next-not-found-logo' size='tiny' src={logo}/>
         <Header as='h1'>
-          Oops.
+          <Header.Content>
+            <div>
+              <span role='img' aria-label=''>
+                👻
+              </span>
+            </div>
+            Hmm...
+          </Header.Content>
           <Header.Subheader>
-            This page doesn&#39;t seem to exist.
+            There&#39;s only ghosts here.
           </Header.Subheader>
         </Header>
         <div id='next-not-found-actions'>
           <Button
             animated
-            primary
             fluid
             onClick={() => this.goBack()}>
             <Button.Content visible>

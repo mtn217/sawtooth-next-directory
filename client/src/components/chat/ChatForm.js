@@ -231,6 +231,10 @@ class ChatForm extends Component {
     const resource = activePack || activeRole;
     const activeMessages = resource && messagesById(resource.id);
 
+    if (!activeMessages || !activeMessages.length || (activeMessages[0] &&
+        !activeMessages[0].buttons))
+      return null;
+
     return (
       <div id='next-chat-actions'>
         { activeMessages && activeMessages[0] &&
@@ -344,11 +348,13 @@ class ChatForm extends Component {
               value={this.state.message}
               onChange={this.handleChange}>
               <input disabled={formDisabled} autoComplete='off'/>
-              <Icon
-                link
-                id='next-chat-form-submit-icon'
-                name='paper plane'
-                onClick={() => this.handleSend(message)}/>
+              { !utils.isWhitespace(message) &&
+                <Icon
+                  link
+                  id='next-chat-form-submit-icon'
+                  name='paper plane'
+                  onClick={() => this.handleSend(message)}/>
+              }
             </Form.Input>
           </Form>
         </div>

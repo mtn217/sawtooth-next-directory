@@ -57,8 +57,10 @@ class ChatTranscript extends Component {
       activePack,
       activeRole,
       fetching,
+      id,
       messages,
       messagesById,
+      pending,
       socketError,
       socketMaxAttemptsReached,
       type } = this.props;
@@ -91,7 +93,7 @@ class ChatTranscript extends Component {
 
     return (
       <div>
-        { fetching &&
+        { fetching && pending && pending.includes(resourceId) &&
           <div className={`next-chat-message-left next-chat-message-loading
             next-chat-transcript-animation-loading`}>
             <Image src={chatbotAvatar} size='mini'/>
@@ -108,7 +110,7 @@ class ChatTranscript extends Component {
         }
         <div
           id='next-chat-messages'
-          className={`${fetching ?
+          className={`${fetching && pending && pending.includes(resourceId) ?
             'next-chat-transcript-animation-send' :
             'next-chat-transcript-animation-receive'}`}>
           { !socketError && transcript &&
@@ -125,6 +127,12 @@ class ChatTranscript extends Component {
                         {message.text}
                       </div>
                     </Segment>
+                    <div>
+                      <Avatar
+                        userId={id}
+                        size='small'
+                        {...this.props}/>
+                    </div>
                   </div> :
                   <div className={`next-chat-message-left ${index === 0 ?
                     'next-chat-message-animation-receive' : ''}`} key={index}>
@@ -140,6 +148,9 @@ class ChatTranscript extends Component {
                     <Segment compact
                       floated='left'
                       size='small'>
+                      <strong className='next-chat-message-from-label'>
+                        NEX:
+                      </strong>
                       <div dangerouslySetInnerHTML={{__html: message.text}}>
                       </div>
                     </Segment>

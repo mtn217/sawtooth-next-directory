@@ -55,6 +55,7 @@ export class Pack extends Component {
    * Fetch pack if not loaded in client.
    */
   componentDidMount () {
+    window.scrollTo(0, 0);
     this.init();
   }
 

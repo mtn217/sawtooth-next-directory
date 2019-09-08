@@ -141,14 +141,18 @@ class RequesterNav extends Component {
         <NavList
           glyph={roleGlyph}
           listTitle='Your Roles'
+          maxLength={5}
+          seeAllLink='/roles'
           list={memberOf}/>
         <NavList
           glyph={packGlyph}
           listTitle='Your Packs'
+          maxLength={5}
           list={memberOfPacks}/>
         <NavList
           glyph={requestGlyph}
           listTitle='Your Requests'
+          maxLength={5}
           list={requests}/>
         {/* <NavList
           listTitle='Recommended Packs'

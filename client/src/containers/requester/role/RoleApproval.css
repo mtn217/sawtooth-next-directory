@@ -14,10 +14,6 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-#next-role-approval-container {
-  border-bottom: 1px solid var(--hr-light-color);
-}
-
 #next-role-approval-container .ui.fluid.card {
   background: transparent;
   border-radius: 0;
@@ -47,11 +43,15 @@ limitations under the License.
 #next-role-approval-date,
 #next-role-approval-request-id,
 #next-role-approval-approver {
-  margin-top: 12px;
-  color: black;
+  color: var(--text-dark);
+  margin-top: 5px;
 }
 
 #next-role-approval-details {
-  border-top: 0 !important;
-  padding: 0 40px 25px 40px;
+  background: #fbfbfb;
+  border: 1px solid #ececec !important;
+  box-shadow: 0 10px 9px #98989814;
+  border-radius: 1em !important;
+  margin: 0 3em 2.5em 3em;
+  padding: 0 1.3em;
 }

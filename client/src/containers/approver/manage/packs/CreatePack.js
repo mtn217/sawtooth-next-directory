@@ -75,7 +75,7 @@ class CreatePack extends Component {
     const { description, name, selectedRoles } = this.state;
     const { createPack, id } = this.props;
     createPack({
-      name,
+      name:           name.trim(),
       description,
       owners:         [id],
       administrators: [id],
@@ -100,7 +100,7 @@ class CreatePack extends Component {
   handleBlur = () => {
     const { checkPackExists } = this.props;
     const { name } = this.state;
-    !utils.isWhitespace(name) && checkPackExists(name);
+    !utils.isWhitespace(name) && checkPackExists(name.trim());
   }
 
 

@@ -15,7 +15,7 @@ limitations under the License.
 
 
 #next-chat-container {
-  background: linear-gradient(to bottom, #de3a6f 4%, transparent 15%);
+  background: linear-gradient(to bottom, #da5bc7 4%, transparent 15%);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -74,7 +74,7 @@ limitations under the License.
 
 #next-chat-header {
   flex: 0 0 136px;
-  font-weight: 500;
+  font-size: 1.2em;
   opacity: .5;
   padding: 2rem;
 }

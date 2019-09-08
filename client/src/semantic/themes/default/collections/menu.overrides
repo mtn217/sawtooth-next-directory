@@ -79,6 +79,10 @@
   width: 21px;
 }
 
+.ui.huge.inverted.vertical.menu a.item:hover {
+  background: rgb(75, 75, 98);
+}
+
 .ui.huge.inverted.vertical.menu .ui.header .content {
   color: @white;
 }

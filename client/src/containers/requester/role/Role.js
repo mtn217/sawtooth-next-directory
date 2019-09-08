@@ -54,6 +54,7 @@ export class Role extends Component {
    * Fetch role if not loaded in client.
    */
   componentDidMount () {
+    window.scrollTo(0, 0);
     this.init();
   }
 

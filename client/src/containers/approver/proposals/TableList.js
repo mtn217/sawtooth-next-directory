@@ -101,10 +101,10 @@ class TableList extends Component {
       openProposalsByRole,
       openProposalsByUser } = this.props;
 
-    const newRoles = Object.keys(openProposalsByRole);
-    const newUsers = Object.keys(openProposalsByUser);
-    const oldRoles = Object.keys(prevProps.openProposalsByRole);
-    const oldUsers = Object.keys(prevProps.openProposalsByUser);
+    const newRoles = Object.keys(openProposalsByRole || {});
+    const newUsers = Object.keys(openProposalsByUser || {});
+    const oldRoles = Object.keys(prevProps.openProposalsByRole || {});
+    const oldUsers = Object.keys(prevProps.openProposalsByUser || {});
 
     if (newUsers.length > oldUsers.length) {
       const diff = newUsers.filter(user => !oldUsers.includes(user));

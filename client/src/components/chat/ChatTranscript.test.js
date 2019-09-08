@@ -33,8 +33,9 @@ describe('ChatTranscript component', () => {
     const div = document.createElement('div');
 
     const props = {
-      messages: [{ text: 'message text' }],
-      messagesById: () => [],
+      id:             '',
+      messages:       [{ text: 'message text' }],
+      messagesById:   () => [],
     };
 
     ReactDOM.render(

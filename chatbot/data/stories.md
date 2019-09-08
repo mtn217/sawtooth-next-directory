@@ -81,9 +81,14 @@
   - slot{"member_status": "NOT_MEMBER", "resource_type": "ROLE"}
   - utter_current_draft_role
 
-## story_access_pending
+## story_access_pending_role
 * access
-  - slot{"member_status": "PENDING"}
+  - slot{"member_status": "PENDING", "resource_type": "ROLE"}
+  - utter_access_pending
+
+## story_access_pending_pack
+* access
+  - slot{"member_status": "PENDING", "resource_type": "PACK"}
   - utter_access_pending
 
 ## story_access_identical

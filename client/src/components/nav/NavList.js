@@ -16,7 +16,13 @@ limitations under the License.
 
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Image, Label, List, Transition } from 'semantic-ui-react';
+import {
+  Button,
+  Icon,
+  Image,
+  Label,
+  List,
+  Transition } from 'semantic-ui-react';
 
 
 import PropTypes from 'prop-types';
@@ -42,9 +48,14 @@ class NavList extends Component {
     list:             PropTypes.array,
     listTitle:        PropTypes.string,
     location:         PropTypes.object,
+    maxLength:        PropTypes.number,
     route:            PropTypes.string,
+    seeAllLink:       PropTypes.string,
     titleIsLink:      PropTypes.bool,
   };
+
+
+  state = { expand: false };
 
 
   /**
@@ -76,6 +87,15 @@ class NavList extends Component {
 
 
   /**
+   * Expand or collapse nav list
+   * @param {boolean} expand Should expand
+   */
+  toggleExpand = (expand) => {
+    this.setState({ expand });
+  }
+
+
+  /**
    * Generate a sub-list of nav links
    *
    * Each list item is ported into a <Link> router element whose
@@ -87,14 +107,18 @@ class NavList extends Component {
    * slug property, which becomes the ID of the route. In cases where
    * no slug is provided, one is generated.
    *
-   * @param {array} list List of nav links to display
    * @returns {JSX}
    */
-  renderList (list) {
-    const { labels, glyph } = this.props;
+  renderList () {
+    const { glyph, labels, list, maxLength } = this.props;
+    const { expand } = this.state;
+
+    const subList = (expand || !maxLength) ?
+      list :
+      [...list].slice(0, maxLength);
 
     return (
-      list.map((item, index) => (
+      subList.map((item, index) => (
         item &&
         <List.Item active={this.isItemActive(item)}
           key={index}
@@ -130,9 +154,12 @@ class NavList extends Component {
     const {
       list,
       listTitle,
+      maxLength,
       route,
+      seeAllLink,
       disabled,
       titleIsLink } = this.props;
+    const { expand } = this.state;
 
     return (
       <div className={`next-nav-list-container ${disabled ?
@@ -148,6 +175,12 @@ class NavList extends Component {
           </h4>
         }
 
+        { seeAllLink &&
+          <Link id='next-nav-list-view-all' to={seeAllLink}>
+            VIEW ALL
+          </Link>
+        }
+
         { list && list.length !== 0 ?
           <Transition.Group
             as={List}
@@ -155,12 +188,34 @@ class NavList extends Component {
             inverted
             link
             selection>
-            { this.renderList(list) }
+            { this.renderList() }
           </Transition.Group> :
           !titleIsLink &&
           <span className='next-nav-list-empty'>
             No items
           </span>
+        }
+        { list && list.length > maxLength &&
+          <div id='next-nav-list-expand-button'>
+            <Button
+              inverted
+              basic
+              size='mini'
+              onClick={() => this.toggleExpand(!expand)}>
+              { !expand &&
+                <div>
+                  <Icon size='mini' name='chevron down'/>
+                  SHOW MORE
+                </div>
+              }
+              { expand &&
+                <div>
+                  <Icon size='mini' name='chevron up'/>
+                  SHOW LESS
+                </div>
+              }
+            </Button>
+          </div>
         }
 
       </div>

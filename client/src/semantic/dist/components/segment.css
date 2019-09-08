@@ -923,22 +923,67 @@
 .floated.segment.compact {
   border-radius: 19px;
   margin-bottom: 0;
+  overflow: visible;
   padding: 11px 17px;
 }
 .floated.segment.compact.left {
-  border-bottom-left-radius: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
   color: #505356;
   font-size: 1em;
   margin-left: 15px;
 }
+.floated.segment.compact.left:after {
+  background: #eceef2;
+  border-bottom-right-radius: 10px;
+  bottom: 0;
+  content: '';
+  height: 20px;
+  left: -10px;
+  position: absolute;
+  width: 10px;
+  z-index: 1;
+}
+.floated.segment.compact.left:before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -8px;
+  height: 20px;
+  width: 20px;
+  background: #ffffff;
+  border-bottom-right-radius: 15px;
+}
 .floated.segment.compact.right {
   background: -webkit-gradient(linear, left top, left bottom, from(#f20083), to(#ca07cd));
   background: -webkit-linear-gradient(top, #f20083, #ca07cd);
   background: linear-gradient(to bottom, #f20083, #ca07cd);
-  border-bottom-right-radius: 0;
   font-size: 1em;
+}
+.floated.segment.compact.right:after {
+  background: #eceef2;
+  border-bottom-left-radius: 10px;
+  bottom: 0;
+  content: '';
+  height: 20px;
+  position: absolute;
+  right: -10px;
+  width: 10px;
+  z-index: 1;
+}
+.floated.segment.compact.right:before {
+  background: -webkit-gradient(linear, left top, left bottom, from(#dd03aa), to(#ca06cc));
+  background: -webkit-linear-gradient(top, #dd03aa 0%, #ca06cc 100%);
+  background: linear-gradient(to bottom, #dd03aa 0%, #ca06cc 100%);
+  border-bottom-left-radius: 15px;
+  bottom: 0;
+  content: '';
+  height: 20px;
+  position: absolute;
+  right: -8px;
+  width: 20px;
+  z-index: 0;
 }
 .ui.segment.no-padding {
   padding: 10px;

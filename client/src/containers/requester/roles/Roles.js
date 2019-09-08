@@ -23,11 +23,10 @@ import {
   Table } from 'semantic-ui-react';
 
 
-import './Approved.css';
-import People from 'containers/approver/people/People';
+import './Roles.css';
+import Browse from 'containers/browse/Browse';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
-import glyph from 'images/glyph-individual-inverted.png';
 import Avatar from 'components/layouts/Avatar';
 
 
@@ -36,15 +35,15 @@ import * as utils from 'services/Utils';
 
 /**
  *
- * @class         Approved
- * @description   Approved component
+ * @class         Roles
+ * @description   Roles component
  *
  */
-class Approved extends Component {
+class Roles extends Component {
 
   state = {
-    column:             'closed_date',
-    direction:          'descending',
+    column:             'name',
+    direction:          'ascending',
     selectedProposal:   {},
     table:              [],
   };
@@ -55,8 +54,6 @@ class Approved extends Component {
    * component. On load, get confirmed proposals.
    */
   componentDidMount () {
-    const { getConfirmedProposals } = this.props;
-    getConfirmedProposals();
     this.init();
   }
 
@@ -67,54 +64,16 @@ class Approved extends Component {
    * @returns {undefined}
    */
   componentDidUpdate (prevProps) {
-    const { confirmedProposals, roles, users } = this.props;
-    if (prevProps.confirmedProposals !== confirmedProposals) this.init();
-    if (prevProps.roles && prevProps.users &&
-        (prevProps.roles.length !== roles.length ||
-          prevProps.users.length !== users.length)) {
-      if (!confirmedProposals || !confirmedProposals.length) return;
-      this.hydrate();
-    }
+    const { memberOfAndRequests } = this.props;
+    if (!utils.arraysEqual(prevProps.memberOfAndRequests, memberOfAndRequests))
+      this.init();
   }
 
 
   /**
-   * Determine which roles and users are not currently loaded
-   * in the client and dispatch actions to retrieve them.
+   * Call hydrate
    */
   init () {
-    const {
-      getRoles,
-      getUsers,
-      roles,
-      confirmedProposals,
-      users } = this.props;
-
-    if (!confirmedProposals) return;
-
-    let diff = roles && confirmedProposals.filter(
-      proposal => !roles.find(role => role.id === proposal.object)
-    );
-    let diff2 = users && confirmedProposals.filter(
-      proposal => !users.find(user => user.id === proposal.opener)
-    );
-    let diff3 = users && confirmedProposals.filter(
-      proposal => !users.find(user => user.id === proposal.closer)
-    );
-    diff = roles ?
-      diff.map(proposal => proposal.object) :
-      confirmedProposals.map(proposal => proposal.object);
-    diff2 = users ?
-      diff2.map(proposal => proposal.opener) :
-      confirmedProposals.map(proposal => proposal.opener);
-    diff3 = users ?
-      diff3.map(proposal => proposal.closer) :
-      confirmedProposals.map(proposal => proposal.closer);
-
-    diff && diff.length > 0 && getRoles(diff);
-    diff2 && diff2.length > 0 && getUsers([...new Set(diff2)], true);
-    diff3 && diff3.length > 0 && getUsers([...new Set(diff3)], true);
-
     this.hydrate();
   }
 
@@ -123,15 +82,20 @@ class Approved extends Component {
    * Hydrate table data
    */
   hydrate = () => {
-    const { confirmedProposals } = this.props;
+    const { memberOfAndRequests } = this.props;
     const { column, direction } = this.state;
-    const table = utils.sort([...(confirmedProposals || [])].map(proposal => ({
-      ...proposal,
-      closer_name:    this.userName(proposal.closer),
-      opener_email:   this.userEmail(proposal.opener),
-      opener_name:    this.userName(proposal.opener),
-      role_name:      this.roleName(proposal.object),
-    })), column, direction);
+
+    const table = memberOfAndRequests &&
+      utils.sort(
+        [...(memberOfAndRequests || [])]
+          .filter(item => !item.roles)
+          .map(role => ({
+            ...role,
+            closer_name: this.userName(role.closer),
+          })),
+        column,
+        direction,
+      );
 
     this.setState({ table });
   }
@@ -188,7 +152,7 @@ class Approved extends Component {
     } else {
       this.setState({
         direction:    direction === 'ascending' ? 'descending' : 'ascending',
-        table:        [...table].reverse(),
+        table:        [...(table || [])].reverse(),
       });
     }
   }
@@ -204,7 +168,7 @@ class Approved extends Component {
     this.setState({
       column,
       direction,
-      table: utils.sort([...table], column, direction),
+      table: utils.sort([...(table || [])], column, direction),
     });
   }
 
@@ -224,7 +188,7 @@ class Approved extends Component {
    */
   renderPlaceholder = () => {
     return (
-      <div id='next-approver-approved-placeholder'>
+      <div id='next-roles-placeholder'>
         { Array(3).fill(0).map((item, index) => (
           <Placeholder fluid key={index}>
             <Placeholder.Header>
@@ -255,24 +219,19 @@ class Approved extends Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
-              sorted={column === 'closed_date' ? direction : null}
-              onClick={() => this.handleSort('closed_date')}>
-              Approval Date
-            </Table.HeaderCell>
-            <Table.HeaderCell
-              sorted={column === 'role_name' ? direction : null}
-              onClick={() => this.handleSort('role_name')}>
+              sorted={column === 'name' ? direction : null}
+              onClick={() => this.handleSort('name')}>
               Role Name
             </Table.HeaderCell>
             <Table.HeaderCell
-              sorted={column === 'opener_name' ? direction : null}
-              onClick={() => this.handleSort('opener_name')}>
-              Requester
+              sorted={column === 'created_date' ? direction : null}
+              onClick={() => this.handleSort('created_date')}>
+              Request Date
             </Table.HeaderCell>
             <Table.HeaderCell
-              sorted={column === 'opener_email' ? direction : null}
-              onClick={() => this.handleSort('opener_email')}>
-              Requester Email
+              sorted={column === 'closed_date' ? direction : null}
+              onClick={() => this.handleSort('closed_date')}>
+              Approval Date
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'closer_name' ? direction : null}
@@ -282,40 +241,37 @@ class Approved extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          { table && table.map(proposal => (
+          { table && table.map(role => (
             <Table.Row
-              key={proposal.id}
-              onClick={() => this.setSelectedProposal(proposal)}>
+              key={role.id}
+              onClick={() => this.setSelectedProposal(role)}>
               <Table.Cell>
-                {utils.formatDate(proposal.closed_date)}
+                {role.name}
               </Table.Cell>
               <Table.Cell>
-                {proposal.role_name}
+                { role.created_date ?
+                  utils.formatDate(role.created_date) :
+                  'No data unavailable'
+                }
               </Table.Cell>
               <Table.Cell>
-                <Header as='h4' className='next-approver-approved-table-user'>
-                  <Avatar
-                    userId={proposal.opener}
-                    size='small'
-                    {...this.props}/>
-                  <Header.Content>
-                    {proposal.opener_name}
-                  </Header.Content>
-                </Header>
-              </Table.Cell>
-              <Table.Cell className='next-approver-approved-table-email'>
-                {proposal.opener_email}
+                { role.closed_date ?
+                  utils.formatDate(role.closed_date) :
+                  'No data unavailable'
+                }
               </Table.Cell>
               <Table.Cell>
-                <Header as='h4' className='next-approver-approved-table-user'>
-                  <Avatar
-                    userId={proposal.closer}
-                    size='small'
-                    {...this.props}/>
-                  <Header.Content>
-                    {proposal.closer_name}
-                  </Header.Content>
-                </Header>
+                { role.closer ?
+                  <Header as='h4' className='next-roles-table-user'>
+                    <Avatar
+                      userId={role.closer}
+                      size='small'
+                      {...this.props}/>
+                    <Header.Content>
+                      {role.closer_name}
+                    </Header.Content>
+                  </Header> : 'No data available'
+                }
               </Table.Cell>
             </Table.Row>
           ))}
@@ -330,34 +286,34 @@ class Approved extends Component {
    * @returns {JSX}
    */
   render () {
-    const { confirmedProposals, showSearch } = this.props;
+    const { memberOfAndRequests, showSearch } = this.props;
     const { selectedProposal } = this.state;
 
     return (
       <div>
-        { showSearch && <People {...this.props}/> }
+        { showSearch && <Browse {...this.props}/> }
         { !showSearch &&
         <Grid id='next-approver-grid'>
           <Grid.Column
             id='next-approver-grid-track-column'
             width={12}>
             <TrackHeader
-              glyph={glyph}
-              title='Approved Requests'
+              inverted
+              title='Your Roles'
               {...this.props}/>
-            <div id='next-approver-approved-content'>
-              { !confirmedProposals &&
+            <div id='next-roles-content'>
+              { !memberOfAndRequests &&
                   this.renderPlaceholder()
               }
-              { confirmedProposals && confirmedProposals.length > 0 &&
+              { memberOfAndRequests && memberOfAndRequests.length > 0 &&
                   this.renderTable()
               }
-              { confirmedProposals && confirmedProposals.length === 0 &&
-              <Header as='h3' textAlign='center' color='grey'>
-                <Header.Content>
-                  You haven&#39;t approved any items
-                </Header.Content>
-              </Header>
+              { memberOfAndRequests && memberOfAndRequests.length === 0 &&
+                <Header as='h3' textAlign='center' color='grey'>
+                  <Header.Content>
+                    You don&#39;t have any roles.
+                  </Header.Content>
+                </Header>
               }
             </div>
           </Grid.Column>
@@ -382,11 +338,13 @@ class Approved extends Component {
 
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    fetching: state.requester.fetching,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Approved);
+export default connect(mapStateToProps, mapDispatchToProps)(Roles);

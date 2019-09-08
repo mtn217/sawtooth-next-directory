@@ -279,6 +279,7 @@ body,
   color: #1d1e27;
 }
 .Toastify__toast-container--top-right {
+  right: 0.85em !important;
   top: 4em !important;
 }
 @-webkit-keyframes flux {

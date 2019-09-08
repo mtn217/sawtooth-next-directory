@@ -157,8 +157,10 @@ export const nearestMinute = (ms = 1000 * 60) =>
  */
 export const sort = (array, key, direction = 'ascending') =>
   array.sort((a, b) => {
-    if (a[key] < b[key]) return direction === 'ascending' ? -1 : 1;
-    if (a[key] > b[key]) return direction === 'ascending' ? 1 : -1;
+    const c = typeof a[key] === 'string' ? a[key].toLowerCase() : a[key];
+    const d = typeof b[key] === 'string' ? b[key].toLowerCase() : b[key];
+    if (c < d) return direction === 'ascending' ? -1 : 1;
+    if (c > d) return direction === 'ascending' ? 1 : -1;
     return 0;
   });
 

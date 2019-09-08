@@ -27,6 +27,7 @@ import Browse from 'containers/browse/Browse';
 
 
 import Role from 'containers/requester/role/Role';
+import Roles from 'containers/requester/roles/Roles';
 import Pack from 'containers/requester/pack/Pack';
 
 
@@ -71,6 +72,12 @@ const routes = (props) => [
   {
     path:   '/packs/:id',
     main:   (rest) => <Pack {...props} {...rest}/>,
+    nav:    () => <RequesterNav {...props}/>,
+    exact:  true,
+  },
+  {
+    path:   '/roles',
+    main:   (rest) => <Roles {...props} {...rest}/>,
     nav:    () => <RequesterNav {...props}/>,
     exact:  true,
   },

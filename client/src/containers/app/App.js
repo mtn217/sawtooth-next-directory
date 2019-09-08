@@ -31,6 +31,7 @@ import Login from 'containers/login/Login';
 import Signup from 'containers/signup/Signup';
 import Header from 'components/layouts/Header';
 import Waves from 'components/layouts/Waves';
+import GlobalError from 'components/layouts/GlobalError';
 import NotFound from 'components/layouts/NotFound';
 
 
@@ -238,46 +239,48 @@ class App extends Component {
     this.routes = routes(this.props);
 
     return (
-      <Router>
-        <div id='next-global-container'
-          className={this.isApproverView() ? 'approver' : 'requester'}>
-          { isAuthenticated && <Header {...this.props}/> }
-          { isAuthenticated &&
-            <div id='next-waves' className={transition ?
-              'main-animate' :
-              'main-no-animate'}>
-              <Waves {...this.props}/>
-            </div>
-          }
-          <Switch>
-
-            {/*
-              Unprotected routes
-            */}
-            <Route exact path='/' component={Landing}/>
-            <Route exact path='/login' component={Login}/>
-            { process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' &&
-              <Route exact path='/signup' component={Signup}/>
+      <GlobalError>
+        <Router>
+          <div id='next-global-container'
+            className={this.isApproverView() ? 'approver' : 'requester'}>
+            { isAuthenticated && <Header {...this.props}/> }
+            { isAuthenticated &&
+              <div id='next-waves' className={transition ?
+                'main-animate' :
+                'main-no-animate'}>
+                <Waves {...this.props}/>
+              </div>
             }
-            { !isAuthenticated && <Redirect to='/'/> }
+            <Switch>
 
-            {/*
-              Protected routes
-            */}
-            { this.routes &&
-              this.routes.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  exact={route.exact}
-                  render={props =>
-                    this.renderGrid(route.nav, route.main, props)
-                  }/>
-              ))}
-            <Route render={() => <NotFound {...this.props}/>}/>
-          </Switch>
-        </div>
-      </Router>
+              {/*
+                Unprotected routes
+              */}
+              <Route exact path='/' component={Landing}/>
+              <Route exact path='/login' component={Login}/>
+              { process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' &&
+                <Route exact path='/signup' component={Signup}/>
+              }
+              { !isAuthenticated && <Redirect to='/'/> }
+
+              {/*
+                Protected routes
+              */}
+              { this.routes &&
+                this.routes.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    render={props =>
+                      this.renderGrid(route.nav, route.main, props)
+                    }/>
+                ))}
+              <Route render={() => <NotFound {...this.props}/>}/>
+            </Switch>
+          </div>
+        </Router>
+      </GlobalError>
     );
   }
 

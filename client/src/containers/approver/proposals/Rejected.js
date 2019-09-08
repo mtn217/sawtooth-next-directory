@@ -43,8 +43,8 @@ import * as utils from 'services/Utils';
 class Rejected extends Component {
 
   state = {
-    column:             null,
-    direction:          null,
+    column:             'closed_date',
+    direction:          'descending',
     selectedProposal:   {},
     table:              [],
   };
@@ -115,31 +115,25 @@ class Rejected extends Component {
     diff2 && diff2.length > 0 && getUsers([...new Set(diff2)], true);
     diff3 && diff3.length > 0 && getUsers([...new Set(diff3)], true);
 
-    this.hydrate(true);
+    this.hydrate();
   }
 
 
   /**
    * Hydrate table data
-   * @param {boolean} shouldSort Sort table on hydrate
    */
-  hydrate = (shouldSort) => {
+  hydrate = () => {
     const { rejectedProposals } = this.props;
-    const table = rejectedProposals.map(proposal => {
-      return {
-        ...proposal,
-        closer_name:    this.userName(proposal.closer),
-        opener_email:   this.userEmail(proposal.opener),
-        opener_name:    this.userName(proposal.opener),
-        role_name:      this.roleName(proposal.object),
-      };
-    });
+    const { column, direction } = this.state;
+    const table = utils.sort([...(rejectedProposals || [])].map(proposal => ({
+      ...proposal,
+      closer_name:    this.userName(proposal.closer),
+      opener_email:   this.userEmail(proposal.opener),
+      opener_name:    this.userName(proposal.opener),
+      role_name:      this.roleName(proposal.object),
+    })), column, direction);
 
-    this.setState(
-      { table },
-      shouldSort ?
-        () => this.handleSort('closed_date', 'descending') : undefined,
-    );
+    this.setState({ table });
   }
 
 

@@ -1402,10 +1402,10 @@ Floated Menu / Item
 /*--- Border ---*/
 
 .ui.inverted.menu .item:before {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
 }
 .ui.vertical.inverted.menu .item:before {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 /* Sub Menu */
@@ -2125,6 +2125,9 @@ Floated Menu / Item
 .ui.huge.inverted.vertical.menu > .menu-section > .menu-tray .item > .ui.header .small.image {
   margin-left: 1px;
   width: 21px;
+}
+.ui.huge.inverted.vertical.menu a.item:hover {
+  background: #4b4b62;
 }
 .ui.huge.inverted.vertical.menu .ui.header .content {
   color: #FFFFFF;

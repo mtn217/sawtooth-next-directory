@@ -14,56 +14,62 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-#next-approver-individual-table-content {
+#next-roles-content {
   font-size: .96em;
+  margin-top: 230px;
   overflow: auto;
   padding-bottom: 100px;
+  width: calc(100% - 53px) !important;
 }
 
-#next-approver-individual-table-content h4 {
+#next-roles-content h4 {
   font-size: 1em;
 }
 
-#next-approver-individual-table-content table tbody tr {
+#next-roles-content table tbody tr {
   height: 70px;
 }
 
-#next-approver-individual-table-content table thead th {
-  cursor: default;
-}
-
-#next-approver-individual-table-content table thead th:hover {
-  color: #525252;
-  cursor: default;
-}
-
-#next-approver-individual-table-content::-webkit-scrollbar {
+#next-roles-content::-webkit-scrollbar {
   display: none;
 }
 
-#next-approver-individual-table-content:after {
+#next-roles-content:after {
   background: linear-gradient(90deg, transparent, white);
   content: '';
   height: 100%;
   pointer-events: none;
   position: absolute;
-  right: 0;
+  right: 53px;
   top: 0;
   width: 60px;
 }
 
-.next-approver-individual-table-user {
+.next-roles-table-user {
   align-items: center;
   display: flex;
 }
 
-.next-approver-individual-table-user div:first-child {
+.next-roles-table-user div:first-child {
   margin-right: 10px;
 }
 
-.next-approver-individual-table-email {
+.next-roles-table-email {
   display: flex;
   justify-content: space-between;
   position: relative;
   top: 3px;
+}
+
+.next-roles-table-email i {
+  left: 9px;
+  position: relative;
+}
+
+#next-roles-placeholder {
+  margin: 30px;
+}
+
+#next-roles-placeholder .ui.placeholder {
+  margin: 0 0 40px 0;
 }

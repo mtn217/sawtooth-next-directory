@@ -45,6 +45,14 @@ limitations under the License.
   text-overflow: ellipsis;
 }
 
+#next-header-global-menu-profile .ui.header .sub.header {
+  color: var(--magenta);
+  margin-top: .3em;
+  overflow: hidden;
+  padding-left: 16px;
+  text-overflow: ellipsis;
+}
+
 .next-toggle-state-header{
   color: #ffffff;
   letter-spacing: 0.5px;

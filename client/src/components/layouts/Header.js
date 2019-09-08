@@ -222,13 +222,6 @@ class Header extends Component {
   }
 
 
-  handleManageClick = () => {
-    const { currentView, setView } = this.props;
-    currentView !== 1 && setView(1);
-    this.toggleGlobalMenu();
-  }
-
-
   /**
    * Determine notification icon count
    * @returns {JSX}
@@ -282,7 +275,7 @@ class Header extends Component {
    * @returns {JSX}
    */
   renderGlobalMenu () {
-    const { currentView, id, me } = this.props;
+    const { id, me } = this.props;
 
     return (
       <div id='next-header-global-menu'>
@@ -293,21 +286,14 @@ class Header extends Component {
               className='large'>
               <MenuHeader as='h3'>
                 <Avatar userId={id} size='medium' {...this.props}/>
-                <MenuHeader.Content>
-                  {me.name}
-                </MenuHeader.Content>
-              </MenuHeader>
-            </Menu.Item>
-          }
-          { currentView === 0 &&
-            <Menu.Item
-              as={Link} to='/approval/manage'
-              onClick={this.handleManageClick}>
-              <MenuHeader as='h5'>
-                <Icon name='setting' inverted/>
-                <MenuHeader.Content>
-                  Manage
-                </MenuHeader.Content>
+                <div>
+                  <MenuHeader.Content>
+                    {me.name}
+                  </MenuHeader.Content>
+                  <MenuHeader.Subheader>
+                    {me.email}
+                  </MenuHeader.Subheader>
+                </div>
               </MenuHeader>
             </Menu.Item>
           }

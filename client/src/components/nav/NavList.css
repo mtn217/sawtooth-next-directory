@@ -68,3 +68,24 @@ limitations under the License.
 .next-nav-list-label .ui.label {
   padding: 0 !important;
 }
+
+#next-nav-list-expand-button {
+  opacity: .5;
+  text-align: center;
+  text-indent: 0;
+}
+
+#next-nav-list-expand-button button {
+  border: 1px solid #444a57;
+  box-shadow: none !important;
+  font-size: .7em;
+  width: 100px !important;
+}
+
+#next-nav-list-view-all {
+  color: white;
+  font-size: .8em;
+  position: absolute;
+  top: 200px;
+  right: var(--nav-list-padding);
+}

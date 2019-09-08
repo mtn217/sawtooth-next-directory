@@ -413,7 +413,7 @@
 @invertedSubMenuActiveColor: @white;
 
 /* Inverted Menu Divider */
-@invertedDividerBackground: rgba(255, 255, 255, 0.08);
+@invertedDividerBackground: rgba(255, 255, 255, 0.03);
 @invertedVerticalDividerBackground: @invertedDividerBackground;
 
 /* Inverted Colored */

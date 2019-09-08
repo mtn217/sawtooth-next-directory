@@ -34,14 +34,19 @@ export const conversationSuccess = (state, { conversation }) =>
 
 
 export const messageSend = (state, { payload }) => {
-  if (payload.text && payload.text.startsWith('/update'))
+  if (payload.text && payload.text.startsWith('/update')) {
     return state.merge({});
-  else if (payload.text && payload.text.startsWith('/'))
-    return state.merge({ fetching: true });
+  } else if (payload.text && payload.text.startsWith('/')) {
+    return state.merge({
+      pending: [...(state.pending || []), payload.resource_id],
+      fetching: true,
+    });
+  }
 
   return state.merge({
     fetching: true,
     messages: [payload, ...(state.messages || [])],
+    pending: [...(state.pending || []), payload.resource_id],
   });
 };
 
@@ -51,6 +56,9 @@ export const messageReceive = (state, { payload }) =>
     state.merge({}) :
     state.merge({
       fetching: false,
+      pending: (state.pending || []).filter(
+        item => item !== payload[0].resource_id
+      ),
       messages: payload.length > 0 ?
         [...payload.reverse(), ...(state.messages || [])] :
         state.messages,

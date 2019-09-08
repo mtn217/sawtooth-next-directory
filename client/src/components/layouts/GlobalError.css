@@ -14,23 +14,23 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
-#next-not-found-container {
+#next-global-error-container {
   margin: 120px 13%;
   text-align: center;
 }
 
-#next-not-found-container h1 {
+#next-global-error-container h1 {
   color: white;
   font-size: 5em;
   font-weight: lighter;
 }
 
-#next-not-found-container h1 .sub.header {
+#next-global-error-container h1 .sub.header {
   color: #5b6e82;
   font-size: .3em;
 }
 
-#next-not-found-actions {
+#next-global-error-actions {
   display: flex;
   height: 40px;
   width: 50%;
@@ -38,27 +38,22 @@ limitations under the License.
   max-width: 400px;
 }
 
-#next-not-found-actions button {
+#next-global-error-actions button {
   margin-right: 15px;
 }
 
-#next-not-found-actions a.fluid.animated.button {
+#next-global-error-actions a.fluid.animated.button {
   padding-top: 15px;
 }
 
-.not-found .next-header,
-.not-found #next-waves {
-  display: none;
-}
-
-body.not-found {
+body.global-error {
   background-attachment: fixed;
   background-color: var(--header-bg-color);
   background-image: url('../../images/global-error-background.svg');
   background-size: cover;
 }
 
-#next-not-found-logo {
+#next-global-error-logo {
   left: 22px;
   position: absolute;
   top: 12px;

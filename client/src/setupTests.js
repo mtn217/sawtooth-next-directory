@@ -6,6 +6,7 @@ import { Message } from 'semantic-ui-react';
 require('jest-localstorage-mock');
 
 window.alert = (message) => {};
+window.scrollTo = () => {};
 
 Enzyme.configure({ adapter: new Adapter() });
 

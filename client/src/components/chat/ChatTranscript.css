@@ -20,7 +20,7 @@ limitations under the License.
 }
 
 .next-chat-message-loading {
-  bottom: 143px;
+  bottom: 95px;
   position: absolute;
 }
 
@@ -69,8 +69,9 @@ limitations under the License.
 .next-chat-message-right {
   align-items: flex-end;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-shrink: 0;
+  justify-content: flex-end;
   margin-top: 40px;
 }
 
@@ -89,56 +90,49 @@ limitations under the License.
 }
 
 .next-chat-message-animation-send {
-  animation: bubble-send 1.25s ease-out forwards;
-  bottom: 0;
-  position: absolute;
-  right: 0;
+  animation: bubble-send .3s forwards;
+  opacity: .7;
+  transform: translateY(20px);
 }
 
 .next-chat-message-animation-receive {
-  animation: bubble-receive 2s ease-out forwards;
+  animation: bubble-receive .3s forwards;
+  opacity: .7;
+  transform: translateY(20px);
 }
 
 .next-chat-transcript-animation-send {
-  animation: transcript-send .7s ease-out forwards;
+  transform: translateY(-60px);
 }
 
 .next-chat-transcript-animation-receive {
-  animation: transcript-receive 1s ease-out forwards;
+  transform: translateY(0);
 }
 
-.next-chat-transcript-animation-loading {
-  animation: transcript-loading 1s ease-out forwards;
-  animation-delay: .1s;
-  opacity: 0;
+.next-chat-message-from-label {
+  display: block;
+  font-size: .8em;
+  margin-bottom: 0.4em;
 }
 
 @keyframes bubble-send {
-  0% { transform: translate(-50px, 150px); }
-  5% { transform: scale(.8, 1) translate(0, 82px); }
-  20% { transform: scale(1, 1) translate(0, 82px); }
-  50% { transform: scale(1, 1) translate(0, 82px); }
-  100% { transform: translate(0, 70px); }
+  from { opacity: .7; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0);  }
 }
 
 @keyframes bubble-receive {
-  0% { transform: translate(0, 20px); }
-  25%, 100% { transform: translate(0, 0); }
+  from { opacity: .7; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0);  }
 }
 
 @keyframes transcript-send {
-  0% { transform: translate(0, 0); }
-  25%, 100% { transform: translate(0, -130px); }
+  from { transform: translateY(0); }
+  to { transform: translateY(-130px); }
 }
 
 @keyframes transcript-receive {
-  0% { transform: translate(0, 40px); }
-  25%, 100% { transform: translate(0, 0); }
-}
-
-@keyframes transcript-loading {
-  0% { opacity: 0; transform: translate(0, 40px); }
-  25%, 100% { opacity: 1; transform: translate(0, 0); }
+  from { transform: translateY(-130px); }
+  to { transform: translateY(0); }
 }
 
 @keyframes loading-dots {

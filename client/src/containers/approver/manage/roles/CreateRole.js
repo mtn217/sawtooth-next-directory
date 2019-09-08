@@ -75,7 +75,7 @@ class CreateRole extends Component {
     const { description, name } = this.state;
     const { createRole, id } = this.props;
     createRole({
-      name,
+      name:           name.trim(),
       description,
       owners:         [id],
       administrators: [id],
@@ -99,7 +99,7 @@ class CreateRole extends Component {
   handleBlur = () => {
     const { checkRoleExists } = this.props;
     const { name } = this.state;
-    !utils.isWhitespace(name) && checkRoleExists(name);
+    !utils.isWhitespace(name) && checkRoleExists(name.trim());
   }
 
 

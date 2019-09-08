@@ -24,6 +24,21 @@ limitations under the License.
   padding: 0;
 }
 
+#next-requester-packs-content,
+#next-requester-roles-content,
+#next-roles-list-container,
+#next-approver-approved-content,
+#next-approver-rejected-content,
+#next-approver-manage-content,
+#next-browse-wrapper,
+.snapshot-container {
+  animation: pattern-fade-in .15s ease-out forwards;
+  animation-delay: .15s;
+  opacity: 0;
+  padding: 0;
+  /* z-index: 1; */
+}
+
 #next-requester-grid-converse-column {
   background: var(--chat-requester-bg-color);
   height: 100%;

@@ -47,7 +47,8 @@ describe('ChatForm component', () => {
     wrapper.find('#next-placeholder-chat').simulate('submit');
   });
 
-  test('form  button click event', () => {
+  test('form button click event', () => {
+    wrapper.setState({ message: 'test' });
     wrapper.find('#next-chat-form-submit-icon').simulate('click');
   });
 

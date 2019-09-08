@@ -94,6 +94,7 @@ class RequesterChat extends Component {
       memberOf,
       memberOfPacks,
       ownerOf,
+      pending,
       proposalIds,
       recommendedPacks,
       recommendedRoles,
@@ -119,6 +120,9 @@ class RequesterChat extends Component {
     const resource = activePack || activeRole;
     const payload = { resource_id: resource.id, next_id: id };
     const proposalResourceKey = activePack ? 'pack_id' : 'object_id';
+
+    if (pending && pending.includes(resource.id))
+      return;
 
     // Instruct the chatbot to only send a message if there are
     // no messages in the client for a given resource
@@ -226,6 +230,7 @@ const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
 
   return {
+    pending:     state.chat.pending,
     proposalIds: RequesterSelectors.packProposalIds(state, id),
   };
 };

@@ -45,8 +45,7 @@ export const RequesterSelectors = {
       ...state.requester.packs || [],
       ...state.requester.roles || [],
     ];
-    const sorted = utils.sort(data, 'name');
-    sorted.forEach((item, index) => {
+    data.forEach((item, index) => {
       formatted[index % 4].push(item);
     });
     return formatted;
@@ -175,6 +174,22 @@ export const RequesterSelectors = {
       });
 
     return [...new Set(requests)];
+  },
+
+
+  // Confirmed user requests with role/pack details
+  memberOfAndRequests: (state) => {
+    if (!state.user.me ||
+        !state.requester.requests ||
+        !state.requester.roles)
+      return null;
+
+    return RequesterSelectors.memberOf(state) &&
+      RequesterSelectors.memberOf(state).map(role => ({
+        ...role,
+        ...(state.requester.requests.find(
+          request => request.object === role.id) || {}),
+      }));
   },
 
 
