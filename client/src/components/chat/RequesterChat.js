@@ -25,6 +25,7 @@ import { RequesterSelectors } from 'state';
 import './RequesterChat.css';
 import ChatTranscript from './ChatTranscript';
 import * as helper from './ChatHelper';
+import * as utils from 'services/Utils';
 
 
 /**
@@ -52,6 +53,7 @@ class RequesterChat extends Component {
     const {
       activePack,
       activeRole,
+      memberOfPacks,
       isRequest,
       isSocketOpen,
       me,
@@ -67,7 +69,10 @@ class RequesterChat extends Component {
     if (prevProps.me !== me)
       this.init();
 
-    if (prevProps.isRequest !== isRequest)
+    if (isRequest && (prevProps.isRequest !== isRequest))
+      this.init();
+
+    if (!utils.arraysEqual(prevProps.memberOfPacks, memberOfPacks))
       this.init();
 
     if ((activeRole && prevProps.activeRole.id !== activeRole.id) ||
@@ -196,7 +201,7 @@ class RequesterChat extends Component {
     } else {
       slots.member_status = 'NOT_MEMBER';
       payload.text = `/${update || 'offer'}${JSON.stringify(
-        {...slots, member_status: 'NOT_MEMBER'})}`;
+        {...slots, owner_status: 'NOT_OWNER', member_status: 'NOT_MEMBER'})}`;
     }
 
     sendMessage(payload);

@@ -199,6 +199,11 @@ class Header extends Component {
       startAnimation,
       setView } = this.props;
 
+    this.setState({
+      globalMenuVisible: false,
+      notificationMenuVisible: false,
+    });
+
     if (index === 1) {
       setView(index);
       history.push('/approval/pending/individual');

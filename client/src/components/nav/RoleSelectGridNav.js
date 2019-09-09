@@ -37,14 +37,11 @@ class RoleSelectGridNav extends Component {
     const { fetchingSearchResults } = this.props;
     return (
       <div id='next-role-select-grid-nav'>
-        <h3>
-          Add Roles
-        </h3>
         <div id='next-role-select-grid-search'>
           <Search
             autoFocus
             fetchingSearchResults={fetchingSearchResults}
-            placeholder='Search roles...'
+            placeholder='Search for roles to add...'
             type='browse'
             isLocal={true}
             {...this.props}/>

@@ -157,6 +157,7 @@ class CreateRole extends Component {
               <Form.Input id='next-create-role-title-field'
                 label='Create a descriptive name for your new role.'
                 autoFocus
+                autoComplete='off'
                 error={validName === false}
                 name='name'
                 value={name}

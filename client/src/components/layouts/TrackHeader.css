@@ -33,10 +33,13 @@ limitations under the License.
 }
 
 #next-track-header .ui.breadcrumb {
+  background: white;
   display: flex;
   left: -.5em;
+  padding: 1.6em 1em 1em 0;
   position: relative;
-  top: 85px;
+  top: 91px;
+  width: 100%;
 }
 
 #next-track-header .ui.breadcrumb .active {

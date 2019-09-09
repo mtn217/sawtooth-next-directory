@@ -81,6 +81,7 @@ slots:
     type: categorical
     values:
       - OWNER
+      - NOT_OWNER
   reason:
     type: unfeaturized
   resource_id:

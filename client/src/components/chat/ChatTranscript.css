@@ -21,7 +21,11 @@ limitations under the License.
 
 .next-chat-message-loading {
   bottom: 95px;
-  position: absolute;
+  position: fixed;
+}
+
+.load-up {
+  bottom: 155px;
 }
 
 .next-chat-message-loading .ui.left.segment {

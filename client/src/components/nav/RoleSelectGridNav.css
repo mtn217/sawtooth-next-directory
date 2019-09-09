@@ -17,11 +17,12 @@ limitations under the License.
 #next-role-select-grid-nav {
   align-items: center;
   background: white;
+  box-shadow: 0 4px 38px white;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: var(--page-content-padding) 2.5%;
   position: fixed;
-  top: 180px;
+  top: 190px;
   width: calc(100% - var(--sidebar-width));
   z-index: 3;
 }
@@ -37,4 +38,10 @@ limitations under the License.
 #next-role-select-grid-search .ui.large.fluid.icon.input input {
   background: #eceef1;
   border: 2px solid #eceef1;
+  font-size: .95em;
+  padding: .5em .7em;
+}
+
+#next-role-select-grid-search .ui.large.fluid.icon.input input::placeholder {
+  color: gray;
 }

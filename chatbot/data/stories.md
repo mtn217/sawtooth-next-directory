@@ -15,7 +15,7 @@
   - utter_noop
 
 ## story_offer
-* offer{"member_status": "NOT_MEMBER", "resource_id": "123", "resource_name": "abc"}
+* offer{"owner_status": "NOT_OWNER", "member_status": "NOT_MEMBER", "resource_id": "123", "resource_name": "abc"}
   - utter_offer
 
 ## story_expired{"member_status": "NOT_MEMBER", "resource_id": "123", "resource_name": "abc", "resource_type": "ROLE"}

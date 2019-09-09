@@ -136,6 +136,7 @@ slots:
     type: rasa_core.slots.CategoricalSlot
     values:
     - owner
+    - not_owner
   reason:
     auto_fill: true
     initial_value: null

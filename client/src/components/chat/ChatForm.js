@@ -36,6 +36,7 @@ class ChatForm extends Component {
     activeRole:                 PropTypes.object,
     approve:                    PropTypes.func,
     disabled:                   PropTypes.bool,
+    fetching:                   PropTypes.bool,
     formDisabled:               PropTypes.bool,
     hideButtons:                PropTypes.bool,
     hideForm:                   PropTypes.bool,
@@ -224,6 +225,7 @@ class ChatForm extends Component {
       activePack,
       activeRole,
       disabled,
+      fetching,
       messagesById,
       socketMaxAttemptsReached } = this.props;
     const { isDraft, message, validMessage } = this.state;
@@ -232,7 +234,7 @@ class ChatForm extends Component {
     const activeMessages = resource && messagesById(resource.id);
 
     if (!activeMessages || !activeMessages.length || (activeMessages[0] &&
-        !activeMessages[0].buttons))
+        !activeMessages[0].buttons) || fetching)
       return null;
 
     return (

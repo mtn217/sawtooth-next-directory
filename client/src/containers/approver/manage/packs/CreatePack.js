@@ -188,6 +188,7 @@ class CreatePack extends Component {
                   <Form.Input id='next-create-pack-title-field'
                     label='Create a descriptive name for your new pack.'
                     autoFocus
+                    autoComplete='off'
                     error={validName === false}
                     name='name'
                     value={name}

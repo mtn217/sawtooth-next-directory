@@ -91,7 +91,7 @@ class People extends Component {
           <TrackHeader
             title='People'
             {...this.props}/>
-          <div id='next-approver-people-content'>
+          <div id='next-approver-people-content' className='next-ease'>
             <div>
               { activeIndex === 0 &&
                 <OrganizationList
