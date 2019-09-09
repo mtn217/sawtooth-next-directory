@@ -934,7 +934,10 @@
   margin-left: 15px;
 }
 .floated.segment.compact.left:after {
-  background: #eceef2;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f5f5f5));
+  background: -webkit-linear-gradient(white, #f5f5f5);
+  background: linear-gradient(white, #f5f5f5);
+  background-attachment: fixed;
   border-bottom-right-radius: 10px;
   bottom: 0;
   content: '';
@@ -956,13 +959,18 @@
   border-bottom-right-radius: 15px;
 }
 .floated.segment.compact.right {
-  background: -webkit-gradient(linear, left top, left bottom, from(#f20083), to(#ca07cd));
-  background: -webkit-linear-gradient(top, #f20083, #ca07cd);
-  background: linear-gradient(to bottom, #f20083, #ca07cd);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(40%, #cdc4ff), to(#ff0081));
+  background: -webkit-linear-gradient(#cdc4ff 40%, #ff0081 100%);
+  background: linear-gradient(#cdc4ff 40%, #ff0081 100%);
+  background-attachment: fixed;
   font-size: 1em;
 }
 .floated.segment.compact.right:after {
-  background: #eceef2;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#ededed));
+  background: -webkit-linear-gradient(white, #ededed);
+  background: linear-gradient(white, #ededed);
+  background-attachment: fixed;
+  border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   bottom: 0;
   content: '';
@@ -973,9 +981,10 @@
   z-index: 1;
 }
 .floated.segment.compact.right:before {
-  background: -webkit-gradient(linear, left top, left bottom, from(#dd03aa), to(#ca06cc));
-  background: -webkit-linear-gradient(top, #dd03aa 0%, #ca06cc 100%);
-  background: linear-gradient(to bottom, #dd03aa 0%, #ca06cc 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(40%, #cdc4ff), to(#ff0081));
+  background: -webkit-linear-gradient(#cdc4ff 40%, #ff0081 100%);
+  background: linear-gradient(#cdc4ff 40%, #ff0081 100%);
+  background-attachment: fixed;
   border-bottom-left-radius: 15px;
   bottom: 0;
   content: '';

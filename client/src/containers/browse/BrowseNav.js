@@ -48,10 +48,12 @@ class BrowseNav extends Component {
             <Grid.Column width={11}>
               { searchInput &&
                 <h1>
-                  Results for:&nbsp;
-                  <strong>
-                    {searchInput}
-                  </strong>
+                  Results for:
+                  <div>
+                    <strong>
+                      {searchInput}
+                    </strong>
+                  </div>
                 </h1>
               }
               { !searchInput &&

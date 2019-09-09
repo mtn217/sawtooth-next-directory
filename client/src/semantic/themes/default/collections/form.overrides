@@ -77,5 +77,6 @@
 
 .ui.form textarea {
   background: transparent;
+  font-size: 1.46em;
 }
 

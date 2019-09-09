@@ -179,6 +179,10 @@ export const formatDate = (timestamp) =>
   new Date(timestamp * 1e3).toLocaleDateString();
 
 
+export const isObjectEmpty = (object) =>
+  Object.entries(object).length === 0 && object.constructor === Object;
+
+
 export const toTitleCase = (string) => {
   string = string.toLowerCase().split(' ');
   for (let i = 0; i < string.length; i++)

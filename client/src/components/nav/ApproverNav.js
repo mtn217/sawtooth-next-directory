@@ -25,7 +25,8 @@ import PropTypes from 'prop-types';
 
 
 import './ApproverNav.css';
-import glyph from 'images/glyph-individual.png';
+import individualGlyph from 'images/glyph-individual.png';
+import requestGlyph from 'images/glyph-request-white.png';
 import Search from 'components/search/Search';
 import NavList from './NavList';
 
@@ -98,7 +99,7 @@ class ApproverNav extends Component {
         className='nav-list'>
         <NavList
           disabled
-          glyph={glyph}
+          glyph={[individualGlyph, requestGlyph]}
           listTitle='Pending'
           labels={[
             openProposalsCount,
@@ -163,13 +164,6 @@ class ApproverNav extends Component {
 
     return (
       <Container id='next-approver-nav-search'>
-        { showInput &&
-          <Search
-            fetchingSearchResults={fetchingSearchResults}
-            placeholder='Search people...'
-            type='people'
-            {...this.props}/>
-        }
         { !showSearch && !this.isItemActive('people') &&
           <Link
             to='/approval/people'
@@ -209,6 +203,14 @@ class ApproverNav extends Component {
               </Button.Content>
             </Button>
           </div>
+        }
+        { showInput &&
+          <Search
+            autoFocus={this.isItemActive('people')}
+            fetchingSearchResults={fetchingSearchResults}
+            placeholder='Search people...'
+            type='people'
+            {...this.props}/>
         }
         { !showSearch && !this.isItemActive('people') &&
           this.renderLists()

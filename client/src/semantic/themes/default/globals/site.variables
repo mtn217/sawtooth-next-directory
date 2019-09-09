@@ -993,7 +993,7 @@
 @avatarPalette4TextColor  : white;
 @avatarPalette5           : #702b8f;
 @avatarPalette5TextColor  : white;
-@avatarPalette6           : #f14e24;
+@avatarPalette6           : #00cece;
 @avatarPalette6TextColor  : white;
 @avatarPalette7           : #007cb0;
 @avatarPalette7TextColor  : white;

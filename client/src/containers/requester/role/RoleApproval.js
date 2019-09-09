@@ -130,10 +130,12 @@ class RoleApproval extends Component {
                 <strong>
                   Approver(s)
                 </strong>
-                { proposal.approvers &&
-                  proposal.approvers.map((approver) => (
-                    this.renderApprover(approver)
-                  )) }
+                <div>
+                  { proposal.approvers &&
+                    proposal.approvers.map((approver) => (
+                      this.renderApprover(approver)
+                    )) }
+                </div>
               </Grid.Column>
             </Grid>
           </Card.Content>

@@ -181,14 +181,6 @@ class RequesterNav extends Component {
 
     return (
       <Container id='next-requester-nav-search'>
-        <Search
-          fetchingSearchResults={fetchingSearchResults}
-          placeholder='Search roles and packs...'
-          searchInput={searchInput}
-          searchLimit={searchLimit}
-          searchTypes={searchTypes}
-          type='browse'
-          {...this.props}/>
         { !showSearch && !this.isItemActive('browse') &&
           <Link to='/browse' id='next-requester-nav-browse'>
             <Button primary fluid>
@@ -225,6 +217,15 @@ class RequesterNav extends Component {
             </Button>
           </div>
         }
+        <Search
+          autoFocus={this.isItemActive('browse')}
+          fetchingSearchResults={fetchingSearchResults}
+          placeholder='Search roles and packs...'
+          searchInput={searchInput}
+          searchLimit={searchLimit}
+          searchTypes={searchTypes}
+          type='browse'
+          {...this.props}/>
         { !showSearch && !this.isItemActive('browse') &&
           this.renderLists()
         }

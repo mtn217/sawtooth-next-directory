@@ -146,13 +146,6 @@ class CreateRole extends Component {
               {name: 'Manage', slug: '/approval/manage'},
               {name: 'Roles', slug: '/approval/manage/roles'},
             ]}
-            button={() =>
-              <Button
-                id='next-approver-manage-exit-button'
-                as={Link}
-                content='Close'
-                size='huge'
-                to='/approval/manage/roles'/>}
             {...this.props}/>
           <div
             id='next-approver-manage-create-role-content'
@@ -216,6 +209,15 @@ class CreateRole extends Component {
             </Form>
             <div id='next-approver-manage-create-role-toolbar'>
               <Button
+                as={Link}
+                to='/approval/manage/roles'
+                primary
+                size='large'
+                icon='left arrow'
+                labelPosition='left'
+                id='next-approver-manage-create-role-done-button'
+                content='Back to Roles'/>
+              <Button
                 primary
                 as={Link}
                 size='large'
@@ -223,7 +225,7 @@ class CreateRole extends Component {
                 id='next-approver-manage-create-role-done-button'
                 disabled={!validName || !validDescription || roleExists}
                 onClick={this.createRole}>
-                  Done
+                  Create Role
               </Button>
             </div>
           </div>

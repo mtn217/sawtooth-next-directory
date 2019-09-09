@@ -27,7 +27,6 @@ import './Rejected.css';
 import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
-import glyph from 'images/glyph-individual-inverted.png';
 import Avatar from 'components/layouts/Avatar';
 
 
@@ -134,6 +133,7 @@ class Rejected extends Component {
     })), column, direction);
 
     this.setState({ table });
+    table && this.setSelectedProposal(table[0]);
   }
 
 
@@ -243,7 +243,7 @@ class Rejected extends Component {
    * @returns {JSX}
    */
   renderTable () {
-    const { column, direction, table } = this.state;
+    const { column, direction, selectedProposal, table } = this.state;
 
     return (
       <Table
@@ -284,6 +284,7 @@ class Rejected extends Component {
         <Table.Body>
           { table && table.map(proposal => (
             <Table.Row
+              active={selectedProposal && selectedProposal.id === proposal.id}
               key={proposal.id}
               onClick={() => this.setSelectedProposal(proposal)}>
               <Table.Cell>
@@ -342,15 +343,14 @@ class Rejected extends Component {
             id='next-approver-grid-track-column'
             width={12}>
             <TrackHeader
-              glyph={glyph}
               title='Rejected Requests'
               {...this.props}/>
-            <div id='next-approver-rejected-content'>
+            <div id='next-approver-rejected-content' className='next-ease'>
               { !rejectedProposals &&
-                  this.renderPlaceholder()
+                this.renderPlaceholder()
               }
               { rejectedProposals && rejectedProposals.length > 0 &&
-                  this.renderTable()
+                this.renderTable()
               }
               { rejectedProposals && rejectedProposals.length === 0 &&
               <Header as='h3' textAlign='center' color='grey'>
@@ -366,10 +366,12 @@ class Rejected extends Component {
             width={4}>
             <Chat
               disabled={true}
+              formDisabled
               hideButtons
               selectedProposal={selectedProposal}
-              subtitle={this.roleName(selectedProposal.object)}
-              title={this.userName(selectedProposal.opener)}
+              subtitle={selectedProposal &&
+                this.roleName(selectedProposal.object)}
+              title={selectedProposal && this.userName(selectedProposal.opener)}
               type='APPROVER' {...this.props}/>
           </Grid.Column>
         </Grid>

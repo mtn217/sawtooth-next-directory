@@ -3890,7 +3890,8 @@ button.ui.link:focus {
 }
 .toggle-card.gradient.toggle.active {
   background: #FFFFFF !important;
-  border: 1px solid #E40073;
+  -webkit-box-shadow: 0 0 0 1px #E40073 !important;
+          box-shadow: 0 0 0 1px #E40073 !important;
   color: #E40073 !important;
 }
 .toggle-card.gradient.toggle.active:hover {
@@ -3916,16 +3917,16 @@ button.ui.link:focus {
   height: 24px;
 }
 .toggle.buttons .ui.button {
-  background: #23232f !important;
+  background: #35354791 !important;
   font-weight: 400;
   padding: 0 0.25em;
 }
 .toggle.buttons .ui.button.active {
-  background: #23232f !important;
+  background: #35354791 !important;
 }
 .toggle.buttons .ui.button div {
   border-radius: 4em;
-  color: #75757c;
+  color: #ffffffc7;
   padding: 0.25em 1.45em;
 }
 .toggle.buttons .ui.button.active div {

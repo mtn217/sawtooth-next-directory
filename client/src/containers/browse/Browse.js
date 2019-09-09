@@ -245,7 +245,7 @@ class Browse extends Component {
         <BrowseNav
           fetchingSearchResults={fetchingSearchResults}
           {...this.props}/>
-        <div id='next-browse-wrapper'>
+        <div id='next-browse-wrapper' className='next-ease'>
           <Container fluid id='next-browse-container'>
             <Grid
               doubling

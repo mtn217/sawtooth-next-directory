@@ -54,8 +54,8 @@ body.global-error {
 }
 
 #next-global-error-logo {
-  left: 22px;
+  left: 5.25em;
   position: absolute;
-  top: 12px;
+  top: 1.25em;
   right: 0;
 }

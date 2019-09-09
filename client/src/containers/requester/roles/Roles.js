@@ -98,6 +98,7 @@ class Roles extends Component {
       );
 
     this.setState({ table });
+    table && this.setSelectedProposal(table[0]);
   }
 
 
@@ -207,7 +208,7 @@ class Roles extends Component {
    * @returns {JSX}
    */
   renderTable () {
-    const { column, direction, table } = this.state;
+    const { column, direction, selectedProposal, table } = this.state;
 
     return (
       <Table
@@ -243,6 +244,7 @@ class Roles extends Component {
         <Table.Body>
           { table && table.map(role => (
             <Table.Row
+              active={selectedProposal && selectedProposal.id === role.id}
               key={role.id}
               onClick={() => this.setSelectedProposal(role)}>
               <Table.Cell>
@@ -322,10 +324,12 @@ class Roles extends Component {
             width={4}>
             <Chat
               disabled={true}
+              formDisabled
               hideButtons
               selectedProposal={selectedProposal}
-              subtitle={this.roleName(selectedProposal.object)}
-              title={this.userName(selectedProposal.opener)}
+              subtitle={selectedProposal &&
+                this.roleName(selectedProposal.object)}
+              title={selectedProposal && this.userName(selectedProposal.opener)}
               type='APPROVER' {...this.props}/>
           </Grid.Column>
         </Grid>

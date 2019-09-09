@@ -149,13 +149,8 @@ export class Role extends Component {
             glyph={glyph}
             waves
             title={this.role.name}
-            // subtitle={
-            //   this.role && utils.countLabel(
-            //     this.role.members.length, 'member'
-            //   )
-            // }
             {...this.props}/>
-          <div id='next-requester-roles-content'>
+          <div id='next-requester-roles-content' className='next-ease'>
             { this.proposal &&
               this.proposal.status !== 'CONFIRMED' &&
               <RoleApproval

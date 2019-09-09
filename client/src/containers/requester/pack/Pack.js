@@ -147,7 +147,7 @@ export class Pack extends Component {
             // }
             title={this.pack.name}
             {...this.props}/>
-          <div id='next-requester-packs-content'>
+          <div id='next-requester-packs-content'className='next-ease'>
             { !!isRequest &&
               <div id='next-requester-packs-status-container'>
                 <h3>

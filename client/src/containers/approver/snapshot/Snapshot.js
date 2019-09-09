@@ -95,7 +95,7 @@ class Snapshot extends Component {
             title='Snapshot'
             subtitle='An overview of your pending requests'
             {...this.props}/>
-          <div className='snapshot-container'>
+          <div className='snapshot-container next-ease'>
             <div className='snapshot-sub-container'>
               <SnapshotCard
                 count={openProposalsCount || 0}

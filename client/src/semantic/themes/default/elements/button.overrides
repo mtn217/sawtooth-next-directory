@@ -63,7 +63,7 @@ button.ui.link:focus {
 
 .toggle-card.gradient.toggle.active {
   background: @white !important;
-  border: 1px solid @magenta;
+  box-shadow: 0 0 0 1px @magenta !important;
   color: @magenta !important;
 }
 
@@ -93,18 +93,18 @@ button.ui.link:focus {
 }
 
 .toggle.buttons .ui.button {
-  background: #23232f !important;
+  background: #35354791 !important;
   font-weight: 400;
   padding: 0 .25em;
 }
 
 .toggle.buttons .ui.button.active {
-  background: #23232f !important;
+  background: #35354791 !important;
 }
 
 .toggle.buttons .ui.button div {
   border-radius: 4em;
-  color: #75757c;
+  color: #ffffffc7;
   padding: 0.25em 1.45em;
 }
 

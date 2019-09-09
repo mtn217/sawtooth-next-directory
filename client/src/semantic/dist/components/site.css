@@ -243,7 +243,7 @@ body,
   color: white;
 }
 .avatar-palette-6 {
-  background: #f14e24;
+  background: #00cece;
   color: white;
 }
 .avatar-palette-7 {
@@ -279,7 +279,7 @@ body,
   color: #1d1e27;
 }
 .Toastify__toast-container--top-right {
-  right: 0.85em !important;
+  right: 0.8em !important;
   top: 4em !important;
 }
 @-webkit-keyframes flux {

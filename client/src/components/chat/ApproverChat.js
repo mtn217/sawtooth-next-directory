@@ -28,6 +28,7 @@ import './ApproverChat.css';
 import ChatTranscript from './ChatTranscript';
 import Avatar from 'components/layouts/Avatar';
 import glyph from 'images/glyph-role.png';
+import * as utils from 'services/Utils';
 
 
 /**
@@ -113,7 +114,10 @@ class ApproverChat extends Component {
               animation='fade left'
               duration={{hide: 0, show: 300}}>
               <Header as='h3'>
-                {selectedUsers.length === 1 && title}
+                { selectedUsers.length === 1 && title }
+                { selectedUsers.length > 1 &&
+                  title  + ` and ${selectedUsers.length - 1} more`
+                }
                 <Header.Subheader>
                   {subtitle}
                 </Header.Subheader>
@@ -173,7 +177,7 @@ class ApproverChat extends Component {
         { selectedProposal &&
           <div id='next-approver-chat-transcript-container'>
             <ChatTranscript {...this.props}
-              messages={[{
+              messages={utils.isObjectEmpty(selectedProposal) ? [] : [{
                 text: selectedProposal.open_reason || 'No reason available.',
                 from: selectedProposal.opener,
               }]}/>

@@ -14,6 +14,11 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
+#next-role-approval-container {
+  background: linear-gradient(transparent, #fbfbfb);
+  border-bottom: 1px solid var(--hr-light-color);
+}
+
 #next-role-approval-container .ui.fluid.card {
   background: transparent;
   border-radius: 0;
@@ -48,10 +53,29 @@ limitations under the License.
 }
 
 #next-role-approval-details {
-  background: #fbfbfb;
+  background: white;
   border: 1px solid #ececec !important;
-  box-shadow: 0 10px 9px #98989814;
-  border-radius: 1em !important;
+  border-radius: .6em !important;
   margin: 0 3em 2.5em 3em;
-  padding: 0 1.3em;
+  padding: 0 ;
+  padding-bottom: .3em;
+}
+
+#next-role-approval-details .ui.grid {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#next-role-approval-details .ui.grid .column {
+  padding: 0;
+}
+
+#next-role-approval-details .ui.grid .column > div {
+  padding: 1em;
+}
+
+#next-role-approval-details strong {
+  border-bottom: 1px solid #ececec;
+  display: block;
+  padding: 1em;
 }

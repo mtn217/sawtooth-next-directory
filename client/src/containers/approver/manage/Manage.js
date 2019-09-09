@@ -40,11 +40,12 @@ class Manage extends Component {
     const disabled = process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
       'disabled' : '';
     return (
-      <div id='next-approver-manage-content'>
-        <Grid stackable>
+      <div id='next-approver-manage-content' className='next-ease'>
+        <Grid doubling stackable>
           <Grid.Row columns={3} stretched>
             <Grid.Column>
               <Card
+                id='next-approver-manage-packs-card'
                 fluid
                 as={Link}
                 to='manage/packs'
@@ -56,6 +57,7 @@ class Manage extends Component {
             </Grid.Column>
             <Grid.Column>
               <Card
+                id='next-approver-manage-roles-card'
                 as={process.env.REACT_APP_ENABLE_LDAP_SYNC === '1' ?
                   '' : Link}
                 fluid
@@ -69,6 +71,7 @@ class Manage extends Component {
             </Grid.Column>
             <Grid.Column>
               <Card
+                id='next-approver-manage-delegations-card'
                 fluid
                 header='Delegations'
                 className='minimal huge disabled'
@@ -80,6 +83,7 @@ class Manage extends Component {
           <Grid.Row columns={3} stretched>
             <Grid.Column>
               <Card
+                id='next-approver-manage-hierarchical-card'
                 fluid
                 header='Hierarchical'
                 className='minimal huge disabled'
@@ -89,6 +93,7 @@ class Manage extends Component {
             </Grid.Column>
             <Grid.Column>
               <Card
+                id='next-approver-manage-alerts-card'
                 fluid
                 header='Alerts'
                 className='minimal huge disabled'
@@ -123,7 +128,6 @@ class Manage extends Component {
               width={16}>
               <TrackHeader
                 title='Manage'
-                subtitle='Manage roles, packs, and other preferences'
                 {...this.props}/>
               { this.renderContent() }
             </Grid.Column>

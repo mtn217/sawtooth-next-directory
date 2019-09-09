@@ -16,9 +16,9 @@ limitations under the License.
 
 #next-approver-manage-content {
   height: calc(100% - 211px);
-  padding: 0 30px;
+  padding: 0 80px;
   position: relative;
-  top: 192px;
+  top: 210px;
 }
 
 #next-approver-manage-content > .ui.grid {
@@ -39,4 +39,34 @@ limitations under the License.
 #next-approver-manage-content .ui.form {
   margin: 0 auto;
   width: 60%;
+}
+
+#next-approver-manage-packs-card {
+  background: url('../../../images/overlay-manage-packs.png') no-repeat;
+  background-size: 200%;
+  background-position: 5% 12%;
+}
+
+#next-approver-manage-roles-card {
+  background: url('../../../images/overlay-manage-roles.png') no-repeat;
+  background-size: 200%;
+  background-position: 5% 12%;
+}
+
+#next-approver-manage-alerts-card {
+  background: url('../../../images/overlay-manage-alerts.png') no-repeat;
+  background-size: 200%;
+  background-position: 19% 21%;
+}
+
+#next-approver-manage-hierarchical-card {
+  background: url('../../../images/overlay-manage-hierarchical.png') no-repeat;
+  background-size: 200%;
+  background-position: 19% 21%;
+}
+
+#next-approver-manage-delegations-card {
+  background: url('../../../images/overlay-manage-delegations.png') no-repeat;
+  background-size: 200%;
+  background-position: 19% 21%;
 }

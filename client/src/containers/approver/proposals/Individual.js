@@ -16,7 +16,7 @@ limitations under the License.
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Placeholder } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 
@@ -31,7 +31,6 @@ import { syncAll } from './IndividualHelper';
 
 
 import './Individual.css';
-import glyph from 'images/glyph-individual-inverted.png';
 
 
 /**
@@ -148,6 +147,26 @@ class Individual extends Component {
 
 
   /**
+   * Render placeholder graphics
+   * @returns {JSX}
+   */
+  renderPlaceholder = () => {
+    return (
+      <div id='next-approver-approved-placeholder'>
+        { Array(3).fill(0).map((item, index) => (
+          <Placeholder fluid key={index}>
+            <Placeholder.Header>
+              <Placeholder.Line length='full'/>
+              <Placeholder.Line/>
+            </Placeholder.Header>
+          </Placeholder>
+        ))}
+      </div>
+    );
+  }
+
+
+  /**
    * Render content
    * @returns {JSX}
    */
@@ -163,20 +182,27 @@ class Individual extends Component {
     return (
       <div id='next-approver-individual-content'>
         <IndividualNav
+          disableSelect={!openProposals ||
+            (openProposals && openProposals.length === 0)}
           allSelected={allSelected}
           handleSelect={this.handleSelect}
           activeIndex={activeIndex}
           setFlow={this.setFlow}/>
-        <div id='next-approver-individual-pending'>
-          <h5>
-            { openProposals && me &&
-              openProposals.length > 0 &&
-              openProposals.filter(
-                proposal => proposal.opener !== me.id
-              ).length + ' PENDING'
-            }
-          </h5>
-        </div>
+        { activeIndex === 0 &&
+          <div id='next-approver-individual-pending'>
+            <h5>
+              { openProposals && me &&
+                openProposals.length > 0 &&
+                openProposals.filter(
+                  proposal => proposal.opener !== me.id
+                ).length + ' PENDING'
+              }
+            </h5>
+          </div>
+        }
+        { !openProposals &&
+          this.renderPlaceholder()
+        }
         { openProposals && openProposals.length !== 0 &&
           <div>
             { activeIndex === 0 &&
@@ -203,7 +229,11 @@ class Individual extends Component {
           </div>
         }
         { openProposals && openProposals.length === 0 &&
-          <Header as='h3' textAlign='center' color='grey'>
+          <Header
+            as='h3'
+            id='next-approver-individual-no-content'
+            textAlign='center'
+            color='grey'>
             <Header.Content>
               Nothing to see here
             </Header.Content>
@@ -239,7 +269,6 @@ class Individual extends Component {
           <Grid id='next-approver-grid'>
             <Grid.Column id='next-approver-grid-track-column' width={12}>
               <TrackHeader
-                glyph={glyph}
                 title='Individual Requests'
                 {...this.props}/>
               { this.renderContent() }

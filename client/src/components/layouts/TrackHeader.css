@@ -16,7 +16,7 @@ limitations under the License.
 
 #next-track-header-container {
   position: relative;
-  top: 40px;
+  top: 18px;
   width: 100%;
   z-index: 99;
 }
@@ -28,6 +28,7 @@ limitations under the License.
   height: 90px;
   padding: 0 var(--page-content-padding);
   position: fixed;
+  top: 49px;
   width: 100%;
 }
 
@@ -35,7 +36,7 @@ limitations under the License.
   display: flex;
   left: -.5em;
   position: relative;
-  top: 2.2em;
+  top: 85px;
 }
 
 #next-track-header .ui.breadcrumb .active {
@@ -44,7 +45,7 @@ limitations under the License.
 }
 
 #next-track-header .ui.breadcrumb a {
-  color: var(--text-dark);
+  color: var(--magenta);
 }
 
 .dark.minimal #next-track-header {

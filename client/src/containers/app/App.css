@@ -30,16 +30,27 @@ limitations under the License.
   background: var(--nav-bg-color);
   height: 100%;
   overflow: auto;
-  padding: var(--header-height) 0 15px 0;
+  padding: 3.45em 0 15px 0;
   position: fixed;
   width: 0;
   z-index: 10;
+}
+
+#next-outer-grid-nav::-webkit-scrollbar {
+  display: none;
 }
 
 #next-inner-grid-main {
   flex: 1;
   margin-left: var(--sidebar-width);
   min-width: 0;
+  padding: 0;
+}
+
+.next-ease {
+  animation: pattern-fade-in .15s ease-out forwards;
+  animation-delay: .15s;
+  opacity: 0;
   padding: 0;
 }
 

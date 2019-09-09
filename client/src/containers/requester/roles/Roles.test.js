@@ -37,7 +37,6 @@ describe('Roles component', () => {
     userFromId: () => {},
     getRoles: () => {},
     getUsers: () => {},
-    selectedProposal: [{object: ''}],
     confirmedProposals: [{ id: 'proposal-123', opener: 'opener-123' }],
     roles: [{ id: 'role' }],
     userFromId: (userId) => {
@@ -55,7 +54,6 @@ describe('Roles component', () => {
     userFromId: () => {},
     getRoles: () => {},
     getUsers: () => {},
-    selectedProposal: [{id: 'qwerty'}],
     confirmedProposals: [{ id: 'proposal-123', opener: 'opener-123' }],
     userFromId: (userId) => {
       return { email: '' };

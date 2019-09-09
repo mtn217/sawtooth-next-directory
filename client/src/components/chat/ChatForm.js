@@ -350,6 +350,7 @@ class ChatForm extends Component {
               <input disabled={formDisabled} autoComplete='off'/>
               { !utils.isWhitespace(message) &&
                 <Icon
+                  color='blue'
                   link
                   id='next-chat-form-submit-icon'
                   name='paper plane'

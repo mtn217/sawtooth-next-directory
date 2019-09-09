@@ -24,7 +24,6 @@ limitations under the License.
 }
 
 #next-approver-grid-converse-column {
-  background: var(--chat-approver-bg-color);
   height: 100%;
   padding: 0;
   position: fixed;

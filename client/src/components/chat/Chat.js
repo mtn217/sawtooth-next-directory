@@ -147,11 +147,7 @@ class Chat extends Component {
    * @returns {JSX}
    */
   render () {
-    const {
-      disabled,
-      hideButtons,
-      hideForm,
-      type } = this.props;
+    const { type } = this.props;
 
     return (
       <div id='next-chat-container'>
@@ -168,9 +164,6 @@ class Chat extends Component {
           <div id='next-chat-conversation-dock'>
             <ChatForm
               {...this.props}
-              disabled={disabled}
-              hideButtons={hideButtons}
-              hideForm={hideForm}
               approve={this.manualApprove}
               reject={this.manualReject}
               requestRole={this.manualRequestRole}

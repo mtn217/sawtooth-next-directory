@@ -138,7 +138,7 @@ class ManagePacks extends Component {
    * @returns {JSX}
    */
   renderPackCard (packId) {
-    const { packFromId } = this.props;
+    const { packFromId, setView } = this.props;
     const pack = packFromId(packId);
 
     if (!pack) {
@@ -161,9 +161,12 @@ class ManagePacks extends Component {
       <Grid.Column key={packId}>
         <Card
           fluid
-          className='minimal medium'>
+          as={Link}
+          onClick={() => setView(0)}
+          to={`/packs/${packId}`}
+          className='minimal medium next-approver-manage-packs-card'>
           <div className='next-approver-manage-packs-card-header'>
-            <Header as='h3' inverted>
+            <Header as='h3'>
               {pack.name}
             </Header>
             <div>
@@ -247,7 +250,7 @@ class ManagePacks extends Component {
               handleClose={this.toggleConfirmModal}
               handleConfirm={this.handleDeleteModalConfirm}/>
             { ownedPacks && ownedPacks.length > 0 &&
-              <h3>
+              <h3 id='next-approver-manage-packs-count'>
                 {ownedPacks && utils.countLabel(ownedPacks.length, 'pack')}
               </h3>
             }

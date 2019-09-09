@@ -22,12 +22,10 @@ import {
   Container,
   Grid,
   Header,
-  Image,
   Placeholder } from 'semantic-ui-react';
 
 
 import './ManageRoles.css';
-import glyph from 'images/glyph-role.png';
 import TrackHeader from 'components/layouts/TrackHeader';
 import * as theme from 'services/Theme';
 import * as utils from 'services/Utils';
@@ -133,14 +131,12 @@ class ManageRoles extends Component {
           as={Link}
           onClick={() => setView(0)}
           to={`/roles/${roleId}`}
-          className='minimal medium'>
-          <Header as='h3'>
-            <div>
-              <Image size='mini' src={glyph}/>
-            </div>
+          className='minimal medium next-approver-manage-roles-card'>
+          <Header as='h3' className='next-approver-manage-roles-card-header'>
             <div>
               {role.name}
-              <Header.Subheader>
+              <Header.Subheader
+                className='next-approver-manage-roles-card-body'>
                 {role.description || 'No description available.'}
               </Header.Subheader>
             </div>
@@ -208,7 +204,7 @@ class ManageRoles extends Component {
             {...this.props}/>
           <div id='next-approver-manage-roles-content'>
             { ownedRoles && ownedRoles.length > 0 &&
-              <h3>
+              <h3 id='next-approver-manage-roles-count'>
                 {ownedRoles && utils.countLabel(ownedRoles.length, 'role')}
               </h3>
             }

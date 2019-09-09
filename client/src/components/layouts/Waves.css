@@ -37,16 +37,15 @@ limitations under the License.
   background: linear-gradient(to bottom, #e32982 0%,#d1b9fb 100%);
   box-shadow: 0 1.2em 1em white;
   display: flex;
-  height: 145px;
+  height: 165px;
   flex-direction: column-reverse;
   position: fixed;
-  top: var(--header-height);
   width: 100%;
   z-index: 99;
 }
 
 .approver #next-wave-container {
-  background: linear-gradient(to bottom, #ffffff 0%,#e0e5e8 100%)
+  background: linear-gradient(to bottom, #ffffff 0%,#d7ddee 100%);
 }
 
 .dark #next-wave-container {

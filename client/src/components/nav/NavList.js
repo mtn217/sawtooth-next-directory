@@ -43,7 +43,10 @@ class NavList extends Component {
 
   static propTypes = {
     disabled:         PropTypes.bool,
-    glyph:            PropTypes.string,
+    glyph:            PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string,
+    ]),
     labels:           PropTypes.array,
     list:             PropTypes.array,
     listTitle:        PropTypes.string,
@@ -125,7 +128,10 @@ class NavList extends Component {
           as={Link}
           to={this.createNavLink(item)}>
 
-          <Image floated='left' size='mini' src={glyph}/>
+          <Image
+            floated='left'
+            size='mini'
+            src={Array.isArray(glyph) ? glyph[index] : glyph}/>
 
           <List.Content className='pull-left next-nav-list-content'>
             <List.Header>

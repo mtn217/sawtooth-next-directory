@@ -41,17 +41,6 @@ limitations under the License.
   display: none;
 }
 
-#next-approver-individual-table-content:after {
-  background: linear-gradient(90deg, transparent, white);
-  content: '';
-  height: 100%;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 60px;
-}
-
 .next-approver-individual-table-user {
   align-items: center;
   display: flex;
@@ -66,4 +55,17 @@ limitations under the License.
   justify-content: space-between;
   position: relative;
   top: 3px;
+}
+
+@media screen and (max-width: 1180px) {
+  #next-approver-individual-table-content:after {
+    background: linear-gradient(90deg, transparent, white);
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60px;
+  }
 }

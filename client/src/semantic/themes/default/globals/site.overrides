@@ -116,7 +116,7 @@ body,
 }
 
 .Toastify__toast-container--top-right {
-  right: .85em !important;
+  right: .8em !important;
   top: 4em !important;
 }
 

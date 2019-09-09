@@ -27,7 +27,6 @@ import './Approved.css';
 import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
-import glyph from 'images/glyph-individual-inverted.png';
 import Avatar from 'components/layouts/Avatar';
 
 
@@ -134,6 +133,7 @@ class Approved extends Component {
     })), column, direction);
 
     this.setState({ table });
+    table && this.setSelectedProposal(table[0]);
   }
 
 
@@ -243,7 +243,7 @@ class Approved extends Component {
    * @returns {JSX}
    */
   renderTable () {
-    const { column, direction, table } = this.state;
+    const { column, direction, selectedProposal, table } = this.state;
 
     return (
       <Table
@@ -284,6 +284,7 @@ class Approved extends Component {
         <Table.Body>
           { table && table.map(proposal => (
             <Table.Row
+              active={selectedProposal && selectedProposal.id === proposal.id}
               key={proposal.id}
               onClick={() => this.setSelectedProposal(proposal)}>
               <Table.Cell>
@@ -342,10 +343,9 @@ class Approved extends Component {
             id='next-approver-grid-track-column'
             width={12}>
             <TrackHeader
-              glyph={glyph}
               title='Approved Requests'
               {...this.props}/>
-            <div id='next-approver-approved-content'>
+            <div id='next-approver-approved-content' className='next-ease'>
               { !confirmedProposals &&
                   this.renderPlaceholder()
               }
@@ -366,6 +366,7 @@ class Approved extends Component {
             width={4}>
             <Chat
               disabled={true}
+              formDisabled
               hideButtons
               selectedProposal={selectedProposal}
               subtitle={this.roleName(selectedProposal.object)}

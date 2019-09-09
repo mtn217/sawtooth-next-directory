@@ -16,7 +16,6 @@ limitations under the License.
 
 #next-chat-actions {
   display: flex;
-  margin-top: 15px;
   min-height: 34px;
 }
 
@@ -26,6 +25,10 @@ limitations under the License.
 
 #next-chat-actions button:first-child {
   margin-right: 15px;
+}
+
+#next-requester-grid-converse-column #next-chat-actions {
+  margin-top: 18px;
 }
 
 .next-chat-action-button {
@@ -54,7 +57,9 @@ limitations under the License.
 
 #next-placeholder-chat .ui.fluid input {
   background: white;
-  border: 1px solid #ddd;
+  border: 1px solid #9f9f9f57;
+  font-size: 1.15em;
+  height: 35px;
 }
 
 #next-chat-form-submit-icon {

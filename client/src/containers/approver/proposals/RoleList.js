@@ -234,7 +234,7 @@ class RoleList extends Component {
     if (!openProposalsByRole) return null;
 
     return (
-      <div id='next-roles-list-container'>
+      <div id='next-roles-list-container' className='next-ease'>
         { Object.keys(openProposalsByRole).map(roleId => (
           this.renderRoleItem(roleId)
         ))}

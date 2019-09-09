@@ -157,7 +157,7 @@ class RoleSelectGrid extends Component {
   renderPlaceholder = () => {
     return Array(6).fill(0).map((item, index) => (
       <Grid.Column key={index} width={5}>
-        <Placeholder fluid className='contrast'>
+        <Placeholder fluid>
           <Placeholder.Header>
             <Placeholder.Line length='full'/>
           </Placeholder.Header>

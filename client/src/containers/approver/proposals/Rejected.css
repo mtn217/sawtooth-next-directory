@@ -34,17 +34,6 @@ limitations under the License.
   display: none;
 }
 
-#next-approver-rejected-content:after {
-  background: linear-gradient(90deg, transparent, white);
-  content: '';
-  height: 100%;
-  pointer-events: none;
-  position: absolute;
-  right: 53px;
-  top: 0;
-  width: 60px;
-}
-
 .next-approver-rejected-table-user {
   align-items: center;
   display: flex;
@@ -54,22 +43,23 @@ limitations under the License.
   margin-right: 10px;
 }
 
-.next-approver-rejected-table-email {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  top: 3px;
-}
-
-.next-approver-rejected-table-email i {
-  left: 9px;
-  position: relative;
-}
-
 #next-approver-rejected-placeholder {
   margin: 30px;
 }
 
 #next-approver-rejected-placeholder .ui.placeholder {
   margin: 0 0 40px 0;
+}
+
+@media screen and (max-width: 1180px) {
+  #next-approver-rejected-content:after {
+    background: linear-gradient(90deg, transparent, white);
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    right: 53px;
+    top: 0;
+    width: 60px;
+  }
 }

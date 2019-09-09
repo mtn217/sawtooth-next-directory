@@ -175,13 +175,6 @@ class CreatePack extends Component {
               {name: 'Manage', slug: '/approval/manage'},
               {name: 'Packs', slug: '/approval/manage/packs'},
             ]}
-            button={() =>
-              <Button
-                id='next-approver-manage-exit-button'
-                as={Link}
-                content='Close'
-                size='huge'
-                to='/approval/manage/packs'/>}
             {...this.props}/>
           <div id='next-approver-manage-create-pack-content'>
             { activeIndex === 0 &&
@@ -258,10 +251,22 @@ class CreatePack extends Component {
               </div>
             }
             <div id='next-approver-manage-create-pack-toolbar'>
+              <Button
+                as={Link}
+                to='/approval/manage/packs'
+                primary
+                size='large'
+                ize='large'
+                icon='left arrow'
+                labelPosition='left'
+                id='next-approver-manage-create-pack-done-button'
+                content='Back to Packs'/>
               { activeIndex === 0 &&
                 <Button
                   primary
                   size='large'
+                  icon='right arrow'
+                  labelPosition='right'
                   id='next-approver-manage-create-pack-done-button'
                   disabled={!validDescription || !validName || packExists}
                   content='Next'
@@ -281,7 +286,7 @@ class CreatePack extends Component {
                     to={'/approval/manage/packs'}
                     id='next-approver-manage-create-pack-done-button'
                     disabled={!validDescription || !validName || packExists}
-                    content='Done'
+                    content='Create Pack'
                     onClick={this.createPack}/>
                 </div>
               }

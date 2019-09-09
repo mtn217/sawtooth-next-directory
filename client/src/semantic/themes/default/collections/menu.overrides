@@ -3,13 +3,12 @@
 *******************************/
 
 .ui.huge.inverted.vertical.menu {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
   box-shadow: 0.25em 2.1em 2em #0000007a;
 }
 
 .ui.huge.inverted.vertical.menu .item {
-  padding-bottom: .65em;
+  font-size: .96em;
+  padding: 1.1em 1.4em .9em 1.4em;
 }
 
 .ui.huge.inverted.vertical.menu .medium.item {
@@ -31,13 +30,13 @@
 }
 
 .ui.huge.inverted.vertical.menu > .menu-section > .header {
-  color: #455567;
+  color: #616168;
   font-size: .75em;
   padding: 4px 18px;
 }
 
 .ui.huge.inverted.vertical.menu > .menu-section > .menu-tray {
-  border-bottom: 1px solid #323d49;
+  border-bottom: 1px solid #32323f;
   max-height: 300px;
   overflow: auto;
 }

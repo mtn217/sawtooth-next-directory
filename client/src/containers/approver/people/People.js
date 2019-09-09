@@ -90,7 +90,6 @@ class People extends Component {
           width={12}>
           <TrackHeader
             title='People'
-            subtitle='Browse all of the people within your organization'
             {...this.props}/>
           <div id='next-approver-people-content'>
             <div>

@@ -70,10 +70,10 @@ class Confirm extends Component {
           </span>
         </Modal.Content>
         <Modal.Actions id='next-confirm-modal-actions'>
-          <Button size='large' onClick={handleClose}>
+          <Button size='medium' onClick={handleClose}>
             No
           </Button>
-          <Button primary size='large' onClick={handleConfirm}>
+          <Button primary size='medium' onClick={handleConfirm}>
             Yes
           </Button>
         </Modal.Actions>

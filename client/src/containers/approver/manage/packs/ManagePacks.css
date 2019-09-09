@@ -40,19 +40,21 @@ limitations under the License.
 }
 
 #next-approver-manage-packs-create-button {
-  background: #ffffff;
-  box-shadow: 0 3px 13px #98989814;
-  color: #e20074;
+  background: var(--magenta);
+  border-radius: 1em;
+  color: white;
   font-size: .95em;
-  padding: 15px;
+  padding: 1em;
   position: fixed;
-  right: var(--nav-list-padding);
+  right: var( --nav-list-padding);
   top: 69px;
-  width: 180px;
+}
+
+.next-approver-manage-packs-card {
+  padding: .5em !important;
 }
 
 .next-approver-manage-packs-card-header {
-  background: var(--magenta);
   display: flex;
   height: 40px;
   justify-content: space-between;
@@ -68,7 +70,13 @@ limitations under the License.
 }
 
 .next-approver-manage-packs-card-body {
+  color: gray;
   display: flex;
+  font-size: .95em;
   justify-content: space-between;
   padding: 10px;
+}
+
+#next-approver-manage-packs-count {
+  margin-bottom: 1.5em;
 }

@@ -37,6 +37,7 @@ class IndividualNav extends Component {
   static propTypes = {
     activeIndex:        PropTypes.number,
     allSelected:        PropTypes.bool,
+    disableSelect:      PropTypes.bool,
     handleSelect:       PropTypes.func,
     setFlow:            PropTypes.func,
   };
@@ -50,6 +51,7 @@ class IndividualNav extends Component {
     const {
       activeIndex,
       allSelected,
+      disableSelect,
       handleSelect,
       setFlow } = this.props;
 
@@ -80,9 +82,13 @@ class IndividualNav extends Component {
         </Menu>
         <div id='next-individual-nav-select-dropdown'>
           <Checkbox
+            disabled={disableSelect}
             checked={allSelected}
             onChange={handleSelect}/>
-          <Dropdown floating trigger={<Button basic/>}>
+          <Dropdown
+            floating
+            disabled={disableSelect}
+            trigger={<Button basic/>}>
             <Dropdown.Menu>
               <Dropdown.Item
                 text='All'

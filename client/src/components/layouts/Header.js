@@ -227,11 +227,15 @@ class Header extends Component {
    * @returns {JSX}
    */
   renderCountIcon () {
-    const { expiredCount, openProposalsCount } = this.props;
+    const { currentView, expiredCount, openProposalsCount } = this.props;
     return (
       <div>
         { (expiredCount || openProposalsCount) &&
-          <Label circular color='red' floating size='mini'>
+          <Label
+            circular
+            color={currentView ? 'red' : 'blue'}
+            floating
+            size='mini'>
             {(expiredCount || 0) + (openProposalsCount || 0)}
           </Label>
         }
@@ -328,6 +332,7 @@ class Header extends Component {
    */
   render () {
     const {
+      currentView,
       id,
       location,
       me,
@@ -375,7 +380,7 @@ class Header extends Component {
             id='next-header-actions-bell'
             className='cursor-pointer'
             onClick={this.toggleNotificationMenu}>
-            <Icon inverted name='bell'/>
+            <Icon inverted={currentView === 0} name='bell'/>
             {this.renderCountIcon()}
           </div>
           { me &&

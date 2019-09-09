@@ -1048,6 +1048,11 @@ a.ui.card:hover,
   -webkit-box-shadow: 0 10px 9px #98989814;
           box-shadow: 0 10px 9px #98989814;
 }
+.ui.stackable.grid .column .ui.card.minimal.huge {
+  border: 3px solid #edf0f7;
+  -webkit-box-shadow: 0 24px 19px #98989824;
+          box-shadow: 0 24px 19px #98989824;
+}
 .dark .ui.stackable.grid .column .ui.card.minimal {
   background: #212c3a;
   border: 1px solid #0000001c;
@@ -1060,19 +1065,34 @@ a.ui.card:hover,
 .dark .ui.stackable.grid .column .ui.card.minimal .header {
   color: #FFFFFF;
 }
+.ui.stackable.grid .column .ui.card.huge.minimal:hover {
+  border: 3px solid #E40073;
+  -webkit-box-shadow: 0 0 0 0.5em #e4007369;
+          box-shadow: 0 0 0 0.5em #e4007369;
+}
 .ui.stackable.grid .column .ui.card.huge .content:first-child {
-  padding: 14%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 11%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 .ui.stackable.grid .column .ui.card.disabled {
-  opacity: 0.4;
+  opacity: 0.35;
 }
 .ui.stackable.grid .column .ui.card.huge > .content > .header {
-  color: #E40073;
-  font-size: 1.7em;
+  font-size: 1.45em;
   font-weight: 400;
 }
 .ui.stackable.grid .column .ui.card.huge > .content > .description {
   margin-top: 14%;
+  opacity: 0.5;
 }
 .ui.cards > .card > .extra,
 .ui.card > .extra {

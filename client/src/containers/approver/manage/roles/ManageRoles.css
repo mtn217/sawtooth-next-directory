@@ -34,13 +34,29 @@ limitations under the License.
 }
 
 #next-approver-manage-roles-create-button {
-  background: #ffffff;
-  box-shadow: 0 3px 13px #98989814;
-  color: #e20074;
+  background: var(--magenta);
+  border-radius: 1em;
+  color: white;
   font-size: .95em;
-  padding: 15px;
+  padding: 1em;
   position: fixed;
-  right: var(--nav-list-padding);
+  right: var( --nav-list-padding);
   top: 69px;
-  width: 180px;
+}
+
+#next-approver-manage-roles-count {
+  margin-bottom: 1.5em;
+}
+
+.next-approver-manage-roles-card .extra.content {
+  padding: .6em 2em;
+}
+
+.next-approver-manage-roles-card-header {
+  padding: 1.5em !important;
+  display: block !important;
+}
+
+.next-approver-manage-roles-card-body {
+  color: gray !important;
 }

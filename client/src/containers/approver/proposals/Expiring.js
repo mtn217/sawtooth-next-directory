@@ -24,14 +24,10 @@ import People from 'containers/approver/people/People';
 import Chat from 'components/chat/Chat';
 import TrackHeader from 'components/layouts/TrackHeader';
 import IndividualNav from 'components/nav/IndividualNav';
-import PeopleList from './PeopleList';
-import RoleList from './RoleList';
-import TableList from './TableList';
 import { syncAll } from './IndividualHelper';
 
 
 import './Expiring.css';
-import glyph from 'images/glyph-individual-inverted.png';
 
 
 /**
@@ -151,60 +147,27 @@ class Expiring extends Component {
    * @returns {JSX}
    */
   renderContent () {
-    const { openProposals } = this.props;
     const {
       activeIndex,
-      allSelected,
-      selectedProposals,
-      selectedRoles,
-      selectedUsers } = this.state;
+      allSelected } = this.state;
 
     return (
       <div id='next-approver-expiring-content'>
         <IndividualNav
+          disableSelect
           allSelected={allSelected}
           handleSelect={this.handleSelect}
           activeIndex={activeIndex}
           setFlow={this.setFlow}/>
-        <div id='next-approver-expiring-pending'>
-          <h5>
-            { openProposals &&
-              openProposals.length > 0 &&
-              openProposals.length + ' PENDING'}
-          </h5>
-        </div>
-        { openProposals && openProposals.length !== 0 &&
-          <div>
-            { activeIndex === 0 &&
-              <RoleList
-                selectedProposals={selectedProposals}
-                selectedRoles={selectedRoles}
-                handleChange={this.handleChange}
-                {...this.props}/>
-            }
-            { activeIndex === 1 &&
-              <PeopleList
-                selectedProposals={selectedProposals}
-                selectedUsers={selectedUsers}
-                handleChange={this.handleChange}
-                {...this.props}/>
-            }
-            { activeIndex === 2 &&
-              <TableList
-                selectedProposals={selectedProposals}
-                selectedUsers={selectedUsers}
-                handleChange={this.handleChange}
-                {...this.props}/>
-            }
-          </div>
-        }
-        { openProposals && openProposals.length === 0 &&
-          <Header as='h3' textAlign='center' color='grey'>
-            <Header.Content>
-              Nothing to see here
-            </Header.Content>
-          </Header>
-        }
+        <Header
+          as='h3'
+          id='next-approver-expiring-no-content'
+          textAlign='center'
+          color='grey'>
+          <Header.Content>
+            Nothing to see here
+          </Header.Content>
+        </Header>
       </div>
     );
   }
@@ -235,7 +198,6 @@ class Expiring extends Component {
           <Grid id='next-approver-grid'>
             <Grid.Column id='next-approver-grid-track-column' width={12}>
               <TrackHeader
-                glyph={glyph}
                 title='About to Expire'
                 {...this.props}/>
               { this.renderContent() }

@@ -41,12 +41,12 @@ limitations under the License.
 
 #next-requester-nav-browse {
   display: block;
-  /* padding: var(--nav-list-padding); */
   padding-bottom: 0;
 }
 
-#next-requester-nav-browse button {
-  background: #353547;
+#next-requester-nav-browse button,
+#next-requester-nav-primary-button button {
+  background: transparent;
   border-radius: 0;
   padding: 33px;
 }
@@ -102,10 +102,15 @@ limitations under the License.
 }
 
 #next-requester-panel-nav-text {
+  margin-top: 2em;
   padding: 1em;
   font-size: .9em;
 }
 
 #next-requester-panel-nav-text p {
   margin-bottom: 2em;
+}
+
+#next-requester-panel-nav-text strong {
+  color: #ffffff59;
 }

@@ -59,8 +59,8 @@ body.not-found {
 }
 
 #next-not-found-logo {
-  left: 22px;
+  left: 5.25em;
   position: absolute;
-  top: 12px;
+  top: 1.25em;
   right: 0;
 }

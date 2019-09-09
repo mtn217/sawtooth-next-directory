@@ -22,8 +22,16 @@ limitations under the License.
   width: calc(100% - 53px) !important;
 }
 
+#next-approver-expiring-pending {
+  padding: 0 10%;
+}
+
 #next-approver-expiring-pending h5 {
   color: var(--small-heading-color);
   font-weight: 500;
-  margin: 20px 30px;
+  margin: 20px 0;
+}
+
+next-approver-individual-no-content {
+  margin-top: 100px;
 }

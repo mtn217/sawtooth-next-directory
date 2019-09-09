@@ -31,6 +31,7 @@ import * as utils from 'services/Utils';
 class Search extends Component {
 
   static propTypes = {
+    autoFocus:              PropTypes.bool,
     clearSearchData:        PropTypes.func,
     fetchingSearchResults:  PropTypes.bool,
     isLocal:                PropTypes.bool,
@@ -94,14 +95,15 @@ class Search extends Component {
    */
   render () {
     const {
+      autoFocus,
       fetchingSearchResults,
-      placeholder,
-      searchInput } = this.props;
+      placeholder } = this.props;
     return (
       <div>
         <SearchInput
           fluid
           input={() => <Input
+            autoFocus={autoFocus}
             autoComplete='off'
             fluid
             loading={fetchingSearchResults}
@@ -110,7 +112,6 @@ class Search extends Component {
             placeholder={placeholder || 'Search...'}
             maxLength='255'
             name='searchInput'
-            value={searchInput}
             onChange={this.handleChange}/>}
           className='next-search-input'
           category

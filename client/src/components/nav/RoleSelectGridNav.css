@@ -15,18 +15,23 @@ limitations under the License.
 
 
 #next-role-select-grid-nav {
-  background: var(--contrast-bg);
+  align-items: center;
+  background: white;
   display: flex;
+  justify-content: space-between;
   padding: var(--page-content-padding) 2.5%;
   position: fixed;
-  top: 130px;
+  top: 180px;
   width: calc(100% - var(--sidebar-width));
   z-index: 3;
 }
 
+#next-role-select-grid-nav h3 {
+  margin-bottom: 0;
+}
+
 #next-role-select-grid-search {
-  margin-top: 50px;
-  width: 100%;
+  width: 300px;
 }
 
 #next-role-select-grid-search .ui.large.fluid.icon.input input {

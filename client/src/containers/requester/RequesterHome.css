@@ -24,7 +24,7 @@ limitations under the License.
   padding: 0;
 }
 
-#next-requester-packs-content,
+/* #next-requester-packs-content,
 #next-requester-roles-content,
 #next-roles-list-container,
 #next-approver-approved-content,
@@ -36,11 +36,10 @@ limitations under the License.
   animation-delay: .15s;
   opacity: 0;
   padding: 0;
-  /* z-index: 1; */
-}
+} */
+
 
 #next-requester-grid-converse-column {
-  background: var(--chat-requester-bg-color);
   height: 100%;
   padding: 0;
   position: fixed;
