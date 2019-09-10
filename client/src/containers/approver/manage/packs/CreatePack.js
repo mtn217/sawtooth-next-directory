@@ -92,15 +92,11 @@ class CreatePack extends Component {
    * @param {string} value Value of form field
    */
   handleChange = (event, { name, value }) => {
+    const { checkPackExists } = this.props;
+    if (name === 'name')
+      !utils.isWhitespace(value) && checkPackExists(value.trim());
     this.setState({ [name]: value });
     this.validate(name, value);
-  }
-
-
-  handleBlur = () => {
-    const { checkPackExists } = this.props;
-    const { name } = this.state;
-    !utils.isWhitespace(name) && checkPackExists(name.trim());
   }
 
 
@@ -193,7 +189,6 @@ class CreatePack extends Component {
                     name='name'
                     value={name}
                     placeholder='My Awesome Pack'
-                    onBlur={this.handleBlur}
                     onChange={this.handleChange}/>
                   { packExists &&
                     <Label

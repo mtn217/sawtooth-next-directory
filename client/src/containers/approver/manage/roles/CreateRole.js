@@ -91,15 +91,11 @@ class CreateRole extends Component {
    * @param {string} value Value of form field
    */
   handleChange = (event, { name, value }) => {
+    const { checkRoleExists } = this.props;
+    if (name === 'name')
+      !utils.isWhitespace(value) && checkRoleExists(value.trim());
     this.setState({ [name]: value });
     this.validate(name, value);
-  }
-
-
-  handleBlur = () => {
-    const { checkRoleExists } = this.props;
-    const { name } = this.state;
-    !utils.isWhitespace(name) && checkRoleExists(name.trim());
   }
 
 
@@ -162,7 +158,6 @@ class CreateRole extends Component {
                 name='name'
                 value={name}
                 placeholder='My Awesome Role'
-                onBlur={this.handleBlur}
                 onChange={this.handleChange}/>
               { roleExists &&
                 <Label

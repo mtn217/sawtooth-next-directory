@@ -14,6 +14,7 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
+import { delay } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
@@ -226,7 +227,9 @@ export function * getRelationships (api, action) {
 export function * checkRoleExists (api, action) {
   try {
     const { name } = action;
+    yield delay(500);
     const res = yield call(api.roleExists, name);
+
     res.ok ?
       yield put(ApproverActions.roleExistsSuccess(res.data.exists)) :
       yield put(ApproverActions.roleExistsFailure(res.data));
@@ -245,7 +248,9 @@ export function * checkRoleExists (api, action) {
 export function * checkPackExists (api, action) {
   try {
     const { name } = action;
+    yield delay(500);
     const res = yield call(api.packExists, name);
+
     res.ok ?
       yield put(ApproverActions.packExistsSuccess(res.data.exists)) :
       yield put(ApproverActions.packExistsFailure(res.data));
