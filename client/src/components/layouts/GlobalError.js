@@ -57,6 +57,7 @@ class GlobalError extends Component {
    * @returns {undefined}
    */
   static getDerivedStateFromError (error) {
+    console.error(error);
     return { faulted: true, random: Math.round(Math.random()) };
   }
 

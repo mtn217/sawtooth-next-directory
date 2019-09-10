@@ -369,8 +369,9 @@ class Approved extends Component {
               formDisabled
               hideButtons
               selectedProposal={selectedProposal}
-              subtitle={this.roleName(selectedProposal.object)}
-              title={this.userName(selectedProposal.opener)}
+              subtitle={selectedProposal &&
+                this.roleName(selectedProposal.object)}
+              title={selectedProposal && this.userName(selectedProposal.opener)}
               type='APPROVER' {...this.props}/>
           </Grid.Column>
         </Grid>
