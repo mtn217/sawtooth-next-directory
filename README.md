@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/hyperledger/sawtooth-next-directory.svg?branch=master)](https://travis-ci.org/hyperledger/sawtooth-next-directory)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/hyperledger/sawtooth-next-directory/blob/master/LICENSE)
 [![Documentation Status](https://readthedocs.org/projects/sawtooth-next-directory/badge/?version=latest)](https://sawtooth-next-directory.readthedocs.io/?badge=latest)  
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/2985/badge)](https://bestpractices.coreinfrastructure.org/projects/2985)
 
 ![logo](./readmeUI/logo.png)
 # Hyperledger Sawtooth NEXT Identity Platform
