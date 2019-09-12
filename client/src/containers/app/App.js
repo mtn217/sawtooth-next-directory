@@ -66,13 +66,7 @@ class App extends Component {
   componentDidMount () {
     const { isAuthenticated, openSocket } = this.props;
     isAuthenticated && this.hydrate();
-    if (isAuthenticated) {
-      openSocket('chatbot');
-      openSocket('feed');
-
-      // TODO: Needs more logic
-      // this.wait = setTimeout(forceSocketError, SOCKET_TIMEOUT);
-    }
+    if (isAuthenticated) openSocket('default');
   }
 
 
@@ -92,8 +86,7 @@ class App extends Component {
       openSocket } = this.props;
 
     if (!isAuthenticated) {
-      isSocketOpen('chatbot') && closeSocket('chatbot');
-      isSocketOpen('feed') && closeSocket('feed');
+      isSocketOpen('default') && closeSocket('default');
       return;
     }
 
@@ -101,8 +94,7 @@ class App extends Component {
     // state changes, we know that a user has logged in,
     // so get hydrate user and recommended objects
     if (prevProps.isAuthenticated !== isAuthenticated) {
-      openSocket('chatbot');
-      openSocket('feed');
+      openSocket('default');
       this.setState({ transition: true });
       this.hydrate();
     }
@@ -115,8 +107,7 @@ class App extends Component {
     // After the user object is populated, the following
     // will get the info required to display data in the
     // sidebar.
-    if (prevProps.me !== me)
-      this.hydrateSidebar();
+    if (prevProps.me !== me) this.hydrateSidebar();
 
     // TODO: Needs more logic
     // if (messages !== prevProps.messages)

@@ -71,7 +71,7 @@ class Header extends Component {
     document.addEventListener(
       'mousedown', this.handleClickOutside
     );
-    if (isSocketOpen('feed'))
+    if (isSocketOpen('default'))
       sendSocket('feed', { next_id: id });
   }
 
@@ -99,8 +99,8 @@ class Header extends Component {
         notificationMenuVisible: false,
       });
     }
-    if (prevProps.isSocketOpen('feed') !== isSocketOpen('feed') &&
-      isSocketOpen('feed'))
+    if (prevProps.isSocketOpen('default') !== isSocketOpen('default') &&
+      isSocketOpen('default'))
       sendSocket('feed', { next_id: id });
   }
 

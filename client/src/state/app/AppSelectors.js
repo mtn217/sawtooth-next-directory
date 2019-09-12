@@ -18,10 +18,7 @@ export const AppSelectors = {
   currentView:     (state) => state.app.currentView,
   isAnimating:     (state) => state.app.isAnimating,
   isRefreshing:    (state) => state.app.isRefreshing,
-  isSocketOpen:    (state, endpoint) => {
-    if (endpoint === 'chatbot') return state.app.isChatSocketOpen;
-    if (endpoint === 'feed') return state.app.isFeedSocketOpen;
-  },
+  isSocketOpen:    (state, endpoint) => state.app.isDefaultSocketOpen,
   socketError:     (state) => state.app.socketError,
   socketMaxAttemptsReached: (state) =>
     state.app.socketMaxAttemptsReached,

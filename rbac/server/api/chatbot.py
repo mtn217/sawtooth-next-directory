@@ -16,8 +16,6 @@
 
 import json
 
-from sanic import Blueprint
-
 from rbac.app.config import CHATBOT_REST_ENDPOINT
 from rbac.common.logs import get_default_logger
 from rbac.providers.common.common import escape_user_input
@@ -27,23 +25,19 @@ from rbac.server.db.db_utils import create_connection
 
 LOGGER = get_default_logger(__name__)
 
-CHATBOT_BP = Blueprint("chatbot")
 
 # TODO: FIXME: sanic-openapi @doc.exclude(True) decorator does not currently work on
 #  non-HTTP method or static routes. When a viable option becomes available apply it
 # to this route so that it is excluded from swagger.
 
 
-@CHATBOT_BP.websocket("api/chatbot")
-async def chatbot(request, web_socket):
+async def handle_chatbot_socket(sio, sid, data):
     """Chatbot websocket listener."""
-    while True:
-        required_fields = ["text", "next_id"]
-        recv = json.loads(await web_socket.recv())
-
-        utils.validate_fields(required_fields, recv)
-        response = await create_response(request, recv)
-        await web_socket.send(response)
+    required_fields = ["text", "next_id"]
+    recv = json.loads(data)
+    utils.validate_fields(required_fields, recv)
+    response = await create_response(sio.environ[sid]["sanic.request"], recv)
+    await sio.emit("chatbot", response)
 
 
 async def create_response(request, recv):

@@ -19,16 +19,17 @@ from sanic import Blueprint
 from sanic import Sanic
 from sanic_cors import CORS
 from sanic_openapi import swagger_blueprint
+import socketio
 
 from rbac.common.config import get_config
 from rbac.common.crypto.keys import Key
 from rbac.common.logs import get_default_logger
 from rbac.common.sawtooth.messaging import Connection
 from rbac.server.api.auth import AUTH_BP
-from rbac.server.api.chatbot import CHATBOT_BP
 from rbac.server.api.blocks import BLOCKS_BP
+from rbac.server.api.chatbot import handle_chatbot_socket
 from rbac.server.api.errors import ERRORS_BP
-from rbac.server.api.feed import FEED_BP
+from rbac.server.api.feed import handle_feed_socket
 from rbac.server.api.packs import PACKS_BP
 from rbac.server.api.proposals import PROPOSALS_BP
 from rbac.server.api.roles import ROLES_BP
@@ -39,27 +40,7 @@ from rbac.server.api.webhooks import WEBHOOKS_BP
 from rbac.server.db.db_utils import create_connection
 
 APP_BP = Blueprint("utils")
-
 LOGGER = get_default_logger(__name__)
-
-
-async def init(app, loop):
-    """Initialize API Server."""
-    app.config.DB_CONN = await create_connection()
-    app.config.VAL_CONN = Connection(app.config.VALIDATOR)
-    app.config.VAL_CONN.open()
-    conn = aiohttp.TCPConnector(
-        limit=app.config.AIOHTTP_CONN_LIMIT, ttl_dns_cache=app.config.AIOHTTP_DNS_TTL
-    )
-    app.config.HTTP_SESSION = aiohttp.ClientSession(connector=conn, loop=loop)
-
-
-async def finish(app, loop):
-    """Close connections."""
-    app.config.DB_CONN.close()
-    app.config.VAL_CONN.close()
-    LOGGER.info(loop)
-    await app.config.HTTP_SESSION.close()
 
 
 def load_config(app):
@@ -103,6 +84,40 @@ def load_config(app):
     app.config.WORKERS = int(get_config("WORKERS"))
 
 
+def register_middleware(app, sio):
+    """Attach listeners"""
+
+    @app.listener("before_server_start")
+    async def init(app, loop):
+        """Open database / validator connections and async HTTP session"""
+        app.config.DB_CONN = await create_connection()
+        app.config.VAL_CONN = Connection(app.config.VALIDATOR)
+        app.config.VAL_CONN.open()
+        conn = aiohttp.TCPConnector(
+            limit=app.config.AIOHTTP_CONN_LIMIT,
+            ttl_dns_cache=app.config.AIOHTTP_DNS_TTL,
+        )
+        app.config.HTTP_SESSION = aiohttp.ClientSession(connector=conn, loop=loop)
+
+    @app.listener("after_server_stop")
+    async def finish(app, loop):
+        """Close connections"""
+        app.config.DB_CONN.close()
+        app.config.VAL_CONN.close()
+        LOGGER.info(loop)
+        await app.config.HTTP_SESSION.close()
+
+    @sio.event
+    async def chatbot(sid, data):
+        """Route chatbot WebSocket events to handler"""
+        await handle_chatbot_socket(sio, sid, data)
+
+    @sio.event
+    async def feed(_sid, data):
+        """Route feed WebSocket events to handler"""
+        await handle_feed_socket(sio, data)
+
+
 def main():
     """RBAC API server main event loop"""
 
@@ -110,9 +125,7 @@ def main():
     app.blueprint(APP_BP)
     app.blueprint(AUTH_BP)
     app.blueprint(BLOCKS_BP)
-    app.blueprint(CHATBOT_BP)
     app.blueprint(ERRORS_BP)
-    app.blueprint(FEED_BP)
     app.blueprint(PACKS_BP)
     app.blueprint(PROPOSALS_BP)
     app.blueprint(ROLES_BP)
@@ -122,6 +135,9 @@ def main():
     app.blueprint(USERS_BP)
     app.blueprint(WEBHOOKS_BP)
 
+    sio = socketio.AsyncServer(async_mode="sanic", cors_allowed_origins=[])
+    sio.attach(app)
+    register_middleware(app, sio)
     load_config(app)
 
     CORS(
@@ -131,8 +147,6 @@ def main():
         resources={r"/api/*": {"origins": "*"}, r"/webhooks/*": {"origins": "*"}},
     )
 
-    app.register_listener(init, "before_server_start")
-    app.register_listener(finish, "after_server_stop")
     app.run(
         host="0.0.0.0",
         port=app.config.PORT,

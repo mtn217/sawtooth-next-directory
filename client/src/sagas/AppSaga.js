@@ -27,8 +27,6 @@ import {
 import Socket, {
   sockets,
   SOCKET_RECONNECT_TIMEOUT,
-  SOCKET_NORMAL_CLOSURE_ERROR_CODE,
-  SOCKET_NO_STATUS_RECEIVED_ERROR_CODE,
   incrementSocketAttempt } from 'services/Socket';
 
 
@@ -102,32 +100,30 @@ export function * observe (endpoint) {
  */
 const createChannel = (endpoint, socket) =>
   eventChannel(emit => {
-    socket.onerror = (event) => {
-      if (event && event.code === 'ECONNREFUSED') {
-        emit(AppActions.socketError(event));
-        emit(new Error(event.reason));
+    socket.on('error', (error) => {
+      emit(AppActions.socketError(error));
+      emit(new Error(error));
+    });
+    socket.on('disconnect', (reason) => {
+      if (reason === 'io server disconnect') {
+        emit(AppActions.socketError(reason));
+        emit(new Error(reason));
       }
-    };
-    socket.onclose = (event) => {
-      if (event.code !== SOCKET_NORMAL_CLOSURE_ERROR_CODE &&
-          event.code !== SOCKET_NO_STATUS_RECEIVED_ERROR_CODE) {
-        emit(AppActions.socketError(event));
-        emit(new Error(event.reason));
-      }
-    };
-    socket.onmessage = (event) => {
-      const payload = event.data && JSON.parse(event.data);
+    });
+    socket.on('chatbot', (data) => {
+      const payload = data && JSON.parse(data);
       emit(AppActions.socketReceive(payload));
-
-      if (endpoint === 'feed') {
-        emit(ApproverActions.feedReceive(payload));
-        emit(RequesterActions.feedReceive(payload));
-        emit(UserActions.feedReceive(payload));
-      }
-      if (endpoint === 'chatbot')
-        emit(ChatActions.messageReceive(payload));
-    };
-    socket.onopen = () => emit(AppActions.socketOpenSuccess(endpoint));
+      emit(ChatActions.messageReceive(payload));
+    });
+    socket.on('feed', (data) => {
+      const payload = data && JSON.parse(data);
+      emit(AppActions.socketReceive(payload));
+      emit(ApproverActions.feedReceive(payload));
+      emit(RequesterActions.feedReceive(payload));
+      emit(UserActions.feedReceive(payload));
+    });
+    socket.on('connect', () =>
+      emit(AppActions.socketOpenSuccess(endpoint)));
 
     return () => {
       socket.close();
@@ -144,7 +140,7 @@ const createChannel = (endpoint, socket) =>
 export function * sendSocket (action) {
   try {
     const { endpoint, payload } = action;
-    yield sockets[endpoint].send(JSON.stringify(payload));
+    yield sockets.default.emit(endpoint, JSON.stringify(payload));
   } catch (err) {
     console.error(err);
   }

@@ -39,24 +39,16 @@ export const socketOpen = (state) =>
   state.merge({});
 
 
-export const socketOpenSuccess = (state, { endpoint }) => {
-  if (endpoint === 'chatbot')
-    return state.merge({ isChatSocketOpen: true, socketError: false });
-  if (endpoint === 'feed')
-    return state.merge({ isFeedSocketOpen: true, socketError: false });
-};
+export const socketOpenSuccess = (state, { endpoint }) =>
+  state.merge({ isDefaultSocketOpen: true, socketError: false });
 
 
 export const socketClose = (state) =>
   state.merge({});
 
 
-export const socketCloseSuccess = (state, { endpoint }) => {
-  if (endpoint === 'chatbot')
-    return state.merge({ isChatSocketOpen: false, socketError: false });
-  if (endpoint === 'feed')
-    return state.merge({ isFeedSocketOpen: false, socketError: false });
-};
+export const socketCloseSuccess = (state, { endpoint }) =>
+  state.merge({ isDefaultSocketOpen: false, socketError: false });
 
 
 export const socketError = (state, { error }) =>

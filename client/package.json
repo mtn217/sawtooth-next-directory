@@ -21,7 +21,8 @@
     "redux-saga": "^0.16.0",
     "reduxsauce": "^1.0.0",
     "seamless-immutable": "^7.1.4",
-    "semantic-ui-react": "^0.83.0"
+    "semantic-ui-react": "^0.83.0",
+    "socket.io-client": "^2.2.0"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -48,14 +49,14 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
-    "react-test-renderer": "^16.6.3",
-    "sinon": "^7.1.1",
     "eslint": "5.6.0",
     "eslint-plugin-react": "^7.11.1",
     "jest-localstorage-mock": "^2.3.0",
     "jsdoc": "^3.5.5",
     "minami": "^1.2.3",
-    "semui-onyx": "^2.4.2-onyx.7"
+    "react-test-renderer": "^16.6.3",
+    "semui-onyx": "^2.4.2-onyx.7",
+    "sinon": "^7.1.1"
   },
   "browserslist": [
     ">0.2%",

@@ -15,8 +15,6 @@
 """Socket feed enabling real-time notifications of proposals."""
 import json
 
-from sanic import Blueprint
-
 from rbac.common.logs import get_default_logger
 from rbac.providers.common.common import escape_user_input
 from rbac.server.api.proposals import compile_proposal_resource
@@ -24,7 +22,6 @@ from rbac.server.api import utils
 from rbac.server.db import proposals_query
 from rbac.server.db.db_utils import create_connection
 
-FEED_BP = Blueprint("feed")
 LOGGER = get_default_logger(__name__)
 
 
@@ -33,21 +30,16 @@ LOGGER = get_default_logger(__name__)
 # to this route so that it is excluded from swagger.
 
 
-@FEED_BP.websocket("api/feed")
-async def feed(request, web_socket):
+async def handle_feed_socket(sio, data):
     """Socket feed enabling real-time notifications"""
-    LOGGER.info(request)
-    while True:
-        required_fields = ["next_id"]
-        recv = json.loads(await web_socket.recv())
-
-        utils.validate_fields(required_fields, recv)
-        await proposal_feed(web_socket, recv)
+    required_fields = ["next_id"]
+    recv = json.loads(data)
+    utils.validate_fields(required_fields, recv)
+    await proposal_feed(sio, recv)
 
 
-async def proposal_feed(web_socket, recv):
+async def proposal_feed(sio, recv):
     """Send open proposal updates to a given user"""
-
     conn = await create_connection()
     subscription = await proposals_query.subscribe_to_proposals(conn)
     while await subscription.fetch_next():
@@ -63,6 +55,6 @@ async def proposal_feed(web_socket, recv):
             proposal_resource["status"] == "OPEN"
             and next_id in proposal_resource["approvers"]
         ):
-            await web_socket.send(json.dumps({"open_proposal": proposal_resource}))
+            await sio.emit("feed", json.dumps({"open_proposal": proposal_resource}))
         if next_id == proposal_resource["opener"]:
-            await web_socket.send(json.dumps({"user_proposal": proposal_resource}))
+            await sio.emit("feed", json.dumps({"user_proposal": proposal_resource}))

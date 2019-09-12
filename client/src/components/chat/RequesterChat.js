@@ -59,7 +59,7 @@ class RequesterChat extends Component {
       me,
       requests } = this.props;
 
-    if (prevProps.isSocketOpen('chatbot') !== isSocketOpen('chatbot'))
+    if (prevProps.isSocketOpen('default') !== isSocketOpen('default'))
       this.init();
 
     if (prevProps.requests && requests &&
@@ -72,7 +72,8 @@ class RequesterChat extends Component {
     if (isRequest && (prevProps.isRequest !== isRequest))
       this.init();
 
-    if (!utils.arraysEqual(prevProps.memberOfPacks, memberOfPacks))
+    if (activePack &&
+        !utils.arraysEqual(prevProps.memberOfPacks, memberOfPacks))
       this.init();
 
     if ((activeRole && prevProps.activeRole.id !== activeRole.id) ||
@@ -106,7 +107,7 @@ class RequesterChat extends Component {
       requests,
       sendMessage } = this.props;
 
-    if ((!activePack && !activeRole) || !me || !isSocketOpen('chatbot'))
+    if ((!activePack && !activeRole) || !me || !isSocketOpen('default'))
       return;
 
     // Determine if the requests array is populated

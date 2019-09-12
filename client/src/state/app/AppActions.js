@@ -53,6 +53,5 @@ export const INITIAL_STATE = Immutable({
   isAnimating:                       null,
   isRefreshing:                      null,
   shouldRefreshOnNextSocketReceive:  null,
-  isChatSocketOpen:                  null,
-  isFeedSocketOpen:                  null,
+  isDefaultSocketOpen:               null,
 });

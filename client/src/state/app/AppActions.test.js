@@ -39,18 +39,18 @@ test('animationEnd', () => {
 test('socketOpenSuccess', () => {
   const state = reducer(
     INITIAL_STATE,
-    Actions.socketOpenSuccess('chatbot')
+    Actions.socketOpenSuccess('default')
   );
-  expect(state.isChatSocketOpen).toBe(true);
+  expect(state.isDefaultSocketOpen).toBe(true);
 });
 
 
 test('socketCloseSuccess', () => {
   const state = reducer(
     INITIAL_STATE,
-    Actions.socketCloseSuccess('feed')
+    Actions.socketCloseSuccess('default')
   );
-  expect(state.isFeedSocketOpen).toBe(false);
+  expect(state.isDefaultSocketOpen).toBe(false);
 });
 
 

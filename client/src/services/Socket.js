@@ -14,9 +14,10 @@ limitations under the License.
 ----------------------------------------------------------------------------- */
 
 
+import io from 'socket.io-client';
+
+
 export const sockets = {};
-
-
 export const SOCKET_TIMEOUT = 30e3;
 export const SOCKET_RECONNECT_TIMEOUT = 1e3;
 export const SOCKET_NORMAL_CLOSURE_ERROR_CODE = 1e3;
@@ -28,11 +29,13 @@ let attempt = 0;
 
 
 const create = (endpoint) =>
-  sockets[endpoint] = new WebSocket(
-    (process.env.REACT_APP_WS_PROTOCOL || 'ws://') +
+  sockets[endpoint] = io(
+    (process.env.REACT_APP_HTTP_PROTOCOL || 'http://') +
     (process.env.REACT_APP_SERVER_HOST || 'localhost') +
     (process.env.REACT_APP_SERVER_PORT ?
-      `:${process.env.REACT_APP_SERVER_PORT}` : '') + `/api/${endpoint}`
+      `:${process.env.REACT_APP_SERVER_PORT}` : ''), {
+      transports: ['websocket'],
+    }
   );
 
 
