@@ -706,7 +706,7 @@ def test_delete_role_with_members():
         # Wait for member in rethinkdb
         is_member_in_db = wait_for_resource_in_db("role_members", "related_id", user_id)
         assert (
-            is_member_in_db is True,
+            is_member_in_db is True
         ), "Couldn't find member in rethinkdb, maximum attempts exceeded."
 
         # Delete test role

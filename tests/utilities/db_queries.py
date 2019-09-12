@@ -135,10 +135,8 @@ def wait_for_resource_in_db(table, index, identifier, max_attempts=15, delay=0.3
     count = 0
     with connect_to_db() as conn:
         while not resource_found and count < max_attempts:
-            resource = (
-                r.table(table).filter({index: identifier}).coerce_to("array").run(conn)
-            )
-            if resource:
+            resource = r.table(table).filter({index: identifier}).count().run(conn)
+            if resource > 0:
                 resource_found = True
             count += 1
             time.sleep(delay)
