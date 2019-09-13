@@ -93,26 +93,25 @@ async def search_all(request):
     object_counts = []
 
     # Run search queries
-    conn = await create_connection()
-    if "pack" in search_query["search_object_types"]:
-        # Fetch packs with search input string
+    with await create_connection() as conn:
+        if "pack" in search_query["search_object_types"]:
+            # Fetch packs with search input string
 
-        pack_results = await search_packs(conn, search_query, paging)
-        data["packs"] = pack_results
-        object_counts.append(await search_packs_count(conn, search_query))
+            pack_results = await search_packs(conn, search_query, paging)
+            data["packs"] = pack_results
+            object_counts.append(await search_packs_count(conn, search_query))
 
-    if "role" in search_query["search_object_types"]:
-        # Fetch roles with search input string
-        role_results = await search_roles(conn, search_query, paging)
-        data["roles"] = role_results
-        object_counts.append(await search_roles_count(conn, search_query))
+        if "role" in search_query["search_object_types"]:
+            # Fetch roles with search input string
+            role_results = await search_roles(conn, search_query, paging)
+            data["roles"] = role_results
+            object_counts.append(await search_roles_count(conn, search_query))
 
-    if "user" in search_query["search_object_types"]:
-        # Fetch users with search input string
-        user_results = await search_users(conn, search_query, paging)
-        data["users"] = user_results
-        object_counts.append(await search_users_count(conn, search_query))
-    conn.close()
+        if "user" in search_query["search_object_types"]:
+            # Fetch users with search input string
+            user_results = await search_users(conn, search_query, paging)
+            data["users"] = user_results
+            object_counts.append(await search_users_count(conn, search_query))
 
     total_pages = get_total_pages(object_counts, search_query["page_size"])
 

@@ -65,9 +65,8 @@ async def create_rjct_ppsls_role_txns(key_pair, role_id, txn_user_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    proposals = await fetch_open_proposals_by_role(conn, role_id)
-    conn.close()
+    with await create_connection() as conn:
+        proposals = await fetch_open_proposals_by_role(conn, role_id)
     if proposals:
         for proposal in proposals:
             reason = "Target Role was deleted."
@@ -109,14 +108,13 @@ async def create_del_mmbr_by_role_txns(key_pair, role_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    role_members = (
-        await r.table("role_members")
-        .filter({"role_id": role_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        role_members = (
+            await r.table("role_members")
+            .filter({"role_id": role_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if role_members:
         member_delete = DeleteRoleMember()
         for member in role_members:
@@ -153,14 +151,13 @@ async def create_del_mmbr_by_user_txns(key_pair, next_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    roles = (
-        await r.table("role_members")
-        .filter({"related_id": next_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        roles = (
+            await r.table("role_members")
+            .filter({"related_id": next_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if roles:
         member_delete = DeleteRoleMember()
         for role in roles:
@@ -195,14 +192,13 @@ async def create_del_ownr_by_role_txns(key_pair, role_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    role_owners = (
-        await r.table("role_owners")
-        .filter({"role_id": role_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        role_owners = (
+            await r.table("role_owners")
+            .filter({"role_id": role_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if role_owners:
         owner_delete = DeleteRoleOwner()
         for owner in role_owners:
@@ -238,14 +234,13 @@ async def create_del_ownr_by_user_txns(key_pair, next_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    roles = (
-        await r.table("role_owners")
-        .filter({"related_id": next_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        roles = (
+            await r.table("role_owners")
+            .filter({"related_id": next_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if roles:
         owner_delete = DeleteRoleOwner()
         for role in roles:
@@ -279,14 +274,13 @@ async def create_del_admin_by_role_txns(key_pair, role_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    role_admins = (
-        await r.table("role_admins")
-        .filter({"role_id": role_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        role_admins = (
+            await r.table("role_admins")
+            .filter({"role_id": role_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if role_admins:
         admin_delete = DeleteRoleAdmin()
         for admin in role_admins:
@@ -322,14 +316,13 @@ async def create_del_admin_by_user_txns(key_pair, next_id, txn_list):
         txn_list:
             list: extended list of transactions for batch submission
     """
-    conn = await create_connection()
-    role_admins = (
-        await r.table("role_admins")
-        .filter({"related_id": next_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        role_admins = (
+            await r.table("role_admins")
+            .filter({"related_id": next_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if role_admins:
         admin_delete = DeleteRoleAdmin()
         for admin in role_admins:

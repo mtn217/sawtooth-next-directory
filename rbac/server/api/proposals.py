@@ -144,15 +144,17 @@ async def get_all_proposals(request):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    proposals = await proposals_query.fetch_all_proposal_resources(conn, start, limit)
-    proposal_resources = []
-    for proposal in proposals:
-        proposal_resource = await compile_proposal_resource(conn, proposal)
-        proposal_resources.append(proposal_resource)
-    conn.close()
+    with await create_connection() as conn:
+        proposals = await proposals_query.fetch_all_proposal_resources(
+            conn, start, limit
+        )
+        proposal_resources = []
+        for proposal in proposals:
+            proposal_resource = await compile_proposal_resource(conn, proposal)
+            proposal_resources.append(proposal_resource)
+
     return await create_response(
-        conn, request.url, proposal_resources, head_block, start=start, limit=limit
+        request.url, proposal_resources, head_block, start=start, limit=limit
     )
 
 
@@ -197,11 +199,10 @@ async def get_proposal(request, proposal_id):
     log_request(request)
     proposal_id = escape_user_input(proposal_id)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    proposal = await proposals_query.fetch_proposal_resource(conn, proposal_id)
-    proposal_resource = await compile_proposal_resource(conn, proposal)
-    conn.close()
-    return await create_response(conn, request.url, proposal_resource, head_block)
+    with await create_connection() as conn:
+        proposal = await proposals_query.fetch_proposal_resource(conn, proposal_id)
+        proposal_resource = await compile_proposal_resource(conn, proposal)
+    return await create_response(request.url, proposal_resource, head_block)
 
 
 @PROPOSALS_BP.patch("api/proposals")
@@ -288,12 +289,11 @@ async def update_proposal(request, proposal_id):
         )
     txn_key, txn_user_id = await get_transactor_key(request=request)
 
-    conn = await create_connection()
-    proposal_resource = await proposals_query.fetch_proposal_resource(
-        conn, proposal_id=proposal_id
-    )
-    approvers_list = await compile_proposal_resource(conn, proposal_resource)
-    conn.close()
+    with await create_connection() as conn:
+        proposal_resource = await proposals_query.fetch_proposal_resource(
+            conn, proposal_id=proposal_id
+        )
+        approvers_list = await compile_proposal_resource(conn, proposal_resource)
     if txn_user_id not in approvers_list["approvers"]:
         raise ApiUnauthorized(
             "Bad Request: You don't have the authorization to APPROVE or REJECT the proposal"

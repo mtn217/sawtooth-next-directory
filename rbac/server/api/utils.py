@@ -71,24 +71,22 @@ def extract_request_token(request):
     raise ApiUnauthorized("Unauthorized: No authentication token provided")
 
 
-async def create_response(conn, request_url, data, head_block, start=None, limit=None):
+async def create_response(request_url, data, head_block, start=None, limit=None):
     """Creates json response."""
-    conn.reconnect(noreply_wait=False)
-
-    base_url = request_url.split("?")[0]
-    table = base_url.split("/")[4]
-    url = "{}?head={}".format(base_url, head_block.get("id"))
-    response = {
-        "data": data,
-        "head": head_block.get("id"),
-        "link": "{}&start={}&limit={}".format(url, start, limit),
-    }
-    if start is not None and limit is not None:
-        response["paging"] = await get_response_paging_info(
-            conn, table, url, start, limit, head_block.get("num")
-        )
-    conn.close()
-    return json(response)
+    with await create_connection() as conn:
+        base_url = request_url.split("?")[0]
+        table = base_url.split("/")[4]
+        url = "{}?head={}".format(base_url, head_block.get("id"))
+        response = {
+            "data": data,
+            "head": head_block.get("id"),
+            "link": "{}&start={}&limit={}".format(url, start, limit),
+        }
+        if start is not None and limit is not None:
+            response["paging"] = await get_response_paging_info(
+                conn, table, url, start, limit, head_block.get("num")
+            )
+        return json(response)
 
 
 def create_tracker_response(events):
@@ -161,13 +159,12 @@ def get_request_paging_info(request):
 
 async def get_request_block(request):
     """Get headblock from request or newest."""
-    conn = await create_connection()
-    try:
-        head_block_id = escape_user_input(request.args["head"][0])
-        head_block = await blocks_query.fetch_block_by_id(conn, head_block_id)
-    except KeyError:
-        head_block = await blocks_query.fetch_latest_block_with_retry(conn, 5)
-    conn.close()
+    with await create_connection() as conn:
+        try:
+            head_block_id = escape_user_input(request.args["head"][0])
+            head_block = await blocks_query.fetch_block_by_id(conn, head_block_id)
+        except KeyError:
+            head_block = await blocks_query.fetch_latest_block_with_retry(conn, 5)
     return head_block
 
 
@@ -255,15 +252,14 @@ async def check_admin_status(next_id):
         next_id:
             str: user's next_id
     """
-    conn = await create_connection()
-    admin_role = await get_role_by_name(conn, "NextAdmins")
-    if not admin_role:
-        # NEXT administrator group has not been created
-        raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
-    admin_membership = await get_role_membership(
-        conn, next_id, admin_role[0]["role_id"]
-    )
-    conn.close()
+    with await create_connection() as conn:
+        admin_role = await get_role_by_name(conn, "NextAdmins")
+        if not admin_role:
+            # NEXT administrator group has not been created
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
+        admin_membership = await get_role_membership(
+            conn, next_id, admin_role[0]["role_id"]
+        )
     if admin_membership:
         return True
     return False
@@ -296,20 +292,19 @@ async def send_notification(next_id, proposal_id, frequency=0):
             str: id of a proposal user is to be notified about
         frequency:
             int: number representing time """
-    conn = await create_connection()
-    notification = (
-        await r.table("notifications")
-        .insert(
-            {
-                "next_id": next_id,
-                "proposal_id": proposal_id,
-                "frequency": frequency,
-                "timestamp": r.now(),
-            }
+    with await create_connection() as conn:
+        notification = (
+            await r.table("notifications")
+            .insert(
+                {
+                    "next_id": next_id,
+                    "proposal_id": proposal_id,
+                    "frequency": frequency,
+                    "timestamp": r.now(),
+                }
+            )
+            .run(conn)
         )
-        .run(conn)
-    )
-    conn.close()
     return notification
 
 

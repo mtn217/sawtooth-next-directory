@@ -25,11 +25,6 @@ from rbac.server.db.db_utils import create_connection
 LOGGER = get_default_logger(__name__)
 
 
-# TODO: FIXME: sanic-openapi @doc.exclude(True) decorator does not currently work on
-#  non-HTTP method or static routes. When a viable option becomes available apply it
-# to this route so that it is excluded from swagger.
-
-
 async def handle_feed_socket(sio, data):
     """Socket feed enabling real-time notifications"""
     required_fields = ["next_id"]
@@ -38,23 +33,22 @@ async def handle_feed_socket(sio, data):
     await proposal_feed(sio, recv)
 
 
+# double check this
 async def proposal_feed(sio, recv):
     """Send open proposal updates to a given user"""
-    conn = await create_connection()
-    subscription = await proposals_query.subscribe_to_proposals(conn)
-    while await subscription.fetch_next():
-        proposal = await subscription.next()
-        proposal_resource = await compile_proposal_resource(
-            conn, proposal.get("new_val")
-        )
+    with await create_connection() as conn:
+        subscription = await proposals_query.subscribe_to_proposals(conn)
+        while await subscription.fetch_next():
+            proposal = await subscription.next()
+            proposal_resource = await compile_proposal_resource(
+                conn, proposal.get("new_val")
+            )
 
-        conn.close()
-
-        next_id = escape_user_input(recv.get("next_id"))
-        if (
-            proposal_resource["status"] == "OPEN"
-            and next_id in proposal_resource["approvers"]
-        ):
-            await sio.emit("feed", json.dumps({"open_proposal": proposal_resource}))
-        if next_id == proposal_resource["opener"]:
-            await sio.emit("feed", json.dumps({"user_proposal": proposal_resource}))
+            next_id = escape_user_input(recv.get("next_id"))
+            if (
+                proposal_resource["status"] == "OPEN"
+                and next_id in proposal_resource["approvers"]
+            ):
+                await sio.emit("feed", json.dumps({"open_proposal": proposal_resource}))
+            if next_id == proposal_resource["opener"]:
+                await sio.emit("feed", json.dumps({"user_proposal": proposal_resource}))

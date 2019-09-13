@@ -24,10 +24,9 @@ LOGGER = get_default_logger(__name__)
 
 async def create_auth_entry(auth_entry):
     """Add auth entry to the auth table."""
-    conn = await create_connection()
-    insert = await r.table("auth").insert(auth_entry).run(conn)
-    conn.close()
-    return insert
+    with await create_connection() as conn:
+        insert = await r.table("auth").insert(auth_entry).run(conn)
+        return insert
 
 
 async def update_auth(next_id, auth_entry):
@@ -36,21 +35,25 @@ async def update_auth(next_id, auth_entry):
         auth_entry:
             dict: dictionary containing the fields to be updated
     """
-    conn = await create_connection()
-    resource = (
-        await r.table("auth").filter({"next_id": next_id}).update(auth_entry).run(conn)
-    )
-    conn.close()
-    return resource
+    with await create_connection() as conn:
+        resource = (
+            await r.table("auth")
+            .filter({"next_id": next_id})
+            .update(auth_entry)
+            .run(conn)
+        )
+        return resource
 
 
 async def get_auth_by_next_id(next_id):
     """Get user record from auth table using next_id."""
-    conn = await create_connection()
-    user_auth = (
-        await r.table("auth").filter({"next_id": next_id}).coerce_to("array").run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        user_auth = (
+            await r.table("auth")
+            .filter({"next_id": next_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     if not user_auth:
         raise ApiNotFound("No user with id '{}' exists".format(next_id))
     return user_auth[0]
@@ -63,14 +66,13 @@ async def get_user_by_username(request):
         request:
             obj:  a request object"""
     username = request.json.get("id")
-    conn = await create_connection()
-    user = (
-        await r.table("users")
-        .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        user = (
+            await r.table("users")
+            .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
+            .coerce_to("array")
+            .run(conn)
+        )
     if len(user) == 1:
         return user[0]
     if user:
@@ -80,14 +82,13 @@ async def get_user_by_username(request):
 
 async def get_user_map_by_next_id(next_id):
     """Fetch a user's map using the next_id."""
-    conn = await create_connection()
-    user_map = (
-        await r.table("user_mapping")
-        .filter({"next_id": next_id})
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        user_map = (
+            await r.table("user_mapping")
+            .filter({"next_id": next_id})
+            .coerce_to("array")
+            .run(conn)
+        )
     return user_map
 
 

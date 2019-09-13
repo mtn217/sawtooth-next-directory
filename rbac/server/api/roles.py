@@ -120,11 +120,10 @@ async def get_all_roles(request):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    role_resources = await roles_query.fetch_all_role_resources(conn, start, limit)
-    conn.close()
+    with await create_connection() as conn:
+        role_resources = await roles_query.fetch_all_role_resources(conn, start, limit)
     return await create_response(
-        conn, request.url, role_resources, head_block, start=start, limit=limit
+        request.url, role_resources, head_block, start=start, limit=limit
     )
 
 
@@ -197,9 +196,8 @@ async def create_new_role(request):
     validate_fields(required_fields, request.json)
 
     role_title = " ".join(escape_user_input(request.json.get("name")).split())
-    conn = await create_connection()
-    response = await roles_query.roles_search_duplicate(conn, role_title)
-    conn.close()
+    with await create_connection() as conn:
+        response = await roles_query.roles_search_duplicate(conn, role_title)
     if not response:
         txn_key, txn_user_id = await get_transactor_key(request)
         role_id = str(uuid4())
@@ -281,12 +279,11 @@ async def get_role(request, role_id):
     """Get a specific role by role_id."""
     log_request(request)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    role_resource = await roles_query.fetch_role_resource(
-        conn, escape_user_input(role_id)
-    )
-    conn.close()
-    return await create_response(conn, request.url, role_resource, head_block)
+    with await create_connection() as conn:
+        role_resource = await roles_query.fetch_role_resource(
+            conn, escape_user_input(role_id)
+        )
+    return await create_response(request.url, role_resource, head_block)
 
 
 @ROLES_BP.get("api/roles/check")
@@ -307,11 +304,10 @@ async def get_role(request, role_id):
 async def check_role_name(request):
     """Check if a role exists with provided name."""
     log_request(request)
-    conn = await create_connection()
-    response = await roles_query.roles_search_duplicate(
-        conn, escape_user_input(request.args.get("name"))
-    )
-    conn.close()
+    with await create_connection() as conn:
+        response = await roles_query.roles_search_duplicate(
+            conn, escape_user_input(request.args.get("name"))
+        )
     return json({"exists": bool(response)})
 
 
@@ -429,18 +425,16 @@ async def delete_role(request, role_id):
     role_id = escape_user_input(role_id)
     txn_key, txn_user_id = await get_transactor_key(request)
 
-    # does the role exist?
-    conn = await create_connection()
-    if not await roles_query.does_role_exist(conn, role_id):
-        LOGGER.warning(
-            "Nonexistent Role – User %s is attempting to delete the nonexistent role %s",
-            txn_user_id,
-            role_id,
-        )
-        return await handle_not_found(
-            request, ApiNotFound("The targeted role does not exist.")
-        )
-    conn.close()
+    with await create_connection() as conn:
+        if not await roles_query.does_role_exist(conn, role_id):
+            LOGGER.warning(
+                "Nonexistent Role – User %s is attempting to delete the nonexistent role %s",
+                txn_user_id,
+                role_id,
+            )
+            return await handle_not_found(
+                request, ApiNotFound("The targeted role does not exist.")
+            )
     is_role_owner = await check_role_owner_status(txn_user_id, role_id)
     if not is_role_owner:
         is_admin = await check_admin_status(txn_user_id)
@@ -531,9 +525,10 @@ async def add_role_admin(request, role_id):
     role_id = escape_user_input(role_id)
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
-    conn = await create_connection()
-    approver = await fetch_relationships("role_admins", "role_id", role_id).run(conn)
-    conn.close()
+    with await create_connection() as conn:
+        approver = await fetch_relationships("role_admins", "role_id", role_id).run(
+            conn
+        )
     batch_list = Role().admin.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
@@ -604,10 +599,11 @@ async def add_role_member(request, role_id):
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
 
-    conn = await create_connection()
-    approver = await fetch_relationships("role_owners", "role_id", role_id).run(conn)
-    role_resource = await roles_query.fetch_role_resource(conn, role_id)
-    conn.close()
+    with await create_connection() as conn:
+        approver = await fetch_relationships("role_owners", "role_id", role_id).run(
+            conn
+        )
+        role_resource = await roles_query.fetch_role_resource(conn, role_id)
 
     owners = role_resource.get("owners")
     requester_id = request.json.get("id")
@@ -721,9 +717,10 @@ async def add_role_owner(request, role_id):
     role_id = escape_user_input(role_id)
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
-    conn = await create_connection()
-    approver = await fetch_relationships("role_admins", "role_id", role_id).run(conn)
-    conn.close()
+    with await create_connection() as conn:
+        approver = await fetch_relationships("role_admins", "role_id", role_id).run(
+            conn
+        )
     batch_list = Role().owner.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
@@ -778,9 +775,10 @@ async def add_role_task(request, role_id):
     task_id = escape_user_input(request.json.get("id"))
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
-    conn = await create_connection()
-    approver = await fetch_relationships("task_owners", "task_id", task_id).run(conn)
-    conn.close()
+    with await create_connection() as conn:
+        approver = await fetch_relationships("task_owners", "task_id", task_id).run(
+            conn
+        )
     batch_list = Role().task.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
@@ -804,9 +802,10 @@ async def reject_roles_proposals(role_id, request):
             obj: a request object
     """
     # Get all open proposals associated with the role
-    conn = await create_connection()
-    role_proposals = await proposals_query.fetch_open_proposals_by_role(conn, role_id)
-    conn.close()
+    with await create_connection() as conn:
+        role_proposals = await proposals_query.fetch_open_proposals_by_role(
+            conn, role_id
+        )
 
     # Update to rejected:
     txn_key, txn_user_id = await get_transactor_key(request=request)

@@ -86,12 +86,12 @@ async def get_all_packs(request):
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
 
-    conn = await create_connection()
-    pack_resources = await packs_query.fetch_all_pack_resources(conn, start, limit)
-    conn.close()
-    return await create_response(
-        conn, request.url, pack_resources, head_block, start=start, limit=limit
-    )
+    with await create_connection() as conn:
+        pack_resources = await packs_query.fetch_all_pack_resources(conn, start, limit)
+        conn.close()
+        return await create_response(
+            request.url, pack_resources, head_block, start=start, limit=limit
+        )
 
 
 @PACKS_BP.post("api/packs")
@@ -145,26 +145,24 @@ async def create_new_pack(request):
                 "Input pack description exceeded max character length: 255"
             )
 
-    conn = await create_connection()
-    response = await packs_query.packs_search_duplicate(conn, pack_title)
-    if not response:
-        pack_id = str(uuid4())
-        await packs_query.create_pack_resource(
-            conn,
-            pack_id,
-            escape_user_input(request.json.get("owners")),
-            pack_title,
-            escape_user_input(request.json.get("description")),
+    with await create_connection() as conn:
+        response = await packs_query.packs_search_duplicate(conn, pack_title)
+        if not response:
+            pack_id = str(uuid4())
+            await packs_query.create_pack_resource(
+                conn,
+                pack_id,
+                escape_user_input(request.json.get("owners")),
+                pack_title,
+                escape_user_input(request.json.get("description")),
+            )
+            await packs_query.add_roles(
+                conn, pack_id, escape_user_input(request.json.get("roles"))
+            )
+            return create_pack_response(request, pack_id)
+        raise ApiBadRequest(
+            "Error: Could not create this pack because the pack name already exists."
         )
-        await packs_query.add_roles(
-            conn, pack_id, escape_user_input(request.json.get("roles"))
-        )
-        conn.close()
-        return create_pack_response(request, pack_id)
-    conn.close()
-    raise ApiBadRequest(
-        "Error: Could not create this pack because the pack name already exists."
-    )
 
 
 @PACKS_BP.get("api/packs/<pack_id>")
@@ -198,11 +196,10 @@ async def get_pack(request, pack_id):
     log_request(request)
     pack_id = escape_user_input(pack_id)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    pack_resource = await packs_query.fetch_pack_resource(conn, pack_id)
-    conn.close()
+    with await create_connection() as conn:
+        pack_resource = await packs_query.fetch_pack_resource(conn, pack_id)
 
-    return await create_response(conn, request.url, pack_resource, head_block)
+    return await create_response(request.url, pack_resource, head_block)
 
 
 @PACKS_BP.get("api/packs/check")
@@ -223,11 +220,10 @@ async def get_pack(request, pack_id):
 async def check_pack_name(request):
     """Check if a pack exists with provided name"""
     log_request(request)
-    conn = await create_connection()
-    response = await packs_query.packs_search_duplicate(
-        conn, escape_user_input(request.args.get("name"))
-    )
-    conn.close()
+    with await create_connection() as conn:
+        response = await packs_query.packs_search_duplicate(
+            conn, escape_user_input(request.args.get("name"))
+        )
 
     return json({"exists": bool(response)})
 
@@ -262,9 +258,8 @@ async def add_pack_member(request, pack_id):
     validate_fields(required_fields, request.json)
     pack_id = escape_user_input(pack_id)
 
-    conn = await create_connection()
-    pack_resource = await packs_query.fetch_pack_resource(conn, pack_id)
-    conn.close()
+    with await create_connection() as conn:
+        pack_resource = await packs_query.fetch_pack_resource(conn, pack_id)
     request.json["metadata"] = ""
     request.json["pack_id"] = pack_id
     for role_id in pack_resource.get("roles"):
@@ -303,9 +298,8 @@ async def add_pack_role(request, pack_id):
 
     pack_id = escape_user_input(pack_id)
     roles = escape_user_input(request.json.get("roles"))
-    conn = await create_connection()
-    await packs_query.add_roles(conn, pack_id, roles)
-    conn.close()
+    with await create_connection() as conn:
+        await packs_query.add_roles(conn, pack_id, roles)
     return json({"roles": roles})
 
 
@@ -352,19 +346,18 @@ async def delete_pack(request, pack_id):
 
     pack_id = escape_user_input(pack_id)
 
-    conn = await create_connection()
-    pack = await packs_query.get_pack_by_pack_id(conn, pack_id)
-    if not pack:
-        raise ApiBadRequest(
-            "Error: Pack does not currently exist or has already been deleted."
-        )
-    owners = await packs_query.get_pack_owners_by_id(conn, pack_id)
-    if txn_user_id not in owners and not await check_admin_status(txn_user_id):
-        raise ApiForbidden(
-            "Error: You do not have the authorization to delete this pack."
-        )
-    await packs_query.delete_pack_by_id(conn, pack_id)
-    conn.close()
+    with await create_connection() as conn:
+        pack = await packs_query.get_pack_by_pack_id(conn, pack_id)
+        if not pack:
+            raise ApiBadRequest(
+                "Error: Pack does not currently exist or has already been deleted."
+            )
+        owners = await packs_query.get_pack_owners_by_id(conn, pack_id)
+        if txn_user_id not in owners and not await check_admin_status(txn_user_id):
+            raise ApiForbidden(
+                "Error: You do not have the authorization to delete this pack."
+            )
+        await packs_query.delete_pack_by_id(conn, pack_id)
     return json(
         {
             "message": "Pack {} successfully deleted".format(pack_id),

@@ -82,12 +82,11 @@ async def get_all_tasks(request):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    task_resources = await tasks_query.fetch_all_task_resources(conn, start, limit)
-    conn.close()
+    with await create_connection() as conn:
+        task_resources = await tasks_query.fetch_all_task_resources(conn, start, limit)
 
     return await create_response(
-        conn, request.url, task_resources, head_block, start=start, limit=limit
+        request.url, task_resources, head_block, start=start, limit=limit
     )
 
 
@@ -187,12 +186,11 @@ async def get_task(request, task_id):
     """Get a specific task by task_id."""
     log_request(request)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    task_resource = await tasks_query.fetch_task_resource(
-        conn, escape_user_input(task_id)
-    )
-    conn.close()
-    return await create_response(conn, request.url, task_resource, head_block)
+    with await create_connection() as conn:
+        task_resource = await tasks_query.fetch_task_resource(
+            conn, escape_user_input(task_id)
+        )
+    return await create_response(request.url, task_resource, head_block)
 
 
 @TASKS_BP.post("api/tasks/<task_id>/admins")
@@ -235,9 +233,10 @@ async def add_task_admin(request, task_id):
     task_id = escape_user_input(task_id)
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
-    conn = await create_connection()
-    approver = await fetch_relationships("task_admins", "task_id", task_id).run(conn)
-    conn.close()
+    with await create_connection() as conn:
+        approver = await fetch_relationships("task_admins", "task_id", task_id).run(
+            conn
+        )
     batch_list = Task().admin.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,
@@ -292,9 +291,10 @@ async def add_task_owner(request, task_id):
     task_id = escape_user_input(task_id)
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
-    conn = await create_connection()
-    approver = await fetch_relationships("task_admins", "task_id", task_id).run(conn)
-    conn.close()
+    with await create_connection() as conn:
+        approver = await fetch_relationships("task_admins", "task_id", task_id).run(
+            conn
+        )
     batch_list = Task().owner.propose.batch_list(
         signer_keypair=txn_key,
         signer_user_id=txn_user_id,

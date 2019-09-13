@@ -125,12 +125,11 @@ async def fetch_all_users(request):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    user_resources = await users_query.fetch_all_user_resources(conn, start, limit)
-    conn.close()
+    with await create_connection() as conn:
+        user_resources = await users_query.fetch_all_user_resources(conn, start, limit)
 
     return await create_response(
-        conn, request.url, user_resources, head_block, start=start, limit=limit
+        request.url, user_resources, head_block, start=start, limit=limit
     )
 
 
@@ -189,16 +188,14 @@ async def create_new_user(request):
     required_fields = ["name", "username", "password", "email"]
     validate_fields(required_fields, request.json)
     # Check if username already exists
-    conn = await create_connection()
-
-    username = escape_user_input(request.json.get("username"))
-    email = escape_user_input(request.json.get("email"))
-    if await users_query.fetch_username_match_count(conn, username) > 0:
-        # Throw Error response to Next_UI
-        return await handle_errors(
-            request, ApiTargetConflict("Username already exists.")
-        )
-    conn.close()
+    with await create_connection() as conn:
+        username = escape_user_input(request.json.get("username"))
+        email = escape_user_input(request.json.get("email"))
+        if await users_query.fetch_username_match_count(conn, username) > 0:
+            # Throw Error response to Next_UI
+            return await handle_errors(
+                request, ApiTargetConflict("Username already exists.")
+            )
 
     # Check to see if they are trying to create the NEXT admin
     env = Env()
@@ -272,9 +269,8 @@ async def create_new_user(request):
 
     # Insert to user_mapping and close
     await auth_query.create_auth_entry(auth_entry)
-    conn = await create_connection()
-    await users_query.create_user_map_entry(conn, mapping_data)
-    conn.close()
+    with await create_connection() as conn:
+        await users_query.create_user_map_entry(conn, mapping_data)
 
     # Send back success response
     return json({"data": {"user": {"id": next_id}}})
@@ -392,21 +388,20 @@ async def update_user_details(request):
     is_admin = await check_admin_status(txn_user_id)
     if not is_admin:
         raise ApiForbidden("You are not a NEXT Administrator.")
-    conn = await create_connection()
-    user = await users_query.users_search_duplicate(conn, username)
-    if user and user[0]["next_id"] != next_id:
-        conn.close()
-        raise ApiBadRequest(
-            "Username already exists. Please give a different Username."
-        )
+    with await create_connection() as conn:
+        user = await users_query.users_search_duplicate(conn, username)
+        if user and user[0]["next_id"] != next_id:
+            conn.close()
+            raise ApiBadRequest(
+                "Username already exists. Please give a different Username."
+            )
 
-    # Get resources for update
-    user_info = await users_query.fetch_user_resource(conn, next_id)
-    if "manager_id" in user_info:
-        manager = user_info["manager_id"]
-    else:
-        manager = ""
-    conn.close()
+        # Get resources for update
+        user_info = await users_query.fetch_user_resource(conn, next_id)
+        if "manager_id" in user_info:
+            manager = user_info["manager_id"]
+        else:
+            manager = ""
     if request.json.get("metadata") is None or request.json.get("metadata") == {}:
         set_metadata = {}
     else:
@@ -464,13 +459,12 @@ async def get_user(request, next_id):
     """Get a specific user by next_id."""
     log_request(request)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    user_resource = await users_query.fetch_user_resource(
-        conn, escape_user_input(next_id)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        user_resource = await users_query.fetch_user_resource(
+            conn, escape_user_input(next_id)
+        )
 
-    return await create_response(conn, request.url, user_resource, head_block)
+    return await create_response(request.url, user_resource, head_block)
 
 
 @USERS_BP.delete("api/users/<next_id>")
@@ -560,13 +554,12 @@ async def get_user_summary(request, next_id):
     """This endpoint is for returning summary data for a user, just it's next_id,name, email."""
     log_request(request)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    user_resource = await users_query.fetch_user_resource_summary(
-        conn, escape_user_input(next_id)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        user_resource = await users_query.fetch_user_resource_summary(
+            conn, escape_user_input(next_id)
+        )
 
-    return await create_response(conn, request.url, user_resource, head_block)
+    return await create_response(request.url, user_resource, head_block)
 
 
 @USERS_BP.get("api/users/<next_id>/relationships")
@@ -604,13 +597,12 @@ async def get_user_relationships(request, next_id):
     """Get relationships for a specific user, by next_id."""
     log_request(request)
     head_block = await get_request_block(request)
-    conn = await create_connection()
-    user_resource = await users_query.fetch_user_relationships(
-        conn, escape_user_input(next_id)
-    )
-    conn.close()
+    with await create_connection() as conn:
+        user_resource = await users_query.fetch_user_relationships(
+            conn, escape_user_input(next_id)
+        )
 
-    return await create_response(conn, request.url, user_resource, head_block)
+    return await create_response(request.url, user_resource, head_block)
 
 
 @USERS_BP.put("api/users/<next_id>/manager")
@@ -659,9 +651,8 @@ async def update_manager(request, next_id):
     txn_key, txn_user_id = await get_transactor_key(request)
     proposal_id = str(uuid4())
     if await check_admin_status(txn_user_id):
-        conn = await create_connection()
-        next_admins_list = await users_query.get_next_admins(conn)
-        conn.close()
+        with await create_connection() as conn:
+            next_admins_list = await users_query.get_next_admins(conn)
         batch_list = User().manager.propose.batch_list(
             signer_keypair=txn_key,
             signer_user_id=txn_user_id,
@@ -738,14 +729,13 @@ async def update_password(request):
     password = escape_user_input(request.json.get("password")).encode("utf-8")
     hashed_password = hashlib.pbkdf2_hmac("sha256", password, salt, 100000).hex()
 
-    conn = await create_connection()
-    await users_query.update_user_password(
-        conn,
-        escape_user_input(request.json.get("next_id")),
-        hashed_password=hashed_password,
-        salt=salt,
-    )
-    conn.close()
+    with await create_connection() as conn:
+        await users_query.update_user_password(
+            conn,
+            escape_user_input(request.json.get("next_id")),
+            hashed_password=hashed_password,
+            salt=salt,
+        )
     return json({"message": "Password successfully updated"})
 
 
@@ -807,13 +797,14 @@ async def fetch_open_proposals(request, next_id):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    proposals = await proposals_query.fetch_all_proposal_resources(conn, start, limit)
-    proposal_resources = []
-    for proposal in proposals:
-        proposal_resource = await compile_proposal_resource(conn, proposal)
-        proposal_resources.append(proposal_resource)
-    conn.close()
+    with await create_connection() as conn:
+        proposals = await proposals_query.fetch_all_proposal_resources(
+            conn, start, limit
+        )
+        proposal_resources = []
+        for proposal in proposals:
+            proposal_resource = await compile_proposal_resource(conn, proposal)
+            proposal_resources.append(proposal_resource)
     open_proposals = []
     for proposal_resource in proposal_resources:
         if (
@@ -823,7 +814,7 @@ async def fetch_open_proposals(request, next_id):
             open_proposals.append(proposal_resource)
 
     return await create_response(
-        conn, request.url, open_proposals, head_block, start=start, limit=limit
+        request.url, open_proposals, head_block, start=start, limit=limit
     )
 
 
@@ -880,13 +871,14 @@ async def fetch_confirmed_proposals(request, next_id):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    proposals = await proposals_query.fetch_all_proposal_resources(conn, start, limit)
-    proposal_resources = []
-    for proposal in proposals:
-        proposal_resource = await compile_proposal_resource(conn, proposal)
-        proposal_resources.append(proposal_resource)
-    conn.close()
+    with await create_connection() as conn:
+        proposals = await proposals_query.fetch_all_proposal_resources(
+            conn, start, limit
+        )
+        proposal_resources = []
+        for proposal in proposals:
+            proposal_resource = await compile_proposal_resource(conn, proposal)
+            proposal_resources.append(proposal_resource)
 
     confirmed_proposals = []
     for proposal_resource in proposal_resources:
@@ -897,7 +889,7 @@ async def fetch_confirmed_proposals(request, next_id):
             confirmed_proposals.append(proposal_resource)
 
     return await create_response(
-        conn, request.url, confirmed_proposals, head_block, start=start, limit=limit
+        request.url, confirmed_proposals, head_block, start=start, limit=limit
     )
 
 
@@ -954,13 +946,14 @@ async def fetch_rejected_proposals(request, next_id):
     log_request(request)
     head_block = await get_request_block(request)
     start, limit = get_request_paging_info(request)
-    conn = await create_connection()
-    proposals = await proposals_query.fetch_all_proposal_resources(conn, start, limit)
-    proposal_resources = []
-    for proposal in proposals:
-        proposal_resource = await compile_proposal_resource(conn, proposal)
-        proposal_resources.append(proposal_resource)
-    conn.close()
+    with await create_connection() as conn:
+        proposals = await proposals_query.fetch_all_proposal_resources(
+            conn, start, limit
+        )
+        proposal_resources = []
+        for proposal in proposals:
+            proposal_resource = await compile_proposal_resource(conn, proposal)
+            proposal_resources.append(proposal_resource)
 
     rejected_proposals = []
     for proposal_resource in proposal_resources:
@@ -971,7 +964,7 @@ async def fetch_rejected_proposals(request, next_id):
             rejected_proposals.append(proposal_resource)
 
     return await create_response(
-        conn, request.url, rejected_proposals, head_block, start=start, limit=limit
+        request.url, rejected_proposals, head_block, start=start, limit=limit
     )
 
 
@@ -1005,9 +998,8 @@ async def update_expired_roles(request, next_id):
     validate_fields(required_fields, request.json)
 
     role_id = escape_user_input(request.json.get("id"))
-    conn = await create_connection()
-    await roles_query.expire_role_member(conn, role_id, escape_user_input(next_id))
-    conn.close()
+    with await create_connection() as conn:
+        await roles_query.expire_role_member(conn, role_id, escape_user_input(next_id))
     return json({"role_id": role_id})
 
 
@@ -1020,9 +1012,8 @@ async def reject_users_proposals(next_id, request):
             obj: a request object
     """
     # Get all open proposals associated with the user
-    conn = await create_connection()
-    proposals = await proposals_query.fetch_open_proposals_by_user(conn, next_id)
-    conn.close()
+    with await create_connection() as conn:
+        proposals = await proposals_query.fetch_open_proposals_by_user(conn, next_id)
 
     # Update to rejected:
     txn_key, txn_user_id = await get_transactor_key(request=request)
@@ -1057,9 +1048,8 @@ async def reject_users_proposals(next_id, request):
 async def check_user_name(request):
     """Check if a user exists with provided username."""
     log_request(request)
-    conn = await create_connection()
-    response = await users_query.users_search_duplicate(
-        conn, request.args.get("username")
-    )
-    conn.close()
+    with await create_connection() as conn:
+        response = await users_query.users_search_duplicate(
+            conn, request.args.get("username")
+        )
     return json({"exists": bool(response)})

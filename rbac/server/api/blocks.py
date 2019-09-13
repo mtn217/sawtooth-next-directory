@@ -68,17 +68,16 @@ BLOCKS_BP = Blueprint("blocks")
 @authorized()
 async def get_all_blocks(request):
     """Get all blocks."""
-    conn = await create_connection()
     log_request(request)
-    head_block = await get_request_block(request)
-    start, limit = get_request_paging_info(request)
-    block_resources = await blocks_query.fetch_all_blocks(
-        conn, head_block.get("num"), start, limit
-    )
-    conn.close()
+    with await create_connection() as conn:
+        head_block = await get_request_block(request)
+        start, limit = get_request_paging_info(request)
+        block_resources = await blocks_query.fetch_all_blocks(
+            conn, head_block.get("num"), start, limit
+        )
 
     return await create_response(
-        conn, request.url, block_resources, head_block, start=start, limit=limit
+        request.url, block_resources, head_block, start=start, limit=limit
     )
 
 
@@ -111,9 +110,8 @@ async def get_latest_block(request):
     if "?head=" in request.url:
         raise ApiBadRequest("Bad Request: 'head' parameter should not be specified")
 
-    conn = await create_connection()
-    block_resource = await blocks_query.fetch_latest_block_with_retry(conn)
-    conn.close()
+    with await create_connection() as conn:
+        block_resource = await blocks_query.fetch_latest_block_with_retry(conn)
 
     url = request.url.replace("latest", block_resource.get("id"))
     return json({"data": block_resource, "link": url})
@@ -148,8 +146,7 @@ async def get_block(request, block_id):
         raise ApiBadRequest("Bad Request: 'head' parameter should not be specified")
 
     block_id = escape_user_input(block_id)
-    conn = await create_connection()
-    block_resource = await blocks_query.fetch_block_by_id(conn, block_id)
-    conn.close()
+    with await create_connection() as conn:
+        block_resource = await blocks_query.fetch_block_by_id(conn, block_id)
 
     return json({"data": block_resource, "link": request.url})
