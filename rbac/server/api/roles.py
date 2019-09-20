@@ -610,18 +610,21 @@ async def add_role_member(request, role_id):
     conn.close()
 
     owners = role_resource.get("owners")
-    requester_id = request.json.get("id")
 
-    if requester_id in owners:
+    escaped_pack_id = escape_user_input(request.json.get("pack_id"))
+    escaped_open_reason = escape_user_input(request.json.get("reason"))
+    escaped_metadata = escape_user_input(request.json.get("metadata"))
+
+    if next_id in owners:
         batch_list = Role().auto_member.batch_list(
             signer_keypair=txn_key,
             signer_user_id=txn_user_id,
             proposal_id=proposal_id,
             object_id=role_id,
-            pack_id=request.json.get("pack_id"),
-            related_id=request.json.get("id"),
-            open_reason=request.json.get("reason"),
-            metadata=request.json.get("metadata"),
+            pack_id=escaped_pack_id,
+            related_id=next_id,
+            open_reason=escaped_open_reason,
+            metadata=escaped_metadata,
             assigned_approver=approver,
             close_reason="I am the owner of the role.",
         )
@@ -647,10 +650,10 @@ async def add_role_member(request, role_id):
         signer_user_id=txn_user_id,
         proposal_id=proposal_id,
         role_id=role_id,
-        pack_id=escape_user_input(request.json.get("pack_id")),
+        pack_id=escaped_pack_id,
         next_id=next_id,
-        reason=escape_user_input(request.json.get("reason")),
-        metadata=escape_user_input(request.json.get("metadata")),
+        reason=escaped_open_reason,
+        metadata=escaped_metadata,
         assigned_approver=approver,
     )
     batch_status = await send(

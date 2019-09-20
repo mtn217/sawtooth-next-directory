@@ -14,9 +14,11 @@
 # ------------------------------------------------------------------------------
 """Queries for working with authorization."""
 import rethinkdb as r
+from rethinkdb import ReqlQueryLogicError
 
 from rbac.common.logs import get_default_logger
-from rbac.server.api.errors import ApiNotFound
+from rbac.providers.common.common import escape_user_input
+from rbac.server.api.errors import ApiNotFound, ApiUnauthorized
 from rbac.server.db.db_utils import create_connection
 
 LOGGER = get_default_logger(__name__)
@@ -62,20 +64,24 @@ async def get_user_by_username(request):
     Args:
         request:
             obj:  a request object"""
-    username = request.json.get("id")
-    conn = await create_connection()
-    user = (
-        await r.table("users")
-        .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
-    if len(user) == 1:
-        return user[0]
-    if user:
-        LOGGER.warning("User logged in with a duplicate username: %s", username)
-        raise ApiNotFound("Login error. Contact an Administrator.")
+    username = escape_user_input(request.json.get("id"))
+    try:
+        conn = await create_connection()
+        user = (
+            await r.table("users")
+            .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
+            .coerce_to("array")
+            .run(conn)
+        )
+        conn.close()
+        if len(user) == 1:
+            return user[0]
+        if user:
+            LOGGER.warning("User logged in with a duplicate username: %s", username)
+            raise ApiNotFound("Login error. Contact an Administrator.")
+    except ReqlQueryLogicError:
+        conn.close()
+        raise ApiUnauthorized("Incorrect username or password.")
 
 
 async def get_user_map_by_next_id(next_id):

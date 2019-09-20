@@ -26,11 +26,6 @@ from rbac.server.db.db_utils import create_connection
 LOGGER = get_default_logger(__name__)
 
 
-# TODO: FIXME: sanic-openapi @doc.exclude(True) decorator does not currently work on
-#  non-HTTP method or static routes. When a viable option becomes available apply it
-# to this route so that it is excluded from swagger.
-
-
 async def handle_chatbot_socket(sio, sid, data):
     """Chatbot websocket listener."""
     required_fields = ["text", "next_id"]

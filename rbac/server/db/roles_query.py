@@ -15,6 +15,7 @@
 """Queries for getting & working with role resources."""
 
 import rethinkdb as r
+from rethinkdb import ReqlQueryLogicError
 
 from rbac.common.logs import get_default_logger
 from rbac.server.api.errors import ApiNotFound
@@ -196,44 +197,50 @@ def fetch_expired_roles(next_id):
 
 async def search_roles(conn, search_query, paging):
     """Compiling all search fields for roles into one query."""
-    resource = (
-        await roles_search_name(search_query)
-        .union(roles_search_description(search_query))
-        .distinct()
-        .pluck("name", "description", "role_id")
-        .order_by("name")
-        .map(
-            lambda doc: doc.merge(
-                {
-                    "id": doc["role_id"],
-                    "members": fetch_relationships(
-                        "role_members", "role_id", doc["role_id"]
-                    ),
-                    "owners": fetch_relationships(
-                        "role_owners", "role_id", doc["role_id"]
-                    ),
-                }
-            ).without("role_id")
+    try:
+        resource = (
+            await roles_search_name(search_query)
+            .union(roles_search_description(search_query))
+            .distinct()
+            .pluck("name", "description", "role_id")
+            .order_by("name")
+            .map(
+                lambda doc: doc.merge(
+                    {
+                        "id": doc["role_id"],
+                        "members": fetch_relationships(
+                            "role_members", "role_id", doc["role_id"]
+                        ),
+                        "owners": fetch_relationships(
+                            "role_owners", "role_id", doc["role_id"]
+                        ),
+                    }
+                ).without("role_id")
+            )
+            .slice(paging[0], paging[1])
+            .coerce_to("array")
+            .run(conn)
         )
-        .slice(paging[0], paging[1])
-        .coerce_to("array")
-        .run(conn)
-    )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return []
 
 
 async def search_roles_count(conn, search_query):
     """Get a count of all search fields for roles in one query."""
-    resource = (
-        await roles_search_name(search_query)
-        .union(roles_search_description(search_query))
-        .distinct()
-        .count()
-        .run(conn)
-    )
+    try:
+        resource = (
+            await roles_search_name(search_query)
+            .union(roles_search_description(search_query))
+            .distinct()
+            .count()
+            .run(conn)
+        )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return 0
 
 
 def roles_search_name(search_query):
@@ -265,14 +272,17 @@ def roles_search_description(search_query):
 async def roles_search_duplicate(conn, name):
     """Search for roles based a string int the name field."""
     query = sanitize_query(name)
-    resource = (
-        await r.table("roles")
-        .filter(lambda doc: (doc["name"].match("(?i)^" + query + "$")))
-        .order_by("name")
-        .coerce_to("array")
-        .run(conn)
-    )
-    return resource
+    try:
+        resource = (
+            await r.table("roles")
+            .filter(lambda doc: (doc["name"].match("(?i)^" + query + "$")))
+            .order_by("name")
+            .coerce_to("array")
+            .run(conn)
+        )
+        return resource
+    except ReqlQueryLogicError:
+        return []
 
 
 async def delete_role_admin_by_next_id(conn, next_id):

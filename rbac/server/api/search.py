@@ -21,6 +21,7 @@ from sanic.response import json
 from sanic_openapi import doc
 
 from rbac.common.logs import get_default_logger
+from rbac.providers.common.common import escape_user_input
 from rbac.server.api.auth import authorized
 from rbac.server.api.errors import ApiBadRequest
 from rbac.server.api.utils import log_request, validate_fields
@@ -68,7 +69,7 @@ SEARCH_BP = Blueprint("search")
 async def search_all(request):
     """API Endpoint to get all roles, packs, or users containing a string."""
     log_request(request)
-    search_query = request.json.get("query")
+    search_query = escape_user_input(request.json.get("query"))
 
     # Check for valid payload containing query and search object types
     required_fields = ["search_object_types", "search_input"]

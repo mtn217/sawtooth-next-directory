@@ -14,13 +14,14 @@
 # ------------------------------------------------------------------------------
 """API to authenticate and login to the NEXT platform."""
 
-import json
 from functools import wraps
 import hashlib
-import re
 from hmac import compare_digest as compare_hash
-import aiohttp
+import json
+import re
 
+import aiohttp
+from aiohttp.client_exceptions import InvalidURL
 from environs import Env
 from itsdangerous import BadSignature
 from ldap3 import Server, Connection
@@ -33,7 +34,12 @@ from rbac.common.crypto.secrets import deserialize_api_key, generate_api_key
 from rbac.common.logs import get_default_logger
 from rbac.providers.common.common import escape_user_input
 from rbac.server.api import utils
-from rbac.server.api.errors import ApiNotFound, ApiUnauthorized, ApiBadRequest
+from rbac.server.api.errors import (
+    ApiInternalError,
+    ApiNotFound,
+    ApiUnauthorized,
+    ApiBadRequest,
+)
 from rbac.server.api.utils import log_request
 from rbac.server.db.auth_query import (
     create_auth_entry,
@@ -110,9 +116,9 @@ async def create_corpuser(request):
     auth = aiohttp.BasicAuth(login=username, password=password)
     url = ADAPI_REST_ENDPOINT + "?command=new-corpuser"
     data = {
-        "ntid": request.json.get("id"),
-        "userName": request.json.get("id"),
-        "password": request.json.get("password"),
+        "ntid": escape_user_input(request.json.get("id")),
+        "userName": escape_user_input(request.json.get("id")),
+        "password": escape_user_input(request.json.get("password")),
     }
     conn = aiohttp.TCPConnector(
         limit=request.app.config.AIOHTTP_CONN_LIMIT,
@@ -120,12 +126,17 @@ async def create_corpuser(request):
         verify_ssl=False,
     )
     async with aiohttp.ClientSession(connector=conn, auth=auth) as session:
-        async with session.post(url=url, json=data) as response:
-            data = await response.read()
-            res = json.loads(data.decode("utf-8"))
-            if res.get("success") == "false":
-                raise ApiBadRequest("Invalid CORP account request.")
-            return sanic_json({"data": {"message": "CORP account request successful."}})
+        try:
+            async with session.post(url=url, json=data) as response:
+                data = await response.read()
+                res = json.loads(data.decode("utf-8"))
+                if res.get("success") == "false":
+                    raise ApiBadRequest("Invalid CORP account request.")
+                return sanic_json(
+                    {"data": {"message": "CORP account request successful."}}
+                )
+        except InvalidURL:
+            raise ApiInternalError("Internal Error: Oops! Something broke on our end.")
 
 
 @AUTH_BP.post("api/authorization")

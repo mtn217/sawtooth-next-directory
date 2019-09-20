@@ -15,6 +15,7 @@
 """Functions for working with resources in the packs table."""
 
 import rethinkdb as r
+from rethinkdb import ReqlQueryLogicError
 
 from rbac.common.logs import get_default_logger
 from rbac.server.api.errors import ApiNotFound
@@ -103,41 +104,47 @@ async def fetch_pack_resource(conn, pack_id):
 
 async def search_packs(conn, search_query, paging):
     """Compiling all search fields for packs into one query."""
-    resource = (
-        await packs_search_name(search_query)
-        .union(packs_search_description(search_query))
-        .distinct()
-        .pluck("name", "description", "pack_id")
-        .order_by("name")
-        .map(
-            lambda doc: doc.merge(
-                {
-                    "id": doc["pack_id"],
-                    "roles": fetch_relationships_by_id(
-                        "role_packs", doc["pack_id"], "role_id"
-                    ),
-                }
-            ).without("pack_id")
+    try:
+        resource = (
+            await packs_search_name(search_query)
+            .union(packs_search_description(search_query))
+            .distinct()
+            .pluck("name", "description", "pack_id")
+            .order_by("name")
+            .map(
+                lambda doc: doc.merge(
+                    {
+                        "id": doc["pack_id"],
+                        "roles": fetch_relationships_by_id(
+                            "role_packs", doc["pack_id"], "role_id"
+                        ),
+                    }
+                ).without("pack_id")
+            )
+            .slice(paging[0], paging[1])
+            .coerce_to("array")
+            .run(conn)
         )
-        .slice(paging[0], paging[1])
-        .coerce_to("array")
-        .run(conn)
-    )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return []
 
 
 async def search_packs_count(conn, search_query):
     """Get count of all search fields for packs in one query."""
-    resource = (
-        await packs_search_name(search_query)
-        .union(packs_search_description(search_query))
-        .distinct()
-        .count()
-        .run(conn)
-    )
+    try:
+        resource = (
+            await packs_search_name(search_query)
+            .union(packs_search_description(search_query))
+            .distinct()
+            .count()
+            .run(conn)
+        )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return 0
 
 
 def packs_search_name(search_query):
@@ -169,15 +176,18 @@ def packs_search_description(search_query):
 async def packs_search_duplicate(conn, name):
     """Search for packs based a string in the name field."""
     query = sanitize_query(name)
-    resource = (
-        await r.table("packs")
-        .filter(lambda doc: (doc["name"].match("(?i)^" + query + "$")))
-        .order_by("name")
-        .coerce_to("array")
-        .run(conn)
-    )
+    try:
+        resource = (
+            await r.table("packs")
+            .filter(lambda doc: (doc["name"].match("(?i)^" + query + "$")))
+            .order_by("name")
+            .coerce_to("array")
+            .run(conn)
+        )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return []
 
 
 async def delete_pack_owner_by_next_id(conn, next_id):

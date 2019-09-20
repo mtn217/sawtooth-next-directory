@@ -15,6 +15,7 @@
 """Database queries for testing"""
 import time
 import rethinkdb as r
+from rethinkdb import ReqlQueryLogicError
 
 from rbac.utils import connect_to_db
 
@@ -46,14 +47,18 @@ def get_role_by_name(name):
             str: name of role to retrieve
     """
     conn = connect_to_db()
-    user = (
-        r.table("roles")
-        .filter(lambda doc: (doc["name"].match("(?i)^" + name + "$")))
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
-    return user
+    try:
+        user = (
+            r.table("roles")
+            .filter(lambda doc: (doc["name"].match("(?i)^" + name + "$")))
+            .coerce_to("array")
+            .run(conn)
+        )
+        conn.close()
+        return user
+    except ReqlQueryLogicError:
+        conn.close()
+        return []
 
 
 def get_role_members(role_id):
@@ -101,14 +106,18 @@ def get_user_by_username(username):
             str:  username of user to retrieve
     """
     conn = connect_to_db()
-    user = (
-        r.table("users")
-        .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
-        .coerce_to("array")
-        .run(conn)
-    )
-    conn.close()
-    return user
+    try:
+        user = (
+            r.table("users")
+            .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
+            .coerce_to("array")
+            .run(conn)
+        )
+        conn.close()
+        return user
+    except ReqlQueryLogicError:
+        conn.close()
+        return []
 
 
 def wait_for_resource_in_db(table, index, identifier, max_attempts=15, delay=0.3):

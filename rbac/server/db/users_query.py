@@ -16,6 +16,7 @@
 
 from environs import Env
 import rethinkdb as r
+from rethinkdb import ReqlQueryLogicError
 
 from rbac.common.logs import get_default_logger
 from rbac.server.api.errors import ApiNotFound
@@ -302,41 +303,47 @@ async def delete_metadata_by_next_id(conn, next_id):
 
 async def search_users(conn, search_query, paging):
     """Compiling all search fields for users into one query."""
-    resource = (
-        await users_search_name(search_query)
-        .union(users_search_email(search_query))
-        .distinct()
-        .pluck("name", "email", "next_id")
-        .order_by("name")
-        .map(
-            lambda doc: doc.merge(
-                {
-                    "id": doc["next_id"],
-                    "memberOf": fetch_relationships_by_id(
-                        "role_members", doc["next_id"], "role_id"
-                    ),
-                }
-            ).without("next_id")
+    try:
+        resource = (
+            await users_search_name(search_query)
+            .union(users_search_email(search_query))
+            .distinct()
+            .pluck("name", "email", "next_id")
+            .order_by("name")
+            .map(
+                lambda doc: doc.merge(
+                    {
+                        "id": doc["next_id"],
+                        "memberOf": fetch_relationships_by_id(
+                            "role_members", doc["next_id"], "role_id"
+                        ),
+                    }
+                ).without("next_id")
+            )
+            .slice(paging[0], paging[1])
+            .coerce_to("array")
+            .run(conn)
         )
-        .slice(paging[0], paging[1])
-        .coerce_to("array")
-        .run(conn)
-    )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return []
 
 
 async def search_users_count(conn, search_query):
     """Get a count of all search fields for users in one query."""
-    resource = (
-        await users_search_name(search_query)
-        .union(users_search_email(search_query))
-        .distinct()
-        .count()
-        .run(conn)
-    )
+    try:
+        resource = (
+            await users_search_name(search_query)
+            .union(users_search_email(search_query))
+            .distinct()
+            .count()
+            .run(conn)
+        )
 
-    return resource
+        return resource
+    except ReqlQueryLogicError:
+        return 0
 
 
 def users_search_name(search_query):
@@ -371,25 +378,31 @@ def users_search_email(search_query):
 
 async def fetch_username_match_count(conn, username):
     """Database query to fetch the count of usernames that match the given username."""
-    resource = (
-        await r.table("users")
-        .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
-        .count()
-        .run(conn)
-    )
-    return resource
+    try:
+        resource = (
+            await r.table("users")
+            .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
+            .count()
+            .run(conn)
+        )
+        return resource
+    except ReqlQueryLogicError:
+        return 0
 
 
 async def users_search_duplicate(conn, username):
     """Check if a given username is taken based on a string in the name field."""
-    resource = (
-        await r.table("users")
-        .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
-        .order_by("username")
-        .coerce_to("array")
-        .run(conn)
-    )
-    return resource
+    try:
+        resource = (
+            await r.table("users")
+            .filter(lambda doc: (doc["username"].match("(?i)^" + username + "$")))
+            .order_by("username")
+            .coerce_to("array")
+            .run(conn)
+        )
+        return resource
+    except ReqlQueryLogicError:
+        return []
 
 
 async def update_user_password(conn, next_id, hashed_password, salt):
