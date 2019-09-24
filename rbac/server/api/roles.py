@@ -109,6 +109,11 @@ ROLES_BP = Blueprint("roles")
     content_type="application/json",
 )
 @doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value(s) in input fields.",
+)
+@doc.response(
     401,
     {"message": str, "code": int},
     description="Unauthorized: When user unsuccessfully authenticates into NEXT",

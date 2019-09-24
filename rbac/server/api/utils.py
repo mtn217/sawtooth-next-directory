@@ -145,15 +145,32 @@ async def get_table_count(conn, table, head_block_num):
 
 
 def get_request_paging_info(request):
-    """Get paging start/limit out of request."""
+    """Get paging start/limit out of request. Defaults start to 0 and limit to 100.
+
+    Args:
+        request: A request object that may contain the following fields:
+            {
+                "limit": int,
+                "start": int,
+            }
+    Returns:
+        start (int): Starting number for pagination results.
+        limit (int): Number of entries per page.
+    Raises:
+        ApiBadRequest: When request's start or limit fields are not of type int.
+    """
     try:
         start = int(request.args["start"][0])
+    except ValueError:
+        raise ApiBadRequest("Bad request: invalid value for start field.")
     except KeyError:
         start = 0
     try:
         limit = int(request.args["limit"][0])
         if limit > 1000:
             limit = 1000
+    except ValueError:
+        raise ApiBadRequest("Bad request: invalid value for limit field.")
     except KeyError:
         limit = 100
     return start, limit

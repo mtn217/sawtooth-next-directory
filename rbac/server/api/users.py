@@ -114,6 +114,11 @@ USERS_BP = Blueprint("users")
     description="A list of all users.",
 )
 @doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value(s) in input fields.",
+)
+@doc.response(
     401,
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
@@ -791,6 +796,11 @@ async def update_password(request):
     description="List of open proposals the given user has opened.",
 )
 @doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value for one of input fields.",
+)
+@doc.response(
     401,
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
@@ -870,6 +880,11 @@ async def fetch_open_proposals(request, next_id):
     description="List of confirmed proposals the given user has opened.",
 )
 @doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value(s) in input fields.",
+)
+@doc.response(
     401,
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
@@ -942,6 +957,11 @@ async def fetch_confirmed_proposals(request, next_id):
     },
     content_type="Application/json",
     description="List of confirmed proposals the given user has opened.",
+)
+@doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value(s) in input fields.",
 )
 @doc.response(
     401,

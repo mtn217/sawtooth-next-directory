@@ -61,6 +61,11 @@ BLOCKS_BP = Blueprint("blocks")
     content_type="application/json",
 )
 @doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value(s) in input fields.",
+)
+@doc.response(
     401,
     {"code": int, "message": str},
     description="Unauthorized: Auth token was not provided",

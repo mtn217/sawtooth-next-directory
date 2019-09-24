@@ -71,6 +71,11 @@ TASKS_BP = Blueprint("tasks")
     description="Returns a list of all tasks with paging data.",
 )
 @doc.response(
+    400,
+    {"message": str, "code": int},
+    description="Bad request: invalid value(s) in input fields.",
+)
+@doc.response(
     401,
     {"message": str, "code": int},
     description="Unauthorized: The request lacks valid authentication credentials.",
