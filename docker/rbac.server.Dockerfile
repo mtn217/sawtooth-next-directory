@@ -33,7 +33,8 @@ RUN pip install \
         ldap3==2.5.2 \
         environs==4.1.0 \
         sanic-openapi==0.6.0 \
-        python-socketio==4.3.1
+        python-socketio==4.3.1 \
+        secure==0.2.1
 EXPOSE 8000/tcp
 WORKDIR /project/hyperledger-rbac
 COPY . .

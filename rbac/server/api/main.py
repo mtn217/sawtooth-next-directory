@@ -19,6 +19,7 @@ from sanic import Blueprint
 from sanic import Sanic
 from sanic_cors import CORS
 from sanic_openapi import swagger_blueprint
+from secure import SecureHeaders
 import socketio
 
 from rbac.common.config import get_config
@@ -139,6 +140,13 @@ def main():
     sio.attach(app)
     register_middleware(app, sio)
     load_config(app)
+
+    secure_headers = SecureHeaders(content=False, referrer=False, cache=False)
+
+    # pylint: disable=unused-argument
+    @app.middleware("response")
+    async def set_secure_headers(request, response):
+        secure_headers.sanic(response)
 
     CORS(
         app,
